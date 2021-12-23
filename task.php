@@ -25,7 +25,8 @@
 
 
 <div class="container pb-2" style="height: 70vh;">
-		<h1 class="mt-3 mb-3 border-bottom border-info text-secondary">Welcome name of staff</h1>
+		<h1 class="mt-3 text-secondary">Task Information</h1>
+        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" style="width: 50%;">Design UI</h3>
 		<table class="table table-bordered table-light table-hover text-center ali" style="border-color:black;">
 			<thead>
 				<tr>
