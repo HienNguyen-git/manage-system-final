@@ -21,7 +21,8 @@
 		</div>
 		<div>
 			<!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-			<img src="/images/tdt-logo.png" />
+			<!-- <img src="/images/tdt-logo.png" /> -->
+			<img src="images/tdt-logo.png" />
 			<p>Đây là ảnh mẫu, lấy từ thư mục images tại web root.</p>
 		</div>
 
@@ -42,7 +43,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<script src="/main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 </body>
 
 </html>
