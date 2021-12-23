@@ -16,7 +16,7 @@
 		<h3 class="mt-3 mb-3">Welcome! Hãy rê chuột lên chữ này</h3>
 		<button id="test" class="btn btn-primary">Hãy click vào đây</button>
 		<div class="my-3">
-			<a href="/admin/db.php">Xem database</a>
+			<a href="admin/db.php">Xem database</a>
 		</div>
 		<div>
 			<!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->

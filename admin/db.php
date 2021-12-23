@@ -2,9 +2,11 @@
 
 	#  https://www.w3schools.com/php/php_mysql_select.asp
  
-    $host = 'mysql-server'; // tên mysql server
+    // $host = 'mysql-server'; // tên mysql server
+    $host = 'localhost'; // tên mysql server
     $user = 'root';
-    $pass = 'root';
+    // $pass = 'root';
+    $pass = '';
     $db = 'product_management'; // tên databse
 
     $conn = new mysqli($host, $user, $pass, $db);
