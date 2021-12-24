@@ -14,7 +14,6 @@
     if (isset($_POST['description']) && isset($_FILES['file'])) {
         $description = $_POST['description'];
         $file = $_FILES['file'];
-        print_r($file);
         $errors= array();
 		$file_name = $file['name'];
 		$file_size =$file['size'];
@@ -54,6 +53,15 @@
 </head>
 
 <body>
+<?php
+
+    if(!empty($error)){
+        echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>$error</div>";
+    }
+    if(!empty($message)){
+        echo "<div class='alert alert-primary text-center' style='margin-bottom: 0 !important'>$message</div>";
+    }
+?>
 <nav class="navbar navbar-expand-lg bg-info navbar-dark">
 	<div class="container">
 		<a href="./" class="navbar-brand navbar-header">Final</a>
