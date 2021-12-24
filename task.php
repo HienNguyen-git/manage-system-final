@@ -19,63 +19,92 @@
 </head>
 
 <body>
-<?php
-	include_once('layout/header.php')
-?>
-
-
-<div class="container pb-2" style="height: 70vh;">
-		<h1 class="mt-3 text-secondary">Task Information</h1>
-        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" style="width: 50%;">Design UI</h3>
-		<table class="table table-bordered table-light table-hover text-center ali" style="border-color:black;">
-			<thead>
-				<tr>
-					<th scope="col">#</th>
-					<th scope="col">Title</th>
-					<th scope="col">Deadline</th>
-					<th scope="col">Status</th>
-					<th scope="col">Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">1</th>
-					<td>Design UI</td>
-					<td>12-3-2020</td>
-					<td>New</td>
-					<td><a href="task.php?id=1" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>Submit project</td>
-					<td>12-6-2020</td>
-					<td>Waiting</td>
-					<td><a href="task.php?id=2" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td>Build idea</td>
-					<td>23-3-2020</td>
-					<td>Rejected</td>
-					<td><a href="task.php?id=3" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr>
-				<tr>
-					<th scope="row">4</th>
-					<td>Meeting</td>
-					<td>24-6-2020</td>
-					<td>Completed</td>
-					<td><a href="task.php?id=4" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr>
-			</tbody>
-		</table>
+<nav class="navbar navbar-expand-lg bg-info navbar-dark">
+	<div class="container">
+		<a href="./" class="navbar-brand navbar-header">Final</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+		</button>
+	
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav ml-auto h4">
+			<li class="nav-item ">	
+			<a class="nav-link active" href="./">Task</a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" href="absence.php">Absence</a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" href="account.php">Account</a>
+			</li>
+		</ul>
+		</div>
 	</div>
+</nav>
 
+
+<div class="container pb-2">
+		<h1 class="mt-3 text-secondary">Task Information</h1>
+        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" >Design UI</h3>
+		<div class="ml-auto mr-auto task-container">
+		
+		
+            <table>
+            <tr>
+                <th>Status:</th>
+                <td>New </td>
+				<td><a class="btn btn-primary" href="#">Start now</a></td>
+            </tr>
+            <tr>
+                <th>Title:</th>
+                <td>Design UI</td>
+            </tr>
+            <tr>
+                <th>Detail:</th>
+				<!-- <td>Ahihi</td> -->
+                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem itaque, ipsam, ex consectetur maiores nisi, obcaecati magnam deleniti ea quod modi accusantium ratione ad! Animi voluptas fugiat itaque dignissimos sequi.</td>
+            </tr>
+            <tr>
+                <th>Deadline</th>
+                <td>12-3-2022</td>
+            </tr>
+            <tr>
+                <th>File</th>
+                <td></td>
+            </tr>
+        	</table>
+
+			<button class="btn btn-success submit-btn">Create submit form</button>
+
+			
+		</div>
+</div>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-
-<?php
-	include_once('layout/footer.php')
-?>
 </body>
+
+<script>
+	const taskContainer = document.querySelector('.task-container')
+	const submitBtn = document.querySelector('.submit-btn')
+	let submitForm = '';
+	submitBtn.addEventListener('click',()=>{
+		submitBtn.style.display = 'none';
+		submitForm = `
+			<form class="submit-form">
+				<div class="form-group">
+					<label for="description">Description</label>
+					<textarea class="form-control" id="description" rows="3"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="file">Upload file</label>
+					<input type="file" class="form-control-file" id="file">
+				</div>
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		`
+		taskContainer.insertAdjacentHTML('beforeend',submitForm)
+	})
+
+</script>
 
 </html>
