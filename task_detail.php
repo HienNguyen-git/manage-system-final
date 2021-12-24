@@ -74,7 +74,7 @@
             </tr>
         	</table>
 
-			<button class="btn btn-success submit-btn">Create submit form</button>
+			<a href="submit_task.php?id=1" class="btn btn-success submit-btn">Create submit form</a>
 
 			
 		</div>
@@ -82,29 +82,4 @@
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 </body>
-
-<script>
-	const taskContainer = document.querySelector('.task-container')
-	const submitBtn = document.querySelector('.submit-btn')
-	let submitForm = '';
-	submitBtn.addEventListener('click',()=>{
-		submitBtn.style.display = 'none';
-		submitForm = `
-			<form class="submit-form">
-				<div class="form-group">
-					<label for="description">Description</label>
-					<textarea class="form-control" id="description" rows="3"></textarea>
-				</div>
-				<div class="form-group">
-					<label for="file">Upload file</label>
-					<input type="file" class="form-control-file" id="file">
-				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
-		`
-		taskContainer.insertAdjacentHTML('beforeend',submitForm)
-	})
-
-</script>
-
 </html>

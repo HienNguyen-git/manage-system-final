@@ -25,7 +25,7 @@
 
 
 <div class="container pb-2" style="height: 70vh;">
-		<h1 class="mt-3 mb-3 border-bottom border-info text-secondary">Welcome name of staff</h1>
+		<h1 class="mt-3 mb-3 pb-3 border-bottom border-info text-secondary">Welcome name of staff</h1>
 		<table class="table table-bordered table-light table-hover text-center ali" style="border-color:black;">
 			<thead>
 				<tr>
@@ -42,28 +42,28 @@
 					<td>Design UI</td>
 					<td>12-3-2020</td>
 					<td>New</td>
-					<td><a href="task.php?id=1" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
+					<td><a href="task_detail.php?id=1" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
 				</tr>
 				<tr>
 					<th scope="row">2</th>
 					<td>Submit project</td>
 					<td>12-6-2020</td>
 					<td>Waiting</td>
-					<td><a href="task.php?id=2" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
+					<td><a href="task_detail.php?id=2" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
 				</tr>
 				<tr>
 					<th scope="row">3</th>
 					<td>Build idea</td>
 					<td>23-3-2020</td>
 					<td>Rejected</td>
-					<td><a href="task.php?id=3" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
+					<td><a href="task_detail.php?id=3" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
 				</tr>
 				<tr>
 					<th scope="row">4</th>
 					<td>Meeting</td>
 					<td>24-6-2020</td>
 					<td>Completed</td>
-					<td><a href="task.php?id=4" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
+					<td><a href="task_detail.php?id=4" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
 				</tr>
 			</tbody>
 		</table>

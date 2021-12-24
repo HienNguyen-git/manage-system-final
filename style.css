@@ -1,13 +1,21 @@
-body {
-	background-color: lightblue;
+*{
+	box-sizing: border-box;
 }
+
+body {
+	background-color: #cccccc;
+}
+
+/* Account Page */
 
 .account-container{
 	display: flex;
 	justify-content: center;
+	flex-wrap: wrap;
 	align-items: center;
 	height: 50vh;
 	position: relative;
+	padding: 2rem;
 }
 
 .account-container .image-box{
@@ -16,13 +24,11 @@ body {
 	margin-right: 2rem;
 }
 
-
 .image-action img {
 	height: 100%;
 }
 
 .account-container table{
-	border-left: 1px solid #fff;
 	height: 80%;
 }
 
@@ -68,4 +74,30 @@ body {
 .btn-change-password{
 	position: fixed;
 	right: 0;
+}
+
+/* Task Page */
+
+.task-container{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	height: 50%;
+}
+
+.task-container .submit-btn{
+}
+
+.task-container table{
+	overflow: scroll;
+	margin-bottom: 2rem;
+}
+
+.task-container table th{
+	padding: 1rem;
+}
+
+.task-container .submit-form{
+	flex: 3;
 }

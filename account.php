@@ -50,8 +50,8 @@
     ?>
     <section class="container" style="height: 70vh;">
 		<h1 class="mt-3 text-secondary">Account information</h1>
-        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" style="width: 54%;">Name of employee</h3>
-        <a class="btn btn-primary btn-change-password" href="change_password.php">Change password</a>
+        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light">Name of employee</h3>
+        <a class="btn btn-primary col-12 col-sm-4" href="change_password.php">Change password</a>
         <div class="ml-auto mr-auto account-container">
             <div class="image-box">
                 <img src="images/index.jpeg" alt="Avatar">
@@ -84,11 +84,5 @@
         </table>
         </div>
     </section>
-
-    <?php
-        include_once('layout/footer.php');
-    ?>
-    <script src="scripts/jquery-3.3.1.min.js "></script>
-    <script src="scripts/script.js "></script>
 </body>
 </html>

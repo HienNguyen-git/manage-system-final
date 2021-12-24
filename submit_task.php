@@ -1,3 +1,45 @@
+<?php
+    session_start();
+    // if (isset($_SESSION['user'])) {
+    //     header('Location: index.php');
+    //     exit();
+    // }
+
+    // require_once("db.php");
+
+    $error = '';
+    $message = "Enter your description and upload your file before submit";
+    $description = '';
+
+    if (isset($_POST['description']) && isset($_FILES['file'])) {
+        $description = $_POST['description'];
+        $file = $_FILES['file'];
+        print_r($file);
+        $errors= array();
+		$file_name = $file['name'];
+		$file_size =$file['size'];
+		$file_tmp =$file['tmp_name'];
+		$file_type=$file['type'];
+		$file_ext=strtolower(end(explode('.',$file['name'])));
+		
+		$extensions= array("jpeg","jpg","png","zip","rar","doc","docx","pdf","pptx","xls");
+		
+        if (empty($description)) {
+            $error = 'Please enter description';
+        }
+        else if($file_size > 2097152){
+            $errors[]='File size must be excately 2 MB';
+        }
+        
+        else if(empty($errors)){
+            move_uploaded_file($file_tmp,"upload/".$file_name);
+            $message = "Submit successful";
+        }else{
+            print_r($errors);
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,38 +115,43 @@
                 <td></td>
             </tr>
         	</table>
-
-			<button class="btn btn-success submit-btn">Create submit form</button>
+            <form class="submit-form" method="POST" enctype="multipart/form-data">
+				<div class="form-group">
+					<label for="description">Description</label>
+					<textarea name="description" class="form-control" id="description" rows="3"></textarea>
+				</div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="file" id="file">
+                        <label class="custom-file-label" for="file">Choose file</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <?php
+                        if (empty($error)) {
+                            echo "<div class='alert alert-primary'>$message</div>";
+                        }else{
+                            echo "<div class='alert alert-danger'>$error</div>";
+                        }
+                    ?>
+				    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+			</form>
 
 			
 		</div>
 </div>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+    <script>
+		$(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+			$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+		});
+    </script>
 	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 </body>
-
-<script>
-	const taskContainer = document.querySelector('.task-container')
-	const submitBtn = document.querySelector('.submit-btn')
-	let submitForm = '';
-	submitBtn.addEventListener('click',()=>{
-		submitBtn.style.display = 'none';
-		submitForm = `
-			<form class="submit-form">
-				<div class="form-group">
-					<label for="description">Description</label>
-					<textarea class="form-control" id="description" rows="3"></textarea>
-				</div>
-				<div class="form-group">
-					<label for="file">Upload file</label>
-					<input type="file" class="form-control-file" id="file">
-				</div>
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</form>
-		`
-		taskContainer.insertAdjacentHTML('beforeend',submitForm)
-	})
-
-</script>
+<?php
+    
+?>
 
 </html>
