@@ -28,6 +28,9 @@
             $error = 'Please enter description';
         }
         else if($file_size > 2097152){
+            if(!file_exists('upload')){
+                mkdir('upload');
+            }
             $errors[]='File size must be excately 2 MB';
         }
         
@@ -147,6 +150,27 @@
             var fileName = $(this).val().split("\\").pop();
 			$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 		});
+
+        document.querySelector('#file').addEventListener('change', e=>{
+			const file = e.target.files[0]
+			const type = file['name'].split('.')[1]
+			const size = file['size']
+			const type_list = ["txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip"]
+			console.log(type, size, type_list)
+			if(!type_list.includes(type)){
+				handleErrorMessage('This type of file is not allowed')
+			}else if(size>500*Math.pow(1024,2)){
+				handleErrorMessage('This file is larger than 500M')
+			}else{
+				// uploadFile()
+				uploadBtn.disabled = false
+				uploadBtn.addEventListener('click', ()=>{
+					uploadFile()
+				})
+			}
+			// console.log(file)
+		})
+
     </script>
 	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 </body>
