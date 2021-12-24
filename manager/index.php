@@ -1,3 +1,15 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['user'])) {
+        header('Location: login.php');
+        exit();
+    }
+	if($_SESSION['user'] == $_SESSION['pass']){
+		header('Location: reset_password.php');
+		exit();
+	}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,8 +30,13 @@
 			<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
 				Company System
 			</div>
-			<div class="col-sm-2 col-md-2 col-lg-2 col-xl-2 admin-login-info">
-				<a href="#">Welcome, Admin</a>
+			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
+
+					<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+			</div>
+			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
+
+					<a href="../admin/logout.php">Log out</a>
 			</div>
 		</div>
 		<div class="row h-100">
@@ -46,7 +63,7 @@
 						<h2>List Tasks</h2>
 						<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Task</a>
 					</div>
-					<table cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
+					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
 						<tr class="header">
 							<td>Tiêu đề</td>
 							<td>Mô tả</td>

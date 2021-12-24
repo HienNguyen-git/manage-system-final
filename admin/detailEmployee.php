@@ -66,7 +66,7 @@
 					<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a>
 				</div>
 				<div class="account-container">
-                <table>
+                <table class="table-hover">
                     <tr>
                         <td>ID</td>
                         <td>1</td>

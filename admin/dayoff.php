@@ -38,7 +38,7 @@
 								<a class="nav-link" href="department.php">Department</a>
 							</li>
 							<li class="nav-item active-menu">
-								<a class="nav-link" href="dayoff.php">Day off</a>
+								<a class="nav-link" href="dayoff.php">Absence Request</a>
 							</li>
 						</ul>
 
@@ -51,7 +51,7 @@
 						<h2>List Day Off</h2>
 						<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a>
 					</div>
-					<table cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
+					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
 						<tr class="header">
 							<td>ID</td>
 							<td>Full Name</td>
@@ -65,16 +65,16 @@
 								<td>Nguyễn Văn A</td>
 								<td>Xin nghỉ phép</td>
 								<td>File</td>
-								<td ><a href="" class="btn btn-primary">Đồng ý</a> | 
-								<a href="#" class="btn btn-danger">Không đồng ý</a></td>
+								<td ><a href="" class="btn btn-primary">Agree</a> | 
+								<a href="#" class="btn btn-danger">Not Agree</a></td>
 							</tr>
 							<tr class="item">
 							<td>1</td>
 								<td>Nguyễn Văn A</td>
 								<td>Xin nghỉ phép</td>
 								<td>File</td>
-								<td ><a href="" class="btn btn-primary">Đồng ý</a> | 
-								<a href="#" class="btn btn-danger">Không đồng ý</a></td>
+								<td ><a href="" class="btn btn-primary">Agree</a> | 
+								<a href="#" class="btn btn-danger">Not Agree</a></td>
 							</tr>
 						</tbody>
 					</table>

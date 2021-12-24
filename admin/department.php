@@ -38,7 +38,7 @@
 								<a class="nav-link" href="department.php">Department</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="dayoff.php">Day off</a>
+								<a class="nav-link" href="dayoff.php">Absence Request</a>
 							</li>
 						</ul>
 						</form>
@@ -51,7 +51,7 @@
 						<h2>List Departments</h2>
 						<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Department</a>
 					</div>
-					<table cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
+					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
 						<tr class="header">
 							<td>Department Name</td>
 							<td>Describe</td>
