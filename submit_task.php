@@ -8,7 +8,7 @@
     // require_once("db.php");
 
     $error = '';
-    $message = "Enter your description and upload your file before submit";
+    $message = "";
     $description = '';
 
     if (isset($_POST['description']) && isset($_FILES['file'])) {
@@ -22,19 +22,9 @@
 		$file_type=$file['type'];
 		$file_ext=strtolower(end(explode('.',$file['name'])));
 		
-		$extensions= array("jpeg","jpg","png","zip","rar","doc","docx","pdf","pptx","xls");
+		$extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip");
 		
-        if (empty($description)) {
-            $error = 'Please enter description';
-        }
-        else if($file_size > 2097152){
-            if(!file_exists('upload')){
-                mkdir('upload');
-            }
-            $errors[]='File size must be excately 2 MB';
-        }
-        
-        else if(empty($errors)){
+        if(empty($errors)){
             move_uploaded_file($file_tmp,"upload/".$file_name);
             $message = "Submit successful";
         }else{
@@ -92,8 +82,6 @@
 		<h1 class="mt-3 text-secondary">Task Information</h1>
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" >Design UI</h3>
 		<div class="ml-auto mr-auto task-container">
-		
-		
             <table>
             <tr>
                 <th>Status:</th>
@@ -129,47 +117,83 @@
                         <label class="custom-file-label" for="file">Choose file</label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <?php
-                        if (empty($error)) {
-                            echo "<div class='alert alert-primary'>$message</div>";
-                        }else{
-                            echo "<div class='alert alert-danger'>$error</div>";
-                        }
-                    ?>
-				    <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group" id="error-message">
+                <?php
+                    if(!empty($error)){
+                        echo "<div class='alert alert-danger'>$error</div>";
+                    }
+                    if(!empty($message)){
+                        echo "<div class='alert alert-primary'>$message</div>";
+                    }
+                ?>
                 </div>
-			</form>
+                    <div class="form-group">
+                    <button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-2">Submit</button>
+                </div>
+                
+            </form>
 
 			
 		</div>
 </div>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
     <script>
+        const messageBox = document.querySelector('#error-message')
+        const descriptionBox = document.querySelector('#description')
+        const uploadBtn = document.querySelector('#upload-btn')
+
+        messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-primary">Enter your description and upload your file before submit</div>`)
+        uploadBtn.disabled = true
+
 		$(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
 			$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 		});
+        
+        let isDetailValidate
+        descriptionBox.addEventListener('change',()=>{
+            if(descriptionBox.value===''){
+                uploadBtn.disabled = true
+                handleErrorMessage('Please enter your description')
+            }else{
+                messageBox.innerHTML = ''
+                isDetailValidate = true
+                checkIsValidation()
+            }
 
+        })
+        let isFileValidate
         document.querySelector('#file').addEventListener('change', e=>{
 			const file = e.target.files[0]
+            console.log(file)
 			const type = file['name'].split('.')[1]
 			const size = file['size']
 			const type_list = ["txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip"]
 			console.log(type, size, type_list)
 			if(!type_list.includes(type)){
 				handleErrorMessage('This type of file is not allowed')
-			}else if(size>500*Math.pow(1024,2)){
-				handleErrorMessage('This file is larger than 500M')
 			}else{
-				// uploadFile()
-				uploadBtn.disabled = false
-				uploadBtn.addEventListener('click', ()=>{
-					uploadFile()
-				})
-			}
-			// console.log(file)
+                messageBox.innerHTML = ''
+                isFileValidate = true;
+                checkIsValidation()
+            }
 		})
+
+        function checkIsValidation(){
+            if(isDetailValidate!==''&&isFileValidate){
+                uploadBtn.disabled = false
+                messageBox.innerHTML = ''
+                messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-success">Your submit form is ready!</div>`)
+            }if(descriptionBox.value===''){
+                handleErrorMessage('Please enter your description')
+            }
+        }
+
+        function handleErrorMessage(message){
+            messageBox.innerHTML = ''
+			messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger">${message}</div>`)
+			uploadBtn.disabled = true
+		}
 
     </script>
 	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
