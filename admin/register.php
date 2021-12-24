@@ -34,15 +34,14 @@
     $pass = '';
     $pass_confirm = '';
 
-    if (isset($_POST['first']) && isset($_POST['last']) && isset($_POST['email'])
-    && isset($_POST['user']) && isset($_POST['pass']) && isset($_POST['pass-confirm']))
+    if (isset($_POST['first']) && isset($_POST['last'])
+    && isset($_POST['user']) )
     {
         $first_name = $_POST['first'];
         $last_name = $_POST['last'];
-        $email = $_POST['email'];
+        
         $user = $_POST['user'];
-        $pass = $_POST['pass'];
-        $pass_confirm = $_POST['pass-confirm'];
+        
 
         if (empty($first_name)) {
             $error = 'Please enter your first name';
@@ -50,28 +49,14 @@
         else if (empty($last_name)) {
             $error = 'Please enter your last name';
         }
-        else if (empty($email)) {
-            $error = 'Please enter your email';
-        }
-        else if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-            $error = 'This is not a valid email address';
-        }
+        
         else if (empty($user)) {
             $error = 'Please enter your username';
-        }
-        else if (empty($pass)) {
-            $error = 'Please enter your password';
-        }
-        else if (strlen($pass) < 6) {
-            $error = 'Password must have at least 6 characters';
-        }
-        else if ($pass != $pass_confirm) {
-            $error = 'Password does not match';
         }
         else {
             // register a new account
             // echo 'good';
-            $result = register($user,$pass,$first_name,$last_name,$email);
+            $result = register($user,$first_name,$last_name);
             if($result['code'] == 0){
                 $success = $result['success'];
             }else if($result['code'] == 1){ //trùng mail
@@ -99,25 +84,13 @@
                             <div class="invalid-tooltip">Last name is required</div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input value="<?= $email?>" name="email" required class="form-control" type="email" placeholder="Email" id="email">
-                    </div>
+                    
                     <div class="form-group">
                         <label for="user">Username</label>
                         <input value="<?= $user?>" name="user" required class="form-control" type="text" placeholder="Username" id="user">
                         <div class="invalid-feedback">Please enter your username</div>
                     </div>
-                    <div class="form-group">
-                        <label for="pass">Password</label>
-                        <input  value="<?= $pass?>" name="pass" required class="form-control" type="password" placeholder="Password" id="pass">
-                        <div class="invalid-feedback">Password is not valid.</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="pass2">Confirm Password</label>
-                        <input value="<?= $pass_confirm?>" name="pass-confirm" required class="form-control" type="password" placeholder="Confirm Password" id="pass2">
-                        <div class="invalid-feedback">Password is not valid.</div>
-                    </div>
+                    
 
                     <div class="form-group">
                         <?php

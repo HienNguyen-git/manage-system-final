@@ -1,10 +1,14 @@
 <?php
+	require_once('../admin/db.php');
     session_start();
     if (!isset($_SESSION['user'])) {
         header('Location: login.php');
         exit();
     }
-	if($_SESSION['user'] == $_SESSION['pass']){
+	$user = $_SESSION['user'];
+	// echo is_password_changed($user);
+	if( !is_password_changed($user) ){
+		// echo "pass changed";
 		header('Location: reset_password.php');
 		exit();
 	}

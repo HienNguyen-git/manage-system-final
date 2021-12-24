@@ -1,5 +1,6 @@
 <?php
     require_once('../admin/db.php');
+    session_start();
 ?>
 <DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,6 @@
     // $display_email = filter_input(INPUT_GET,'email',FILTER_SANITIZE_EMAIL);
     $post_error = '';
     $success= '';
-
     // if(isset($_GET['email']) && isset($_GET['token'])){
         // $email = $_GET['email'];
         // $token = $_GET['token'];
@@ -58,9 +58,11 @@
                 else {
                     // echo 'Good';
                     $result = change_password($pass);
+                    active_token($_SESSION['user']);
                     if($result['code'] == 0){
                         // $success = $result['success'] . ' <a href="login.php">Login</a>' ;
                         $success = $result['success'];
+                        
                         header('Location: index.php');
                     }else{
                         $post_error = $result['error'];
