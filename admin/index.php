@@ -84,14 +84,18 @@
 								<td>Nguyễn Văn A</td>
 								<td>Nhân viên</td>
 								<td>Phòng kế toán</td>
-								<td>
-								<input oninput="suggest(this.value)" type="text" class="form-control" placeholder="Nhập ít nhất 2 ký tự">
-								<ul id="suggestions" class="list-group my-2">
-									<li class="list-group-item">Vietnam</li>
-									<li class="list-group-item">Lao</li>
-									<li class="list-group-item">Cambodia</li>
-									<li class="list-group-item">Singapore</li>
-								</ul>
+								
+								<td class="search-td" style="position: absolute; border: none;">
+									<div >
+
+										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
+										<ul style="place-items: flex-start;" id="suggestions" class="list-group my-2">
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Lao</li>
+											<li class="list-group-item">Cambodia</li>
+											<li class="list-group-item">Singapore</li>
+										</ul>
+									</div>
 								</td>
 
 								<td >
@@ -131,20 +135,55 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+	<!-- <script src="main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 
 	<script>
-        function suggest(value){
-			
-            $.get( "list.php?search-text=" + value.toLowerCase(), function( data ) {
-                $('.list-group-item').remove();
-                data.forEach((country) => {
-                    let item = $('<li class="list-group-item">'+country+'</li>');
-                    $('#suggestions').append(item);
-                });
-            },"json");
-                
-        }
+        function suggest(value) {
+        $.get(
+          "searchEmployee.php?search-text=" + value,
+          (data) => {
+            $("#suggestions li").remove();
+            data.forEach((country) => {
+              let item = `<li class="list-group-item" style="cursor: pointer;">${capitalizeFirstLetter(
+                country
+              )}</li>`;
+              $("#suggestions").append(item);
+            });
+          },
+          "json"
+        );
+      }
+
+      function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+	  let listGroupItem;
+	  let inputSearch = document.querySelector('.input-search-employee')
+	  listGroupItem = document.querySelectorAll('.list-group-item');
+	  inputSearch.addEventListener('keypress', function(e) {
+
+		// console.log(listGroupItem);
+		
+	
+		})
+		listGroupItem.forEach(nameitem => {
+		// console.log(nameitem);
+			nameitem.addEventListener('click', function(e){
+				console.log(e)
+				// e.target.classList.toggle('bg-green');
+				// console.log(e.currentTarget);
+			})
+		})
+		// let	listGroupItem = document.querySelectorAll('.list-group-item');
+		// console.log(listGroupItem);
+		// listGroupItem.forEach(item => {
+		// // console.log(item.innerHTML);
+		// 	item.addEventListener('click',(e) => {
+		// 		console.log(e.target);
+		// 	})
+		// })
+		
+
     </script>
 </body>
 

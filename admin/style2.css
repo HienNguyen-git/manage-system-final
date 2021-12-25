@@ -126,3 +126,15 @@ td{
         margin: 12px 0px;
     }
 }
+
+
+.form-control{
+    min-width: 70% !important;
+    max-width: 80% !important;
+}
+.bg-green{
+    background-color: green !important;
+}
+.list-group-item:hover{
+    background-color: #ccc;
+}
