@@ -65,12 +65,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body style="background-color: #ccc;">
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center ">
         <div class="col-md-6 col-lg-5">
             <h3 class="text-center text-secondary mt-5 mb-3">User Login</h3>
-            <form method="post" action="" class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-light">
+            <form method="post" action="" class="bg-info border rounded w-100 mb-5 mx-auto px-3 pt-3 ">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input value="<?= $user ?>" name="user" id="user" type="text" class="form-control" placeholder="Username">
@@ -89,12 +89,13 @@
                             echo "<div class='alert alert-danger'>$error</div>";
                         }
                     ?>
-                    <button class="btn btn-success px-5">Login</button>
+                    <button class="btn btn-success px-5" style="width: 100%;">Login</button>
                 </div>
                 <div class="form-group">
                     <p>Don't have an account yet? <a href="register.php">Register now</a>.</p>
-                    <p>Forgot your password? <a href="forgot.php">Reset your password</a>.</p>
+                    <p>Forgot your password? <a href="db.php">Reset your password</a>.</p>
                 </div>
+                
             </form>
             <!-- <p class="text-danger">Đăng nhập bằng tài khoản: <strong>admin</strong> - <strong>123456</strong></p> -->
             <!-- <p class="text-danger">Username và mật khẩu này đang viết trực tiếp trong code, cần bổ sung chức năng đọc database để lấy username và mật khẩu trong database</p> -->

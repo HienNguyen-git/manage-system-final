@@ -9,7 +9,7 @@
 	// echo is_password_changed($user);
 	if( !is_password_changed($user) ){
 		// echo "pass changed";
-		header('Location: reset_password.php');
+		header('Location: change_password.php');
 		exit();
 	}
 

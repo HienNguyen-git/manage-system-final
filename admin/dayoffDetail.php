@@ -13,9 +13,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<!-- <link rel="stylesheet" href="/style.css"> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	
+    <!-- <link rel="stylesheet" href="/style.css"> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 	<link rel="stylesheet" href="style2.css"> <!-- Change -->
 	<title>Home Page</title>
 </head>
@@ -59,13 +60,13 @@
 		
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav" style="flex-direction: column;">
-                            <li class="nav-item active-menu">
+                            <li class="nav-item ">
 								<a class="nav-link p20" href="index.php"><i class="fas fa-user"></i>  Account </a>
 							</li>
 							<li class="nav-item ">
 								<a class="nav-link p20" href="department.php"> <i class="fas fa-building"></i>  Department</a>
 							</li>
-							<li class="nav-item">
+							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
 						</ul>
@@ -76,8 +77,7 @@
 				<div class="bg-light mt-4 text-dark p-2">
 				<div class="admin-panel-section-header ">
 					<h2>Detail </h2>
-                    <a href="db.php" class="addbtn">Reset Password</a>
-					<!-- <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a> -->
+					<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a>
 				</div>
 				<div class="account-container">
                 <table class="table-hover">
@@ -88,49 +88,39 @@
 
                     </tr>
                     <tr>
-                        <td>Username</td>
-                        <td>nguyenvana</td>
-                        <!-- <td><?php echo $username; ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td>0908665356</td>
-
-                        <!-- <td><?php echo $username; ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>Name</td>
+                        <td>FullName</td>
                         <td>Nguyễn Văn A</td>
 
                         <!-- <td><?php echo $firstname.' '. $lastname; ?></td> -->
                     </tr>
                     <tr>
-                        <td>Email</td>
-                        <td>nguyenvana@gmail.com</td>
+                        <td>Day Created</td>
+                        <td>12-3-2022</td>
 
                         <!-- <td><?php echo $email ?></td> -->
                     </tr>
                     <tr>
-                        <td>Phone number</td>
-                        <td>0908665356</td>
-
-                        <!-- <td><?php echo $sdt; ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>Job</td>
-                        <td>Nhân viên</td>
-
-                        <!-- <td><?php echo $sdt; ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>Department</td>
-                        <td>Phòng kế toán</td>
-
-                        <!-- <td><?php echo $sdt; ?></td> -->
-                    </tr>
-                    <tr>
                         <td>Day off</td>
-                        <td>12</td>
+                        <td>3</td>
+
+                        <!-- <td><?php echo $sdt; ?></td> -->
+                    </tr>
+                    <tr>
+                        <td>Reason</td>
+                        <td>Sick</td>
+
+                        <!-- <td><?php echo $sdt; ?></td> -->
+                    </tr>
+                    <tr>
+                        <td>File</td>
+                        <td>File</td>
+
+                        <!-- <td><?php echo $sdt; ?></td> -->
+                    </tr>
+                    <tr>
+                        <td>Action</td>
+                        <td ><a href="" class="btn btn-primary">Agree</a> | 
+								<a href="#" class="btn btn-danger">Not Agree</a></td>
 
                         <!-- <td><?php echo $sdt; ?></td> -->
                     </tr>
