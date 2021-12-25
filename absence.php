@@ -118,6 +118,11 @@
 							<button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-2">Submit</button>
 						</div>
 					</div>
+					<div class="form-group" id="error-message">
+						<div class="form-group">
+							<button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-2">Submit</button>
+						</div>
+					</div>
 				</form>
 		</div>
 
