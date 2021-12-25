@@ -61,7 +61,7 @@
     if(!empty($message)){
         echo "<div class='alert alert-primary text-center' style='margin-bottom: 0 !important'>$message</div>";
     }
-    ?>
+?>
 </script>
 <nav class="navbar navbar-expand-lg bg-info navbar-dark">
 	<div class="container">
