@@ -71,10 +71,6 @@
 
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-
-<?php
-	include_once('layout/footer.php')
-?>
 </body>
 
 </html>

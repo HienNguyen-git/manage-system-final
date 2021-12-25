@@ -53,15 +53,16 @@
 </head>
 
 <body>
-<?php
 
+<?php
     if(!empty($error)){
         echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>$error</div>";
     }
     if(!empty($message)){
         echo "<div class='alert alert-primary text-center' style='margin-bottom: 0 !important'>$message</div>";
     }
-?>
+    ?>
+</script>
 <nav class="navbar navbar-expand-lg bg-info navbar-dark">
 	<div class="container">
 		<a href="./" class="navbar-brand navbar-header">Final</a>
@@ -115,7 +116,7 @@
             </tr>
         	</table>
 
-			<button class="btn btn-success submit-btn">Create submit form</button>
+			<button class="btn btn-success submit-btn col-12 col-sm-4">Create submit form</button>
 
 			<form class="submit-form" id="task-form" style="display: none;" method="POST" enctype="multipart/form-data">
 				<div class="form-group">
@@ -129,14 +130,6 @@
                     </div>
                 </div>
                 <div class="form-group" id="error-message">
-                <?php
-                    if(!empty($error)){
-                        echo "<div class='alert alert-danger'>$error</div>";
-                    }
-                    if(!empty($message)){
-                        echo "<div class='alert alert-primary'>$message</div>";
-                    }
-                ?>
                 </div>
                     <div class="form-group">
                     <button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-2">Submit</button>
