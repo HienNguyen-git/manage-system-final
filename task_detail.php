@@ -1,4 +1,5 @@
 <?php
+    require_once('db.php');
     session_start();
     // if (isset($_SESSION['user'])) {
     //     header('Location: index.php');
@@ -22,7 +23,7 @@
 		$file_ext=strtolower(end(explode('.',$file['name'])));
 		
 		$extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip");
-		
+
         if(empty($errors)){
             move_uploaded_file($file_tmp,"upload/".$file_name);
             $message = "Submit successful";
@@ -40,7 +41,6 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -53,7 +53,6 @@
 </head>
 
 <body>
-
 <?php
     if(!empty($error)){
         echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>$error</div>";
@@ -63,13 +62,13 @@
     }
 ?>
 </script>
+
 <nav class="navbar navbar-expand-lg bg-info navbar-dark">
 	<div class="container">
-		<a href="./" class="navbar-brand navbar-header">Final</a>
+		<a href="./" class="navbar-brand navbar-header" style="font-size: 3rem;">Final Project</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 		</button>
-	
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav ml-auto h4">
 			<li class="nav-item ">	
@@ -81,60 +80,77 @@
 			<li class="nav-item">
 			<a class="nav-link" href="account.php">Account</a>
 			</li>
+			<li class="nav-item">
+			<a class="btn btn-danger nav-link text-light" href="logout.php">Logout</a>
+			</li>
 		</ul>
 		</div>
 	</div>
 </nav>
 
-
 <div class="container pb-2">
 		<h1 class="mt-3 text-secondary">Task Information</h1>
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" >Design UI</h3>
 		<div class="ml-auto mr-auto task-container">
+            <?php
+                // echo $_GET['id'];
+                $data = get_task_by_id($_GET['id'])['data'];
+                // print_r($data)
+            ?>
             <table>
             <tr>
                 <th>Status:</th>
-                <td>New </td>
-				<td><a class="btn btn-primary" href="#">Start now</a></td>
+                <td><?=$data['status']?></td>
+                <?php
+                    if($data['status']=='New'){
+                        echo "<td><a class='btn btn-primary' href='#'>Start now</a></td>";
+                    }
+                ?>
             </tr>
             <tr>
                 <th>Title:</th>
-                <td>Design UI</td>
+                <td><?=$data['title']?></td>
             </tr>
             <tr>
                 <th>Detail:</th>
 				<!-- <td>Ahihi</td> -->
-                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem itaque, ipsam, ex consectetur maiores nisi, obcaecati magnam deleniti ea quod modi accusantium ratione ad! Animi voluptas fugiat itaque dignissimos sequi.</td>
+                <td><?=$data['description']?></td>
             </tr>
             <tr>
                 <th>Deadline</th>
-                <td>12-3-2022</td>
+                <td><?=$data['deadline']?></td>
             </tr>
             <tr>
                 <th>File</th>
-                <td></td>
+                <td><a href="<?=$data['file']?>"><?=$data['file']?></a></td>
             </tr>
         	</table>
 
-			<button class="btn btn-success submit-btn col-12 col-sm-4">Create submit form</button>
-
-			<form class="submit-form" id="task-form" style="display: none;" method="POST" enctype="multipart/form-data">
-				<div class="form-group">
-					<label for="description">Description</label>
-					<textarea name="description" class="form-control" id="description" rows="3"></textarea>
-				</div>
-                <div class="form-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="file" id="file">
-                        <label class="custom-file-label" for="file">Choose file</label>
-                    </div>
-                </div>
-                <div class="form-group" id="error-message">
-                </div>
-                    <div class="form-group">
-                    <button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-2">Submit</button>
-                </div>
-            </form>
+            <?php
+                if($data['status']=='In progress'){
+                    ?>
+                        <button class="btn btn-success submit-btn col-12 col-sm-4" style="display: block;">Create submit form</button>
+                        <form class="submit-form" id="task-form" style="display: none;" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="file" id="file">
+                                    <label class="custom-file-label" for="file">Choose file</label>
+                                </div>
+                            </div>
+                            <div class="form-group" id="error-message">
+                            </div>
+                                <div class="form-group">
+                                <button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-2">Submit</button>
+                            </div>
+                        </form>
+                    <?php
+                }
+            ?>
+			
 			
 		</div>
 </div>
@@ -164,7 +180,6 @@
         
         let isDetailValidate
         descriptionBox.addEventListener('change',()=>{
-			console.log('I AM herer')
             if(descriptionBox.value===''){
                 uploadBtn.disabled = true
                 handleErrorMessage('Please enter your description')
@@ -173,7 +188,6 @@
                 isDetailValidate = true
                 checkIsValidation()
             }
-
         })
         let isFileValidate
         document.querySelector('#file').addEventListener('change', e=>{

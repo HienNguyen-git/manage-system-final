@@ -20,7 +20,8 @@
 
 <body>
 <?php
-	include_once('layout/header.php')
+	include_once('layout/header.php');
+	require_once('db.php')
 ?>
 
 
@@ -37,7 +38,33 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+				<?php
+				$data = get_tasks('hiengay');
+
+				if($data['code']==0){
+					foreach($data['data'] as $row){
+					?>
+						<tr>
+							<th scope="row"><?=$row['id']?></th>
+							<td><?=$row['title']?></td>
+							<td><?=$row['deadline']?></td>
+							<td><?=$row['status']?></td>
+							<td><a href="task_detail.php?id=<?=$row['id']?>" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
+						</tr>
+				 	<?php
+					}
+				}
+				// echo count($data);
+				// foreach($row as $data){
+				// 	print_r($row);
+				// }
+				// if(count($data)>0){
+				// }else{
+				// 	echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>You do not have any tasks at the present</div>";
+				// }
+				
+				?>
+				<!-- <tr>
 					<th scope="row">1</th>
 					<td>Design UI</td>
 					<td>12-3-2020</td>
@@ -64,7 +91,7 @@
 					<td>24-6-2020</td>
 					<td>Completed</td>
 					<td><a href="task_detail.php?id=4" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr>
+				</tr> -->
 			</tbody>
 		</table>
 	</div>

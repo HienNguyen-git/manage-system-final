@@ -84,12 +84,13 @@ body {
 	align-items: center;
 	flex-wrap: wrap;
 	height: 50%;
+	flex-direction: column;
 }
 
 .task-container .submit-btn{
 }
 
-.task-container table{
+.task-container table{	
 	overflow: scroll;
 	margin-bottom: 2rem;
 }
