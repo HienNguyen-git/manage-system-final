@@ -1,14 +1,20 @@
 <?php
     session_start();
-    // if (isset($_SESSION['user'])) {
-    //     if($_SESSION['user'] == 'admin'){
-    //         header('Location: index.php');
-    //     }else {
-    //         header('Location: ../manager/index.php');
-    //     }
+    if (isset($_SESSION['user'])) {
+        if($data['role'] == 'employee'){
+            header('Location: index.php');
+        }
+        
+        else if($data['role'] == 'manager'){
+            header('Location: manager/index.php');
+        }
+        else{
+            header('Location: admin/index.php');
+        }
 
-    //     exit();
-    // }
+        // header('Location: index.php');
+        exit();
+    }
     require_once('db.php');
 
     $error = '';
@@ -83,10 +89,7 @@
                     <label for="password">Password</label>
                     <input name="pass" value="<?= $pass ?>" id="password" type="password" class="form-control" placeholder="Password">
                 </div>
-                <div class="form-group custom-control custom-checkbox">
-                    <input <?= isset($_POST['remember']) ? 'checked' : '' ?> name="remember" type="checkbox" class="custom-control-input" id="remember">
-                    <label class="custom-control-label" for="remember">Remember login</label>
-                </div>
+                <!--  -->
                 <div class="form-group">
                     <?php
                         if (!empty($error)) {
@@ -95,14 +98,13 @@
                     ?>
                     <button class="btn btn-success px-5" style="width: 100%;">Login</button>
                 </div>
-                <div class="form-group">
-                    <p>Don't have an account yet? <a href="register.php">Register now</a>.</p>
+               
+                   
                     <!-- <p>Forgot your password? <a href="db.php">Reset your password</a>.</p> -->
-                </div>
+           
                 
             </form>
-            <!-- <p class="text-danger">Đăng nhập bằng tài khoản: <strong>admin</strong> - <strong>123456</strong></p> -->
-            <!-- <p class="text-danger">Username và mật khẩu này đang viết trực tiếp trong code, cần bổ sung chức năng đọc database để lấy username và mật khẩu trong database</p> -->
+            
         </div>
     </div>
 </div>

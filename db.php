@@ -75,7 +75,7 @@
     function change_password($newpass){
         $hash = password_hash($newpass,PASSWORD_DEFAULT);
 
-        $sql = 'update account set password = ?';
+        $sql = 'update employee set password = ?';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);

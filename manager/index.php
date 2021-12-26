@@ -2,14 +2,14 @@
 	require_once('../admin/db.php');
     session_start();
     if (!isset($_SESSION['user'])) {
-        header('Location: login.php');
+        header('Location: ../login.php');
         exit();
     }
 	$user = $_SESSION['user'];
 	// echo is_password_changed($user);
 	if( !is_password_changed($user) ){
 		// echo "pass changed";
-		header('Location: change_password.php');
+		header('Location: ../change_password.php');
 		exit();
 	}
 
@@ -40,7 +40,7 @@
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="../admin/logout.php">Log out</a>
+					<a href="../logout.php">Log out</a>
 			</div>
 		</div>
 		<div class="row h-100">
