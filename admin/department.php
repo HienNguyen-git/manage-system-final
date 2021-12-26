@@ -65,18 +65,20 @@
 						<h2>List Departments</h2>
 						<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Department</a>
 					</div>
-					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
+					<table class="table-hover text-center pc-table"   border="1" >
 						<tr class="header">
-							<td>Department Name</td>
-							<td>Describe</td>
-							<td>Department Number </td>
-							<td>Manager </td>
-							<td>Action</td>
+							<th>ID </th>
+							<th>Department Name</th>
+							<th>Detail</th>
+							<th>Department Number </th>
+							<th>Manager Name</th>
+							<th>Action</th>
 						</tr>
 						<tbody id="tbody">
 							<tr class="item">
 								<td>1</td>
 								<td>Phòng ban kế toán</td>
+								<td>Đây là Phòng ban kế toán</td>
 								<td>Số phòng 1</td>
 								<td>
 									<select name="namePerson" required>
@@ -94,6 +96,7 @@
 							<tr class="item">
 								<td>1</td>
 								<td>Phòng ban kế toán</td>
+								<td>Đây là Phòng ban kế toán</td>
 								<td>Số phòng 1</td>
 								<td>
 									<select name="namePerson" required>

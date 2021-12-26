@@ -38,24 +38,7 @@
         }
     }
 
-    function is_email_exists($email){
-        $sql = 'select username from account where email = ?';
-        $conn = open_database();
-
-        $stm =$conn->prepare($sql);
-        $stm->bind_param('s',$email);
-        if(!$stm->execute()){
-            die('Query error: ' . $stm->error);
-        }
-
-        $result = $stm->get_result();
-        if($result->num_rows > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+    
     function is_password_changed($username){
         $sql = 'select activated from account where username = ?';
         $conn = open_database();
@@ -87,14 +70,13 @@
 
     function register($user, $first, $last){
         $hash = password_hash($user,PASSWORD_DEFAULT);
-        $rand = random_int(0,1000);
-        $token = md5($user . '+' . $rand);
+        
 
-        $sql = 'insert into account(username, firstname, lastname,password, activate_token) values(?,?,?,?,?)';
+        $sql = 'insert into account(username, firstname, lastname,password) values(?,?,?,?)';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('sssss',$user,$first,$last,$hash,$token);
+        $stm->bind_param('ssss',$user,$first,$last,$hash);
 
         if(!$stm->execute()){
             return array('code' => 2, 'error' => 'Cant execute command');

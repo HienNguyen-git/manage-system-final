@@ -67,36 +67,46 @@
 					</div>
 					<table class="table-hover text-center pc-table"   border="1" >
 						<tr class="header">
-							<td>ID</td>
-							<td>Username</td>
-							<td>Password</td>
-							<td>Full Name</td>
-							<td>Role</td>
-							<td>Department Name</td>
-							<td>Manager</td>
-							<td>Action</td>
+							<th>ID</th>
+							<th>Username</th>
+							
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Role</th>
+							<th>Department Name</th>
+							
+							<th>Action</th>
 						</tr>
 						<tbody id="tbody">
 							<tr class="item">
 								<td>1</td>
 								<td>nguyenvana</td>
-								<td>0908665356</td>
-								<td>Nguyễn Văn A</td>
+								<td>Nguyễn</td>
+								<td> Văn A</td>
 								<td>Nhân viên</td>
 								<td>Phòng kế toán</td>
-								
-								<td class="search-td" style="position: absolute; border: none;">
+								<!-- <td style="position: absolute;">
+										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
+										<ul style="place-items: flex-start; " id="suggestions" class="list-group my-2">
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+										</ul>
+										<a  href="#" class="btn btn-success">Update</a>
+									
+								</td> -->
+								<!-- <td class="search-td" style="position: absolute; border: none;">
 									<div >
-
 										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
 										<ul style="place-items: flex-start;" id="suggestions" class="list-group my-2">
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Lao</li>
-											<li class="list-group-item">Cambodia</li>
-											<li class="list-group-item">Singapore</li>
+									
 										</ul>
 									</div>
-								</td>
+									<a  href="#" class="btn btn-success">Update</a>
+								</td> -->
+								
 
 								<td >
 									<a href="#" class="btn btn-primary">Edit</a> | 
@@ -107,19 +117,73 @@
 							<tr class="item">
 								<td>1</td>
 								<td>nguyenvana</td>
-								<td>0908665356</td>
-								<td>Nguyễn Văn A</td>
+								<td>Nguyễn</td>
+								<td> Văn A</td>
 								<td>Nhân viên</td>
 								<td>Phòng kế toán</td>
-								<td>
-								<input oninput="suggest(this.value)" type="text" class="form-control" placeholder="Nhập ít nhất 2 ký tự">
+								<!-- <td style="position: absolute;">
+										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
+										<ul style="place-items: flex-start; " id="suggestions" class="list-group my-2">
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+										</ul>
+										<a  href="#" class="btn btn-success">Update</a>
+									
+								</td> -->
+								<!-- <td class="search-td" style="position: absolute; border: none;">
+									<div >
+										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
+										<ul style="place-items: flex-start;" id="suggestions" class="list-group my-2">
+									
+										</ul>
+									</div>
+									<a  href="#" class="btn btn-success">Update</a>
+								</td> -->
+								
 
-								</td>
 								<td >
 									<a href="#" class="btn btn-primary">Edit</a> | 
 									<a href="#" class="btn btn-danger">Delete</a> |
 									<a href="detailEmployee.php" class="btn btn-success">Detail</a>
+								</td>
+							</tr>
+							<tr class="item">
+								<td>1</td>
+								<td>nguyenvana</td>
+								<td>Nguyễn</td>
+								<td> Văn A</td>
+								<td>Nhân viên</td>
+								<td>Phòng kế toán</td>
+								<!-- <td style="position: absolute;">
+										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
+										<ul style="place-items: flex-start; " id="suggestions" class="list-group my-2">
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+											<li class="list-group-item">Vietnam</li>
+										</ul>
+										<a  href="#" class="btn btn-success">Update</a>
+									
+								</td> -->
+								<!-- <td class="search-td" style="position: absolute; border: none;">
+									<div >
+										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
+										<ul style="place-items: flex-start;" id="suggestions" class="list-group my-2">
+									
+										</ul>
+									</div>
+									<a  href="#" class="btn btn-success">Update</a>
+								</td> -->
+								
 
+								<td >
+									<a href="#" class="btn btn-primary">Edit</a> | 
+									<a href="#" class="btn btn-danger">Delete</a> |
+									<a href="detailEmployee.php" class="btn btn-success">Detail</a>
 								</td>
 							</tr>
 						</tbody>
@@ -139,41 +203,52 @@
 
 	<script>
         function suggest(value) {
-        $.get(
-          "searchEmployee.php?search-text=" + value,
-          (data) => {
-            $("#suggestions li").remove();
-            data.forEach((country) => {
-              let item = `<li class="list-group-item" style="cursor: pointer;">${capitalizeFirstLetter(
-                country
-              )}</li>`;
-              $("#suggestions").append(item);
-            });
-          },
-          "json"
-        );
-      }
+			$.get(
+			"searchEmployee.php?search-text=" + value,
+			(data) => {
+				$("#suggestions li").remove();
+				data.forEach((country) => {
+				let item = `<li onclick="handleClickLi(this)" class="list-group-item" style="cursor: pointer;">${capitalizeFirstLetter(
+					country
+				)}</li>`;
+				$("#suggestions").append(item);
+				});
+			},
+			"json"
+			);
+		}
+		function capitalizeFirstLetter(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1);
+		}
 
-      function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-      }
-	  let listGroupItem;
-	  let inputSearch = document.querySelector('.input-search-employee')
-	  listGroupItem = document.querySelectorAll('.list-group-item');
-	  inputSearch.addEventListener('keypress', function(e) {
+		// let listGroupItem;
+		let inputSearch = document.querySelector('.input-search-employee')
+		let listGroupItem = document.querySelectorAll('.list-group-item');
+		// inputSearch.addEventListener('keypress', function(e) {
 
-		// console.log(listGroupItem);
-		
+		// 	// console.log(listGroupItem);
+
+		// 	listGroupItem.forEach((nameitem) => {
+		// 		handleClickLi(nameitem);
+		// 	})
+		// })
 	
-		})
-		listGroupItem.forEach(nameitem => {
-		// console.log(nameitem);
-			nameitem.addEventListener('click', function(e){
-				console.log(e)
-				// e.target.classList.toggle('bg-green');
-				// console.log(e.currentTarget);
-			})
-		})
+		
+		function handleClickLi(nameitem){
+			inputSearch.value = nameitem.innerHTML;
+			$("#suggestions li").remove();
+		}
+		// function removeItemLi(){
+
+		// }
+		// listGroupItem.forEach(nameitem => {
+		// // console.log(nameitem);
+		// 	nameitem.addEventListener('click', function(e){
+		// 		console.log(e)
+		// 		// e.target.classList.toggle('bg-green');
+		// 		// console.log(e.currentTarget);
+		// 	})
+		// })
 		// let	listGroupItem = document.querySelectorAll('.list-group-item');
 		// console.log(listGroupItem);
 		// listGroupItem.forEach(item => {
@@ -183,7 +258,7 @@
 		// 	})
 		// })
 		
-
+		
     </script>
 </body>
 
