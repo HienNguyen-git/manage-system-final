@@ -14,9 +14,10 @@
 			</li>
 			<li class="nav-item">
 			<a class="nav-link" href="account.php">Account</a>
+
 			</li>
 			<li class="nav-item">
-			<a class="btn btn-danger nav-link text-light" href="logout.php">Logout</a>
+			<a class="btn btn-danger nav-link text-light" href="admin/logout.php">Logout</a>
 			</li>
 		</ul>
 		</div>

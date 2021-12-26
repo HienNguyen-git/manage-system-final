@@ -1,18 +1,18 @@
 <?php
     session_start();
-    if (isset($_SESSION['user'])) {
-        if($_SESSION['user'] == 'tdt'){
-            header('Location: index.php');
-        }else {
-            header('Location: ../manager/index.php');
-        }
+    // if (isset($_SESSION['user'])) {
+    //     if($_SESSION['user'] == 'admin'){
+    //         header('Location: index.php');
+    //     }else {
+    //         header('Location: ../manager/index.php');
+    //     }
 
-        exit();
-    }
+    //     exit();
+    // }
     require_once('db.php');
 
     $error = '';
-
+    $role ='';
     $user = '';
     $pass = '';
 
@@ -34,21 +34,25 @@
             if($result['code'] == 0){
                 $data = $result['data'];
                 $_SESSION['user'] = $user;
-                $_SESSION['pass'] = $pass;
+                // $_SESSION['role'] = $role;
+                // print_r($_SESSION['role'])  ;
+                // die();
                 $_SESSION['name'] = $data['firstname'] . ' ' . $data['lastname'];
 
-                if($_SESSION['user'] == 'tdt'){
-                    header('Location: index.php');
+                if($data['role'] == 'employee'){
+                    header('Location: ../index.php');
                 }
                 
-                else {
+                else if($data['role'] == 'manager'){
                     header('Location: ../manager/index.php');
+                }
+                else{
+                    header('Location: index.php');
                 }
                 exit();
             }
             else { // chưa active
                 $error = $result['error'];
-                
             }
         }
     }
@@ -93,7 +97,7 @@
                 </div>
                 <div class="form-group">
                     <p>Don't have an account yet? <a href="register.php">Register now</a>.</p>
-                    <p>Forgot your password? <a href="db.php">Reset your password</a>.</p>
+                    <!-- <p>Forgot your password? <a href="db.php">Reset your password</a>.</p> -->
                 </div>
                 
             </form>
