@@ -13,7 +13,7 @@
     }
 
     function login($user,$pass){
-        $sql = "select * from account where username = ?";
+        $sql = "select * from employee where username = ?";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -27,7 +27,7 @@
             return array('code' => 2, 'error' => 'User doesnt exist'); // user ko tồn tại
         }
         $data = $result->fetch_assoc();
-
+        
         $hashed_password = $data['password'];
         if(!password_verify($pass,$hashed_password)){
             return array('code' => 3, 'error' => 'Invalid password'); // pass sai
@@ -37,10 +37,10 @@
             return array('code' => 0, 'error' => '', 'data' => $data);
         }
     }
-
+    
     
     function is_password_changed($username){
-        $sql = 'select activated from account where username = ?';
+        $sql = 'select activated from employee where username = ?';
         $conn = open_database();
 
         $stm =$conn->prepare($sql);
@@ -57,7 +57,7 @@
 
     
     function active_token($username){
-        $sql = 'update account set activated = 1  where username = ?';
+        $sql = 'update employee set activated = 1  where username = ?';
         $conn = open_database();
 
         $stm =$conn->prepare($sql);
@@ -68,15 +68,15 @@
         return array('code' => 0, 'message' => 'active token success');
     }
 
-    function register($user, $first, $last){
+    function register($user, $first, $last,$role,$department){
         $hash = password_hash($user,PASSWORD_DEFAULT);
         
 
-        $sql = 'insert into account(username, firstname, lastname,password) values(?,?,?,?)';
+        $sql = 'insert into employee(username, firstname, lastname,password,role,department) values(?,?,?,?,?,?)';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('ssss',$user,$first,$last,$hash);
+        $stm->bind_param('ssssss',$user,$first,$last,$hash,$role,$department);
 
         if(!$stm->execute()){
             return array('code' => 2, 'error' => 'Cant execute command');

@@ -22,10 +22,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
-  <body>
+  <body style="background-color: #ccc;">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 mt-5 mx-auto p-3 border rounded">
+        <div class="bg-info col-md-6 mt-5 mx-auto p-3 border rounded">
             <h4>Đăng xuất thành công</h4>
             <p>Tài khoản của bạn đã được đăng xuất khỏi hệ thống.</p>
             <p>Nhấn <a href="login.php">vào đây</a> để trở về trang đăng nhập, hoặc trang web sẽ tự động chuyển hướng sau <span id="counter" class="text-danger">5</span> giây nữa.</p>

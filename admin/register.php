@@ -25,20 +25,22 @@
     $error = '';
     $first_name = '';
     $last_name = '';
-    $email = '';
+    // $email = '';
     $user = '';
-    $pass = '';
-    $pass_confirm = '';
+    // $pass = '';
+    // $pass_confirm = '';
+    $role ='';
+    $department = '';
 
     if (isset($_POST['first']) && isset($_POST['last'])
-    && isset($_POST['user']) )
+    && isset($_POST['user']) && isset($_POST['role']) && isset($_POST['department']) )
     {
         $first_name = $_POST['first'];
         $last_name = $_POST['last'];
         
         $user = $_POST['user'];
-        
-
+        $role = $_POST['role'];
+        $department = $_POST['department'];
         if (empty($first_name)) {
             $error = 'Please enter your first name';
         }
@@ -49,10 +51,16 @@
         else if (empty($user)) {
             $error = 'Please enter your username';
         }
+        else if (empty($role)) {
+            $error = 'Please enter role';
+        }
+        else if (empty($department)) {
+            $error = 'Please enter department';
+        }
         else {
             // register a new account
             // echo 'good';
-            $result = register($user,$first_name,$last_name);
+            $result = register($user,$first_name,$last_name,$role,$department);
             if($result['code'] == 0){
                 $success = $result['success'];
             }else if($result['code'] == 1){ //trùng mail
@@ -87,7 +95,16 @@
                         <div class="invalid-feedback">Please enter your username</div>
                     </div>
                     
-
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <input value="<?= $role?>" name="role" required class="form-control" type="text" placeholder="Role" id="role">
+                        <div class="invalid-feedback">Please enter role of employee</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">department</label>
+                        <input value="<?= $department?>" name="department" required class="form-control" type="text" placeholder="Department" id="department">
+                        <div class="invalid-feedback">Please enter department of employee</div>
+                    </div>
                     <div class="form-group">
                         <?php
                             if (!empty($error)) {

@@ -14,7 +14,12 @@
 			</li>
 			<li class="nav-item">
 			<a class="nav-link" href="account.php">Account</a>
+
+					
 			</li>
+			<!-- <li class="nav-item">
+			<a class="nav-link"  href="admin/logout.php">Log out</a>
+			</li> -->
 		</ul>
 		</div>
 	</div>

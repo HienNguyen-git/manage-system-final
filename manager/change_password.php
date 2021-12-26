@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body style="background-color: #ccc;">
 <?php
     $error = '';
     // $email = '';
@@ -83,14 +83,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
-            <h3 class="text-center text-secondary mt-5 mb-3">Reset Password</h3>
+            <h3 class="text-center text-secondary mt-5 mb-3">Change Password</h3>
             <?php 
                 if(!empty($error)){
                     echo "<div class='alert alert-danger'>$error</div>";
                         
                 }else{
                     ?>
-                        <form novalidate method="post" action="" class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-light">
+                        <form novalidate method="post" action="" class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-info">
                             <!-- <div class="form-group">
                                 <label for="email">Email</label> -->
                                 <!-- <input readonly value="sample@gmail.com" name="email" id="email" type="text" class="form-control" placeholder="Email address"> -->
