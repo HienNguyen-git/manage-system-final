@@ -103,11 +103,36 @@ body {
 	flex: 3;
 }
 
+/* Absence page */
+
+
+.absence-container{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	height: 50%;
+}
+
+.absence-container .submit-btn{
+}
+
+.absence-container table{	
+	overflow: scroll;
+	margin-bottom: 2rem;
+}
+
+.absence-container table th{
+	padding: 1rem;
+}
+
+.absence-container .submit-form{
+	flex: 3;
+}
+
+
 #user-absence-info{
 	flex-basis: 51%
-}
-#user-absence-info th{
-	padding: 0 !important;
 }
 
 @media (max-width:524px) {

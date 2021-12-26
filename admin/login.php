@@ -47,7 +47,7 @@
                     header('Location: ../manager/index.php');
                 }
                 else{
-                    header('Location: index.php');
+                    header('Location: admin/index.php');
                 }
                 exit();
             }

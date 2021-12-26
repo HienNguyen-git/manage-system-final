@@ -14,46 +14,80 @@
         return $conn;
     }
 
-    // function login($user,$pass){
-    //     $sql = "select * from account where username=?";
-    //     $conn = open_database();
+    /////////////////////////////////
 
-    //     $stm = $conn->prepare($sql);
-    //     $stm->bind_param('s', $user);
+    function login($user,$pass){
+        $sql = "select * from employee where username = ?";
+        $conn = open_database();
 
-    //     if(!$stm->execute()){
-    //         return array('code'=>1,'error'=>'Command not execute');
-    //     }
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+        if(!$stm->execute()){
+            return array('code' => 1, 'error' => 'Cant execute command'); //chạy sql fail
+        }
 
-    //     $result = $stm->get_result();
-    //     if($result->num_rows==0){
-    //         return array('code'=>2,'error'=>'User not exist');
-    //     }
-    //     $data = $result->fetch_assoc();
-
-    //     $hash_password = $data['password'];
-    //     if(!password_verify($pass, $hash_password)){
-    //         return array('code'=>3,'error'=>'Invalid password');
-    //     }else if($data['activated']==0){
-    //         return array('code'=>4,'error'=>'This account is not activated');
-    //     }else
-    //         return array('code'=>0,'success'=>'', 'data'=>$data);
+        $result = $stm->get_result();
+        if($result->num_rows == 0){
+            return array('code' => 2, 'error' => 'User doesnt exist'); // user ko tồn tại
+        }
+        $data = $result->fetch_assoc();
         
-    // }
+        $hashed_password = $data['password'];
+        if(!password_verify($pass,$hashed_password)){
+            return array('code' => 3, 'error' => 'Invalid password'); // pass sai
+        }
+        
+        else {
+            return array('code' => 0, 'error' => '', 'data' => $data);
+        }
+    }
+    
+    
+    function is_password_changed($username){
+        $sql = 'select activated from employee where username = ?';
+        $conn = open_database();
 
-    // function change_password($username,$new_pass){
-    //     $hash = password_hash($new_pass, PASSWORD_DEFAULT);
+        $stm =$conn->prepare($sql);
+        $stm->bind_param('s',$username);
+        if(!$stm->execute()){
+            die('Query error: ' . $stm->error);
+        }
 
-    //     $sql = 'update account set password=? where username=?';
-    //     $conn = open_database();
-    //     $stm = $conn->prepare($sql);
-    //     $stm->bind_param('ss',$hash, $email);
-    //     if(!$stm->execute()){
-    //         return array('code'=>2,'error'=>'Can not execute command');
-    //     }
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+        // print_r($data['activated']);
+        return $data['activated'];
+    }
 
-    //     return array('code'=>0,'success'=>'Password has changed');
-    // }
+    
+    function active_token($username){
+        $sql = 'update employee set activated = 1  where username = ?';
+        $conn = open_database();
+
+        $stm =$conn->prepare($sql);
+        $stm->bind_param('s',$username);
+        if(!$stm->execute()){
+            die('Query error: ' . $stm->error);
+        }
+        return array('code' => 0, 'message' => 'active token success');
+    }
+
+    function change_password($newpass){
+        $hash = password_hash($newpass,PASSWORD_DEFAULT);
+
+        $sql = 'update account set password = ?';
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$hash);
+        if(!$stm->execute()){
+            return array('code'=> 2, 'error' => 'Can not execute command.');
+        }
+        
+        return array('code'=> 0,'success' => 'Password has changed.');
+    }
+
+    ///////////////////////////
 
     function start_task($id){
         $sql = "update ";

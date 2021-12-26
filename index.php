@@ -1,3 +1,17 @@
+<?php
+ 	session_start();
+	require_once('db.php');
+	$user = $_SESSION['user'];
+	if( !is_password_changed($user) ){
+		header('Location: change_password.php');
+		exit();
+	}
+	if(!isset($_SESSION['user'])){
+		header('Location: login.php');
+	}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,12 +35,13 @@
 <body>
 <?php
 	include_once('layout/header.php');
-	require_once('db.php')
+
+
 ?>
 
 
 <div class="container pb-2" style="height: 70vh;">
-		<h1 class="mt-3 mb-3 pb-3 border-bottom border-info text-secondary">Welcome name of staff</h1>
+		<h1 class="mt-3 mb-3 pb-3 border-bottom border-info text-secondary">Welcome <?=$_SESSION['user']?></h1>
 		<table class="table table-bordered table-light table-hover text-center ali" style="border-color:black;">
 			<thead>
 				<tr>
@@ -39,7 +54,7 @@
 			</thead>
 			<tbody>
 				<?php
-				$data = get_tasks('hiengay');
+				$data = get_tasks($_SESSION['user']);
 
 				if($data['code']==0){
 					foreach($data['data'] as $row){

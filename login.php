@@ -1,14 +1,18 @@
 <?php
     session_start();
     // if (isset($_SESSION['user'])) {
-    //     header('Location: index.php');
+    //     if($_SESSION['user'] == 'admin'){
+    //         header('Location: index.php');
+    //     }else {
+    //         header('Location: ../manager/index.php');
+    //     }
+
     //     exit();
     // }
-
-    require_once("db.php");
+    require_once('db.php');
 
     $error = '';
-
+    $role ='';
     $user = '';
     $pass = '';
 
@@ -25,27 +29,34 @@
         else if (strlen($pass) < 6) {
             $error = 'Password must have at least 6 characters';
         }
-        else {
-            $result = login($user,$pass);
-            if($result['code']==0){
+        else{
+            $result= login($user,$pass);
+            if($result['code'] == 0){
                 $data = $result['data'];
                 $_SESSION['user'] = $user;
-                $_SESSION['name'] = $data['firstname']. ' '.$data['lastname'];
+                // $_SESSION['role'] = $role;
+                // print_r($_SESSION['role'])  ;
+                // die();
+                $_SESSION['name'] = $data['firstname'] . ' ' . $data['lastname'];
 
-                if(isset($_SESSION['bookingID'])){
-                    $bookingID = $_SESSION['bookingID'];
-                    header("Location: booking.php?id=$bookingID");
-                }else{
+                if($data['role'] == 'employee'){
                     header('Location: index.php');
                 }
+                
+                else if($data['role'] == 'manager'){
+                    header('Location: manager/index.php');
+                }
+                else{
+                    header('Location: admin/index.php');
+                }
                 exit();
-            }else{
+            }
+            else { // chưa active
                 $error = $result['error'];
             }
         }
     }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,23 +67,25 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
-    <link rel="stylesheet" href="style.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
-<body>
-
+<body style="background-color: #ccc;">
 <div class="container">
-    <div class="row justify-content-center d-flex align-items-center h-75">
+    <div class="row justify-content-center ">
         <div class="col-md-6 col-lg-5">
             <h3 class="text-center text-secondary mt-5 mb-3">User Login</h3>
-            <form class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-info">
+            <form method="post" action="" class="bg-info border rounded w-100 mb-5 mx-auto px-3 pt-3 ">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input id="username" type="text" class="form-control" placeholder="Username">
+                    <input value="<?= $user ?>" name="user" id="user" type="text" class="form-control" placeholder="Username">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input id="password" type="password" class="form-control" placeholder="Password">
+                    <input name="pass" value="<?= $pass ?>" id="password" type="password" class="form-control" placeholder="Password">
+                </div>
+                <div class="form-group custom-control custom-checkbox">
+                    <input <?= isset($_POST['remember']) ? 'checked' : '' ?> name="remember" type="checkbox" class="custom-control-input" id="remember">
+                    <label class="custom-control-label" for="remember">Remember login</label>
                 </div>
                 <div class="form-group">
                     <?php
@@ -80,12 +93,19 @@
                             echo "<div class='alert alert-danger'>$error</div>";
                         }
                     ?>
-                    <button class="btn btn-success px-5">Login</button>
+                    <button class="btn btn-success px-5" style="width: 100%;">Login</button>
                 </div>
+                <div class="form-group">
+                    <p>Don't have an account yet? <a href="register.php">Register now</a>.</p>
+                    <!-- <p>Forgot your password? <a href="db.php">Reset your password</a>.</p> -->
+                </div>
+                
             </form>
-
+            <!-- <p class="text-danger">Đăng nhập bằng tài khoản: <strong>admin</strong> - <strong>123456</strong></p> -->
+            <!-- <p class="text-danger">Username và mật khẩu này đang viết trực tiếp trong code, cần bổ sung chức năng đọc database để lấy username và mật khẩu trong database</p> -->
         </div>
     </div>
 </div>
+
 </body>
 </html>
