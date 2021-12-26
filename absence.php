@@ -26,7 +26,7 @@
 
 <div class="container pb-2" style="height: 70vh;">
 		<h1 class="mt-3 text-secondary">Absence Management</h1>
-        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light">Request history</h3>
+        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light">Your absence info</h3>
 		<div class="ml-auto mr-auto task-container">
 			<button class="btn btn-success submit-btn col-12 col-sm-6 mb-3">Create request absence form</button>
 			<table id="user-absence-info">
@@ -43,9 +43,9 @@
                 <td>10</td>
             </tr>
         </table>
-			<table class="table table-bordered table-light table-hover text-center ali" id="absence-history" style="border-color:black;">
-				<thead>
-					<tr>
+		<table class="table table-bordered table-light table-hover text-center ali" id="absence-history" style="border-color:black;">
+			<thead>
+				<tr>
 						<th scope="col">#</th>
 						<th scope="col">Create date</th>
 						<th scope="col">Number of day off</th>
@@ -92,10 +92,10 @@
 
 				<form class="submit-form" id="task-form" style="display: none; flex-basis: 100%;" method="POST" enctype="multipart/form-data">
 					<div class="form-row">
-					<div class="form-group col-sm-6">
-						<label for="description">Reason</label>
-						<input name="description" class="form-control" id="description"></input>
-					</div>
+						<div class="form-group col-sm-6">
+							<label for="description">Reason</label>
+							<input name="description" class="form-control" id="description"></input>
+						</div>
 						<div class="form-group col-sm-6">
 							<label for="dayoff">Number of day off</label>
 							<select class="form-control" id="dayoff">
@@ -111,11 +111,6 @@
 								<input type="file" class="custom-file-input" name="file" id="file">
 								<label class="custom-file-label" for="file">Choose file</label>
 							</div>
-						</div>
-					</div>
-					<div class="form-group" id="error-message">
-						<div class="form-group">
-							<button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-2">Submit</button>
 						</div>
 					</div>
 					<div class="form-group" id="error-message">

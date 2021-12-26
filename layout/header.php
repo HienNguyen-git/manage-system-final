@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-info navbar-dark">
 	<div class="container">
-		<a href="./" class="navbar-brand navbar-header">Final Project</a>
+		<a href="./" class="navbar-brand navbar-header" style="font-size: 3rem;">Final Project</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 		</button>
@@ -14,6 +14,9 @@
 			</li>
 			<li class="nav-item">
 			<a class="nav-link" href="account.php">Account</a>
+			</li>
+			<li class="nav-item">
+			<a class="btn btn-danger nav-link text-light" href="logout.php">Logout</a>
 			</li>
 		</ul>
 		</div>
