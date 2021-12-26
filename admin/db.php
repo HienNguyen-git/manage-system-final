@@ -38,24 +38,7 @@
         }
     }
 
-    function is_email_exists($email){
-        $sql = 'select username from account where email = ?';
-        $conn = open_database();
-
-        $stm =$conn->prepare($sql);
-        $stm->bind_param('s',$email);
-        if(!$stm->execute()){
-            die('Query error: ' . $stm->error);
-        }
-
-        $result = $stm->get_result();
-        if($result->num_rows > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+    
     function is_password_changed($username){
         $sql = 'select activated from account where username = ?';
         $conn = open_database();
@@ -83,37 +66,26 @@
             die('Query error: ' . $stm->error);
         }
         return array('code' => 0, 'message' => 'active token success');
-        // $result = $stm->get_result();
-        // $data = $result->fetch_assoc();
-        // print_r($data['activated']);
-        // return $data['activated'];
     }
 
     function register($user, $first, $last){
-        
         $hash = password_hash($user,PASSWORD_DEFAULT);
-        $rand = random_int(0,1000);
-        $token = md5($user . '+' . $rand);
+        
 
-        $sql = 'insert into account(username, firstname, lastname,password, activate_token) values(?,?,?,?,?)';
+        $sql = 'insert into account(username, firstname, lastname,password) values(?,?,?,?)';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('sssss',$user,$first,$last,$hash,$token);
+        $stm->bind_param('ssss',$user,$first,$last,$hash);
 
         if(!$stm->execute()){
             return array('code' => 2, 'error' => 'Cant execute command');
         }
 
-        
-
         return array('code' => 0, 'success' => 'Create account successful');
     }
 
     function change_password($newpass){
-        // if(!is_email_exists($email)){
-        //     return array('code' => 1, 'error' => 'Email doesnt exist');
-        // }
         $hash = password_hash($newpass,PASSWORD_DEFAULT);
 
         $sql = 'update account set password = ?';
@@ -126,10 +98,25 @@
         }
         
         return array('code'=> 0,'success' => 'Password has changed.');
+    }
+
+    function reset_password($user){
+       
+        $hash = password_hash($user,PASSWORD_DEFAULT);
+        $sql = 'update account set activated = 0, password = ? where username = ?';
+        $conn = open_database();
+
+        $stm= $conn->prepare($sql);
+        $stm->bind_param('ss',$hash,$user);
+
+        if(!$stm->execute()){
+            return array('code' => 2, 'error' => 'Cant execute command');
+        }
+        
+        // chèn thành công or update token của dòng đã có, gửi mail tới user để reset pass
+        return array('code' => 0, 'success' => 'Password reset');
 
 
 
     }
-
-
 ?> 
