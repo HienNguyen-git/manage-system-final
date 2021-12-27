@@ -173,7 +173,7 @@
     }
 
     function get_user_info($user){
-        $sql = "select id, username, firstname, lastname, role, department from employee where username=?";
+        $sql = "select id, username, firstname, lastname, role, department, avatar from employee where username=?";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);

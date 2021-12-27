@@ -99,8 +99,6 @@
                 // echo $_GET['id'];
                 $data = get_task_by_id($id)['data'];
                 // print_r($data)
-
-                
             ?>
             <table>
             <tr>
@@ -108,7 +106,7 @@
                 <td><?=$data['status']?></td>
                 <?php
                     if($data['status']=='New'){
-                        echo "<td><button onclick='startTask($id)' id='btn-start-task' class='btn btn-primary'>Start now</button></td>";
+                        echo "<td><a href='start_task.php?id=$id' class='btn btn-primary'>Start now</a></td>";
                     }
                 ?>
             </tr>
@@ -235,31 +233,6 @@
         </script>
         <?php
     }
-    ?>
-    <?php
-        if($data['status']=="New"){
-            ?>
-                <script>
-                    async function startTask(id){
-                        const request = await fetch(`start_task.php?id=${id}`)
-                        const res = await request.json();
-                        console.log(res)
-                        reloadPage(res)
-                    }
-                </script>
-
-                <script>
-                    function reloadPage(res){       
-                        if(res.code===0){
-                            location.reload();
-                        }
-                    }  
-                </script>
-            <?php
-        }
-    
-    ?>
-
-	
+    ?>	
 </body>
 </html>

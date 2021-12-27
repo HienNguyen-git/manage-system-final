@@ -61,7 +61,7 @@
                     $row = $data['data'];
                     ?>
                     <div class="image-box">
-                        <img src="images/index.jpeg" alt="Avatar">
+                        <img src="<?=$row['avatar']?>" alt="Avatar">
                         <div class="image-action">
                         <!-- '.$row['movieID'].' -->
                             <a style="display: block;" href="update_account.php?id=1"><i class="fas fa-images"></i> Change image</a>
