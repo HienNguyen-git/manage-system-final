@@ -118,7 +118,7 @@
                         <button type="reset" class="btn btn-success px-5 mt-3" style="width: 100%;">Reset</button>
                     </div>
                     <div class="form-group">
-                        <p>Already have an account? <a href="login.php">Login</a> now.</p>
+                        <p>Already have an account? <a href="../login.php">Login</a> now.</p>
                     </div>
                 </form>
 
