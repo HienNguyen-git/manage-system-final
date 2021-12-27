@@ -4,6 +4,7 @@
         header('Location: login.php');
         exit();
     }
+	require_once('db.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,42 +76,38 @@
 							<th>Action</th>
 						</tr>
 						<tbody id="tbody">
-							<tr class="item">
-								<td>1</td>
-								<td>Phòng ban kế toán</td>
-								<td>Đây là Phòng ban kế toán</td>
-								<td>Số phòng 1</td>
-								<td>
-									<select name="namePerson" required>
-										<option value="" disabled selected>Person</option>
-										<option value="HaiDang">Hải Đăng</option>
-										<option value="HaiDang">Hải Đăng</option>
-										<option value="HaiDang">Hải Đăng</option>
-										<option value="HaiDang">Hải Đăng</option>
-										<option value="HaiDang">Hải Đăng</option>
-									</select>
-								</td>
-								<td ><a href="" class="btn btn-primary">Edit</a> | 
-								<a href="#" class="btn btn-danger">Delete</a></td>
-							</tr>
-							<tr class="item">
-								<td>1</td>
-								<td>Phòng ban kế toán</td>
-								<td>Đây là Phòng ban kế toán</td>
-								<td>Số phòng 1</td>
-								<td>
-									<select name="namePerson" required>
-										<option value="" disabled selected>Person</option>
-										<option value="HaiDang">Hải Đăng</option>
-										<option value="HaiDang">Hải Đăng</option>
-										<option value="HaiDang">Hải Đăng</option>
-										<option value="HaiDang">Hải Đăng</option>
-										<option value="HaiDang">Hải Đăng</option>
-									</select>
-								</td>
-								<td ><a href="" class="btn btn-primary">Edit</a> | 
-								<a href="#" class="btn btn-danger">Delete</a></td>
-							</tr>
+						<?php 
+							$result = get_departments(); 
+							if($result['code'] == 0){
+								$data = $result['data'];
+								foreach($data as $row){
+									// print_r($row) ;
+									?>
+									<tr class="item">
+										<td><?= $row['id'] ?></td>
+										<td><?= $row['name'] ?></td>
+										<td><?= $row['detail'] ?></td>
+										<td><?= $row['number_room'] ?></td>
+										<td>
+											<?= $row['manager_user'] ?>
+											<!-- <select name="namePerson" required>
+												<option value="" disabled selected>Person</option>
+												<option value="HaiDang">Hải Đăng</option>
+												<option value="HaiDang">Hải Đăng</option>
+												<option value="HaiDang">Hải Đăng</option>
+												<option value="HaiDang">Hải Đăng</option>
+												<option value="HaiDang">Hải Đăng</option>
+											</select> -->
+										</td>
+										<td ><a href="" class="btn btn-primary">Edit</a> | 
+										<a href="#" class="btn btn-danger">Delete</a></td>
+									</tr>
+									<?php 
+								}
+									
+							}
+						?>
+							
 						</tbody>
 					</table>
 				</div>
@@ -124,7 +121,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+	<!-- <script src="main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 </body>
 
 </html>

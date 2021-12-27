@@ -1,4 +1,5 @@
 <?php
+    require_once('db.php');
     session_start();
     if (!isset($_SESSION['user'])) {
         header('Location: login.php');
@@ -81,49 +82,62 @@
 				</div>
 				<div class="account-container">
                 <table class="table-hover">
-                    <tr>
-                        <td>ID</td>
-                        <td>1</td>
-                        <!-- <td><?php echo $username; ?></td> -->
-
-                    </tr>
-                    <tr>
-                        <td>FullName</td>
-                        <td>Nguyễn Văn A</td>
-
-                        <!-- <td><?php echo $firstname.' '. $lastname; ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>Day Created</td>
-                        <td>12-3-2022</td>
-
-                        <!-- <td><?php echo $email ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>Day off</td>
-                        <td>3</td>
-
-                        <!-- <td><?php echo $sdt; ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>Reason</td>
-                        <td>Sick</td>
-
-                        <!-- <td><?php echo $sdt; ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>File</td>
-                        <td>File</td>
-
-                        <!-- <td><?php echo $sdt; ?></td> -->
-                    </tr>
-                    <tr>
-                        <td>Action</td>
-                        <td ><a href="" class="btn btn-primary">Agree</a> | 
-								<a href="#" class="btn btn-danger">Not Agree</a></td>
-
-                        <!-- <td><?php echo $sdt; ?></td> -->
-                    </tr>
+                <?php 
+                    $id = $_GET['id'];
+                    $result = get_absence_byid($id); 
+                    if($result['code'] == 0){
+                        $data = $result['data'];
+                        foreach($data as $row){
+                            $username = $row['username'];
+                            $infoAbsence = get_absence_info_by_username($username);
+                            $infoAbsenceData = $infoAbsence['data'];
+                            foreach($infoAbsenceData as $infoRow){
+                                // print_r($infoRow['total_dayoff']);
+                            ?>    
+                            <tr>
+                                <td>ID</td>
+                                <td><?= $row['id']?></td>
+                            </tr>
+                            <tr>
+                                <td>Username</td>
+                                <td><?= $row['username']?></td>
+                            </tr>
+                            <tr>
+                                <td>Total day off</td>
+                                <td><?= $infoRow['total_dayoff']?></td>
+                            </tr>
+                            <tr>
+                                <td>Total day used</td>
+                                <td><?= $infoRow['dayoff_used']?></td>
+                            </tr>
+                            <tr>
+                                <td>Total day left</td>
+                                <td><?= $infoRow['dayoff_left']?></td>
+                            </tr>
+                            <tr>
+                                <td>Day Created</td>
+                                <td><?= $row['create_date']?></td>
+                            </tr>
+                            <tr>
+                                <td>Reason</td>
+                                <td><?= $row['reason']?></td>
+                            </tr>
+                            <tr>
+                                <td>File</td>
+                                <td><a href="../<?=$row['file']?>"><?=$row['file']?></a></td>
+                            </tr>
+                            <tr>
+                                <td>Action</td>
+                                <td >
+                                    <a href="" class="btn btn-primary">Agree</a> | 
+                                    <a href="#" class="btn btn-danger">Not Agree</a>
+                                </td>
+                            </tr>
+                            <?php
+                                    }
+								}
+							}
+						?>
                 </table>
         </div>
 				</div>
@@ -137,7 +151,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+	<!-- <script src="main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 </body>
 
 </html>

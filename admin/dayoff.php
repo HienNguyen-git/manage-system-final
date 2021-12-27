@@ -1,5 +1,6 @@
 <?php
-    session_start();
+    require_once('db.php');
+	session_start();
     if (!isset($_SESSION['user'])) {
         header('Location: login.php');
         exit();
@@ -62,7 +63,7 @@
 			<div class="col-md-10 col-lg-10 col-xl-10  ">
 				<div class="bg-light mt-4 text-dark p-2" style="width: 100%; overflow-x:scroll">
 					<div class="admin-panel-section-header">
-						<h2>List Day Off</h2>
+						<h2>List Absence Request</h2>
 						<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a>
 					</div>
 					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
@@ -73,19 +74,26 @@
 							<td>Action</td>
 						</tr>
 						<tbody id="tbody">
-							<tr class="item">
-								<td>1</td>
-								<td>Nguyễn Văn A</td>
-								<td>12-3-2022</td>
-								<td ><a href="dayoffDetail.php?id=1" class="btn btn-success">View detail</a> </td> 
-								
-							</tr>
-							<tr class="item">
-								<td>2</td>
-								<td>Nguyễn Văn A</td>
-								<td>12-3-2022</td>
-								<td ><a href="dayoffDetail.php?id=2" class="btn btn-success">View detail</a> </td> 
-								
+						<?php 
+							$result = get_absence(); 
+							if($result['code'] == 0){
+								$data = $result['data'];
+								foreach($data as $row){
+									// print_r($row) ;
+									?>
+									<tr class="item">
+										<td><?= $row['id']?></td>
+										<td><?= $row['username']?></td>
+										<td><?= $row['create_date']?></td>
+										<td ><a href="dayoffDetail.php?id=<?= $row['id']?>" class="btn btn-success">View detail</a> </td> 
+										
+									</tr>
+									<?php 
+								}
+									
+							}
+						?>
+							
 						</tbody>
 					</table>
 				</div>
@@ -97,7 +105,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+	<!-- <script src="main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 </body>
 
 </html>
