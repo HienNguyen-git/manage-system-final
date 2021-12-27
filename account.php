@@ -1,10 +1,14 @@
 <?php
     session_start();
-    if (!isset($_SESSION['user'])) {
-        header('Location: login.php');
-        exit();
-    }
-    $user = $_SESSION['user'];
+    require_once('db.php');
+   if(!isset($_SESSION['user'])){
+       header('Location: login.php');
+   }
+   $user = $_SESSION['user'];
+   if( !is_password_changed($user) ){
+       header('Location: change_password.php');
+       exit();
+   }
 ?>
 
 <!DOCTYPE html>
@@ -51,34 +55,43 @@
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light"><?=$user?></h3>
         <a class="btn btn-primary col-12 col-sm-4" href="change_password.php">Change password</a>
         <div class="ml-auto mr-auto account-container">
-            <div class="image-box">
-                <img src="images/index.jpeg" alt="Avatar">
-                <div class="image-action">
-                <!-- '.$row['movieID'].' -->
-                    <a style="display: block;" href="update_account.php?id=1"><i class="fas fa-images"></i> Change image</a>
-                </div>
-            </div>
-            <table>
-            <tr>
-                <th>ID:</th>
-                <td>1</td>
-            </tr>
-            <tr>
-                <th>Username:</th>
-                <td>employee1</td>
-            </tr>
-            <tr>
-                <th>Full name:</th>
-                <td>Nguyen Van A</td>
-            </tr>
-            <tr>
-                <th>Role:</th>
-                <td>CEO</td>
-            </tr>
-            <tr>
-                <th>Department:</th>
-                <td>Business Analyst</td>
-            </tr>
+            <?php
+                $data = get_user_info($user);
+                if(!$data['code']){
+                    $row = $data['data'];
+                    ?>
+                    <div class="image-box">
+                        <img src="images/index.jpeg" alt="Avatar">
+                        <div class="image-action">
+                        <!-- '.$row['movieID'].' -->
+                            <a style="display: block;" href="update_account.php?id=1"><i class="fas fa-images"></i> Change image</a>
+                        </div>
+                    </div>
+                    <table>
+                    <tr>
+                        <th>ID:</th>
+                        <td><?=$row['id']?></td>
+                    </tr>
+                    <tr>
+                        <th>Username:</th>
+                        <td><?=$row['username']?></td>
+                    </tr>
+                    <tr>
+                        <th>Full name:</th>
+                        <td><?=$row['firstname']?> <?=$row['lastname']?></td>
+                    </tr>
+                    <tr>
+                        <th>Role:</th>
+                        <td><?=$row['role']?></td>
+                    </tr>
+                    <tr>
+                        <th>Department:</th>
+                        <td><?=$row['department']?></td>
+                    </tr>
+                    <?php
+                }
+            ?>
+            
         </table>
         </div>
     </section>

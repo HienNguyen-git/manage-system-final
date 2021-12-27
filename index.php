@@ -1,13 +1,13 @@
 <?php
  	session_start();
-	require_once('db.php');
+	 require_once('db.php');
+	if(!isset($_SESSION['user'])){
+		header('Location: login.php');
+	}
 	$user = $_SESSION['user'];
 	if( !is_password_changed($user) ){
 		header('Location: change_password.php');
 		exit();
-	}
-	if(!isset($_SESSION['user'])){
-		header('Location: login.php');
 	}
 
 ?>

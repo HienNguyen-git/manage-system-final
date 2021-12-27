@@ -89,10 +89,7 @@
 
     ///////////////////////////
 
-    function start_task($id){
-        $sql = "update ";
-    }
-
+    
     function get_tasks($user){
         $sql = "select id, title, deadline, status from task where person=?";
         $conn = open_database();
@@ -175,7 +172,7 @@
         return array('code'=>0,'data'=>$data);
     }
 
-    function get_employee_info($user){
+    function get_user_info($user){
         $sql = "select id, username, firstname, lastname, role, department from employee where username=?";
         $conn = open_database();
 
