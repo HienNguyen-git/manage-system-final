@@ -1,3 +1,5 @@
 <?php 
-    header('Location: detailEmployee.php?id=1');
+    require_once('../db.php');
+    // header('Location: detailEmployee.php?id=1');
+    print_r(employee('nguyenbibi'));
 ?>
