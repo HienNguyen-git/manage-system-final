@@ -1,4 +1,5 @@
 <?php
+    require_once('db.php');
 	session_start();
-    // echo 
+    print_r(get_feedback_reject_task(1));
 ?>

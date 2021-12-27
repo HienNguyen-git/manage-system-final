@@ -39,7 +39,7 @@
 
 
 <div class="container pb-2" style="height: 70vh;">
-		<h1 class="mt-3 text-secondary">Absence Management</h1>
+		<h1 class="mt-3 text-secondary">ABSENCE MANAGE</h1>
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light">Your absence info</h3>
 		<div class="ml-auto mr-auto absence-container">
 			<button class="btn btn-success submit-btn col-12 col-sm-6 mb-3">Create request absence form</button>

@@ -41,7 +41,7 @@
 
 
 <div class="container pb-2" style="height: 70vh;">
-		<h1 class="mt-3 mb-3 pb-3 border-bottom border-info text-secondary">Welcome <?=$_SESSION['user']?></h1>
+		<h1 class="mt-3 mb-3 pb-3 border-bottom border-info text-secondary">WELCOME <?=$_SESSION['user']?></h1>
 		<table class="table table-bordered table-light table-hover text-center ali" style="border-color:black;">
 			<thead>
 				<tr>

@@ -188,4 +188,73 @@
 
         return array('code'=>0,'data'=>$data);
     }
+
+    function change_to_waiting($id){
+        $sql = "update task set status = 'Waiting' where id=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id);
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+    }
+
+    function status_ui($status){
+        if($status=='New'){
+            echo "<td class='text-primary'><i class='fas fa-thumbtack'></i> New</td>";  
+        }
+        if($status=='In progress'){
+            echo "<td class='text-muted'><i class='fas fa-running'></i> In progress</td>";  
+        }
+        if($status=='Waiting'){
+            echo "<td class='text-info'><i class='fas fa-spinner'></i> Waiting</td>";  
+        }
+        if($status=='Rejected'){
+            echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Rejected</td>";  
+        }
+        if($status=='Completed'){
+            echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Completed</td>";  
+        }
+    }
+
+    function submit_task($id_task,$description,$file,$submit_date,$user){
+            $sql = "insert into submit_task(id_task,description,file,submit_day,username) values(?,?,?,?,?)";
+            $conn = open_database();
+    
+            $stm = $conn->prepare($sql);
+            $stm->bind_param('issss',$id_task,$description,$file,$submit_date,$user);
+            if(!$stm->execute()){
+                return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+            }
+            change_to_waiting($id_task);
+    }
+
+    function update_avatar($user,$file){
+        $sql = "update employee set avatar = ? where username = ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('ss',$file,$user);
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+    }   
+    
+    function get_feedback_reject_task($id_task){
+        $sql = "select description, file, extend_deadline from feedback_reject where id_task=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id_task);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+
+        return array('code'=>0,'data'=>$data);
+    }
 ?>

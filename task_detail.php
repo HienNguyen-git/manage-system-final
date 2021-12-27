@@ -9,7 +9,7 @@
        header('Location: change_password.php');
        exit();
    }
-
+    $id = $_GET['id'];
     $error = '';
     $message = "";
     $description = '';
@@ -24,11 +24,13 @@
 		$file_type=$file['type'];
 		$file_ext=strtolower(end(explode('.',$file['name'])));
 		
-		$extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip");
 
         if(empty($errors)){
-            move_uploaded_file($file_tmp,"upload/".$file_name);
+            $file_path = "upload/".$file_name;
+            $date = date("Y-m-d");
+            move_uploaded_file($file_tmp, $file_path);
             $message = "Submit successful";
+            submit_task($id,$description,$file_path,$date,$user);
         }else{
             print_r($errors);
         }
@@ -67,23 +69,23 @@
 
 <nav class="navbar navbar-expand-lg bg-info navbar-dark">
 	<div class="container">
-		<a href="./" class="navbar-brand navbar-header" style="font-size: 3rem;">Final Project</a>
+		<a href="./" class="navbar-brand navbar-header" style="font-size: 3rem;">FINAL PROJECT</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav ml-auto h4">
 			<li class="nav-item ">	
-			<a class="nav-link active" href="./">Task</a>
+			<a class="nav-link active" href="./">TASK</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" href="absence.php">Absence</a>
+			<a class="nav-link" href="absence.php">ABSENCE</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" href="account.php">Account</a>
+			<a class="nav-link" href="account.php">ACCOUNT</a>
 			</li>
 			<li class="nav-item">
-			<a class="btn btn-danger nav-link text-light" href="logout.php">Logout</a>
+			<a class="btn btn-danger nav-link text-light" href="logout.php">LOGOUT</a>
 			</li>
 		</ul>
 		</div>
@@ -91,46 +93,74 @@
 </nav>
 
 <div class="container pb-2">
-		<h1 class="mt-3 text-secondary">Task Information</h1>
+		<h1 class="mt-3 text-secondary">TASK INFORMATION</h1>
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" >Design UI</h3>
 		<div class="ml-auto mr-auto task-container">
             <?php
-                $id = $_GET['id'];
                 // echo $_GET['id'];
                 $data = get_task_by_id($id)['data'];
                 // print_r($data)
             ?>
             <table>
-            <tr>
-                <th>Status:</th>
-                <td><?=$data['status']?></td>
-                <?php
-                    if($data['status']=='New'){
-                        echo "<td><a href='start_task.php?id=$id' class='btn btn-primary'>Start now</a></td>";
-                    }
-                ?>
-            </tr>
-            <tr>
-                <th>Title:</th>
-                <td><?=$data['title']?></td>
-            </tr>
-            <tr>
-                <th>Detail:</th>
-				<!-- <td>Ahihi</td> -->
-                <td><?=$data['description']?></td>
-            </tr>
-            <tr>
-                <th>Deadline</th>
-                <td><?=$data['deadline']?></td>
-            </tr>
-            <tr>
-                <th>File</th>
-                <td><a href="<?=$data['file']?>"><?=$data['file']?></a></td>
-            </tr>
+                <tr>
+                    <th>Status:</th>
+                    <?php
+                        status_ui($data['status']);
+                        if($data['status']=='New'){
+                            echo "<td><a href='start_task.php?id=$id' class='btn btn-primary'>Start now</a></td>";
+                        }
+                    ?>
+                </tr>
+                <tr>
+                    <th>Title:</th>
+                    <td><?=$data['title']?></td>
+                </tr>
+                <tr>
+                    <th>Detail:</th>
+                    <!-- <td>Ahihi</td> -->
+                    <td><?=$data['description']?></td>
+                </tr>
+                <tr>
+                    <th>Deadline</th>
+                    <td><?=$data['deadline']?></td>
+                </tr>
+                <tr>
+                    <th>File</th>
+                    <td><a href="<?=$data['file']?>"><?=$data['file']?></a></td>
+                </tr>
         	</table>
 
             <?php
-                if($data['status']=='In progress'){
+                if($data['status']=="Rejected"){
+                    $feedback_data = get_feedback_reject_task($id);
+                    if(!$feedback_data['code']){
+                        $row = $feedback_data['data'];
+                    }
+                    ?>
+                        <h3 class="mt-1 mb-3 pb-3 text-center border-bottom border-info text-light" >Manager feedback</h3>
+                        <table>
+                            <tr>
+                                <th>Feedback:</th>
+                                <td><?=$row['description']?></td>
+                            </tr>
+                            <tr>
+                                <th>File:</th>
+                                <td><a href="<?=$row['file']?>"><?=$row['file']?></a></td>
+                            </tr>
+                            <tr>
+                                <th>Extend deadline:</th>
+                                <?php
+                                    if($row['extend_deadline']){
+                                        echo "<td class='text-primary'><i class='fas fa-check'> Yes</i></td>";
+                                    }else{
+                                        echo "<td class='text-danger'><i class='fas fa-times-circle'> No</i></td>";
+                                    }
+                                ?>
+                            </tr>
+                        </table>
+                    <?php
+                }
+                if($data['status']=='In progress' || $data['status']=='Rejected'){
                     ?>
                         <button class="btn btn-success submit-btn col-12 col-sm-4" style="display: block;">Create submit form</button>
                         <form class="submit-form" id="task-form" style="display: none;" method="POST" enctype="multipart/form-data">
@@ -147,7 +177,7 @@
                             <div class="form-group" id="error-message">
                             </div>
                                 <div class="form-group">
-                                <button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-2">Submit</button>
+                                <button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-12`">Submit</button>
                             </div>
                         </form>
                     <?php
@@ -160,7 +190,7 @@
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 	<?php
-    if($data['status']=="In progress"){
+    if($data['status']=="In progress" || $data['status']=='Rejected'){
         ?>
         <script>
             const taskForm = document.querySelector('#task-form')
@@ -187,7 +217,6 @@
             let isDetailValidate
             descriptionBox.addEventListener('change',()=>{
                 if(descriptionBox.value===''){
-                    uploadBtn.disabled = true
                     handleErrorMessage('Please enter your description')
                 }else{
                     messageBox.innerHTML = ''
@@ -201,10 +230,15 @@
                 console.log(file)
                 const type = file['name'].split('.')[1]
                 const size = file['size']
-                const type_list = ["txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip"]
+                const type_list = ["txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","sql","ppt","jpeg"]
                 console.log(type, size, type_list)
-                if(!type_list.includes(type)){
+
+                if(size===0){
+                    handleErrorMessage('Please upload your submit file')
+                }else if(!type_list.includes(type)){
                     handleErrorMessage('This type of file is not allowed')
+                }else if(size>100*Math.pow(1024,2)){
+				    handleErrorMessage('This file is larger than 100M')
                 }else{
                     messageBox.innerHTML = ''
                     isFileValidate = true;
@@ -216,7 +250,7 @@
                 if(!isDetailValidate){
                     handleErrorMessage('Please enter your description')
                 }else if(!isFileValidate){
-                    handleErrorMessage('This type of file is not allowed')
+                    handleErrorMessage('Please check your file again')
                 }else{
                     uploadBtn.disabled = false
                     messageBox.innerHTML = ''
@@ -229,7 +263,6 @@
                 messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger">${message}</div>`)
                 uploadBtn.disabled = true
             }
-
         </script>
         <?php
     }
