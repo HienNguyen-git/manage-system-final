@@ -108,7 +108,7 @@
 
     
     function get_tasks($user){
-        $sql = "select id, title, deadline, status from task where person=?";
+        $sql = "select id, title, deadline, status from task where person=? ORDER BY id DESC";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -150,7 +150,7 @@
 
     function get_absence_history($user){
         // 
-        $sql = "select id, create_date, number_dayoff, reason, file, status from absence_form where username=?";
+        $sql = "select id, create_date, number_dayoff, reason, file, status from absence_form where username=? ORDER BY id DESC";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -225,7 +225,7 @@
             echo "<td class='text-muted'><i class='fas fa-running'></i> In progress</td>";  
         }
         if($status=='Waiting'){
-            echo "<td class='text-info'><i class='fas fa-spinner'></i> Waiting</td>";  
+            echo "<td class='text-info'><i class='fas fa-circle-notch fa-spin'></i> Waiting</td>";  
         }
         if($status=='Rejected'){
             echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Rejected</td>";  

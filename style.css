@@ -123,6 +123,10 @@ body {
 	margin-bottom: 2rem;
 }
 
+.btn:hover{
+	transform: scale(0.96) !important;
+}
+
 .absence-container table th{
 	padding: 1rem;
 }
