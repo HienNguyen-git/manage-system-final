@@ -134,6 +134,9 @@ body {
 #user-absence-info{
 	flex-basis: 51%
 }
+#user-absence-info th{
+	padding: 0 !important;
+}
 
 @media (max-width:524px) {
 	.absence-history th{

@@ -93,12 +93,12 @@
         $sql = "update ";
     }
 
-    function get_tasks($username){
+    function get_tasks($user){
         $sql = "select id, title, deadline, status from task where person=?";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('s',$username);
+        $stm->bind_param('s',$user);
 
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
@@ -132,6 +132,63 @@
         $data = $result->fetch_assoc();
 
         return array('code'=>0,'data'=>$data);
-        
+    }
+
+    function get_absence_history($user){
+        // 
+        $sql = "select id, create_date, number_dayoff, reason, file, status from absence_form where username=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = [];
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'User not exist');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function get_absence_info($user){
+        $sql = "select total_dayoff, dayoff_used, dayoff_left from absence_info where username=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function get_employee_info($user){
+        $sql = "select id, username, firstname, lastname, role, department from employee where username=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+
+        return array('code'=>0,'data'=>$data);
     }
 ?>

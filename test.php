@@ -1,7 +1,4 @@
 <?php
-    if('In progress'=='In progress'){
-        echo "Yeh";
-    }else{
-        echo "CC";
-    }
+	require_once('db.php');
+    print_r(get_employee_info('hiengay'))
 ?>

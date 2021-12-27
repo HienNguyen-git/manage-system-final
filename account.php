@@ -1,10 +1,10 @@
 <?php
-    // session_start();
-    // if (!isset($_SESSION['user'])) {
-    //     header('Location: login.php');
-    //     exit();
-    // }
-    // $user = $_SESSION['user'];
+    session_start();
+    if (!isset($_SESSION['user'])) {
+        header('Location: login.php');
+        exit();
+    }
+    $user = $_SESSION['user'];
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +39,6 @@
         $email = $result['email'];
         $sdt = $result['sdt'];
 
-
-
         // [username] => mvmanh
         // [firstname] => Mai
         // [lastname] => Văn Mạnh
@@ -50,7 +48,7 @@
     ?>
     <section class="container" style="height: 70vh;">
 		<h1 class="mt-3 text-secondary">Account information</h1>
-        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light">Name of employee</h3>
+        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light"><?=$user?></h3>
         <a class="btn btn-primary col-12 col-sm-4" href="change_password.php">Change password</a>
         <div class="ml-auto mr-auto account-container">
             <div class="image-box">

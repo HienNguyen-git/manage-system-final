@@ -1,3 +1,18 @@
+<?php
+	session_start();
+	require_once('db.php');
+	// if( !is_password_changed($user) ){
+	// 	header('Location: change_password.php');
+	// 	exit();
+	// }
+	if(!isset($_SESSION['user'])){
+		header('Location: login.php');
+		die();
+	}
+	$user = $_SESSION['user'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,18 +45,23 @@
 		<div class="ml-auto mr-auto absence-container">
 			<button class="btn btn-success submit-btn col-12 col-sm-6 mb-3">Create request absence form</button>
 			<table id="user-absence-info">
-            <tr>
-                <th>Day off Permit</th>
-                <td>12</td>
-            </tr>
-            <tr>
-                <th>Using</th>
-                <td>2</td>
-            </tr>
-            <tr>
-                <th>The Rest</th>
-                <td>10</td>
-            </tr>
+			<?php
+				$absenceInfo = get_absence_info($user);
+				if(!$absenceInfo['code']){
+					$data = $absenceInfo['data'];
+					?>
+						<tr>
+							<td><strong>Day off Permit: </strong><?=$data['total_dayoff']?></td>
+						</tr>
+						<tr>
+							<td><strong>Using: </strong><?=$data['dayoff_used']?></td>
+						</tr>
+						<tr>
+							<td><strong>The Rest: </strong><?=$data['dayoff_left']?></td>
+						</tr>
+					<?php
+				}
+			?>
         </table>
 		<table class="table table-bordered table-light table-hover text-center ali" id="absence-history" style="border-color:black;">
 			<thead>
@@ -55,38 +75,30 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<th scope="row">1</th>
-						<td>12-3-2020</td>
-						<td>2</td>
-						<td>Sick</td>
-						<td>This is a file</td>
-						<td class="text-danger"><i class="fas fa-times-circle"></i> Refused</td>
-					</tr>
-					<tr>
-						<th scope="row">2</th>
-						<td>12-4-2020</td>
-						<td>1</td>
-						<td>Go to hometown</td>
-						<td>This is a file</td>
-						<td class="text-success"><i class="fas fa-check"></i> Approved</td>
-					</tr>
-					<tr>
-						<th scope="row">3</th>
-						<td>12-3-2020</td>
-						<td>10</td>
-						<td>Pregnancy</td>
-						<td>This is a file</td>
-						<td class="text-success"><i class="fas fa-check"></i> Approved</td>
-					</tr>
-					<tr>
-						<th scope="row">4</th>
-						<td>12-3-2020</td>
-						<td>2</td>
-						<td>Sick</td>
-						<td>This is a file</td>
-						<td class="text-danger"><i class="fas fa-times-circle"></i> Refused</td>
-					</tr>
+					<?php
+						$absenceHistory = get_absence_history($user);
+						if(!$absenceHistory['code']){
+							$data = $absenceHistory['data'];
+							foreach($data as $row){
+								?>
+									<tr>
+										<th scope="row"><?=$row['id']?></th>
+										<td><?=$row['create_date']?></td>
+										<td><?=$row['number_dayoff']?></td>
+										<td><?=$row['reason']?></td>
+										<td><a href="<?=$row['file']?>"><?=$row['file']?></a></td>
+										<?php
+										if ($row['status']=='refused'){
+											echo "<td class='text-danger'><i class='fas fa-times-circle'></i> Refused</td>";
+										}else{
+											echo "<td class='text-success'><i class='fas fa-check'></i> Approved</td>";
+										}
+										?>
+									</tr>
+								<?php
+							}
+						}
+					?>
 				</tbody>
 				</table>
 
