@@ -22,5 +22,4 @@
         return json_encode(array('code'=> 1,'success' => 'Only can use GET method'));
         // return json_encode(array('code'=> 1,'error' => 'Only can use GET method'));
     }
-
 ?>
