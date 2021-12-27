@@ -34,7 +34,7 @@
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="logout.php">Log out</a>
+					<a href="../logout.php">Log out</a>
 			</div>
 		</div>
 		<div class="row h-100">

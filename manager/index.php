@@ -22,8 +22,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<!-- <link rel="stylesheet" href="/style.css"> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<link rel="stylesheet" href="style3.css"> <!-- Change -->
+	<link rel="stylesheet" href="../admin/style2.css"> <!-- Change -->
 	<title>Home Page</title>
 </head>
 
@@ -52,10 +54,12 @@
 
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav" style="flex-direction: column;">
-							<li class="nav-item ">
-								<a class="nav-link " href="index.php">Tasks</a>
+							<li class="nav-item active-menu">
+								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>Tasks</a>
 							</li>
-
+							<li class="nav-item">
+								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
+							</li>
 						</ul>
 						</form>
 					</div>

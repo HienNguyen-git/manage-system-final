@@ -1,6 +1,18 @@
 <?php
     require_once('db.php');
     session_start();
+    $user = $_SESSION['user'];
+    if (!isset($_SESSION['user'])) {
+        header('Location: login.php');
+        exit();
+    }
+	$user = $_SESSION['user'];
+	// echo is_password_changed($user);
+	if( is_password_changed($user) ){
+		// echo "pass changed";
+		header('Location: login.php');
+		exit();
+	}
 ?>
 <DOCTYPE html>
 <html lang="en">
@@ -20,7 +32,7 @@
     $pass_confirm = '';
     $post_error = '';
     $success= '';
-    $user = $_SESSION['user'];
+    
             if (isset($_POST['pass']) &&
                 isset($_POST['pass-confirm'])) {
 

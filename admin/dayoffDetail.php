@@ -138,7 +138,7 @@
                                 <td>Action</td>
                                 <td >
                                     <a href="update_status_absence.php?id=<?=$id?>" class="btn btn-primary">Agree</a> | 
-                                    <a href="#" class="btn btn-danger">Not Agree</a>
+                                    <a href="refused_absence.php?id=<?=$id?>" class="btn btn-danger">Not Agree</a>
                                 </td>
                             </tr>
                             

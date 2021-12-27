@@ -4,11 +4,17 @@
 	if(!isset($_SESSION['user'])){
 		header('Location: login.php');
 	}
+	
 	$user = $_SESSION['user'];
 	if( !is_password_changed($user) ){
 		header('Location: change_password.php');
-		exit();
+		// exit();
 	}
+	// else {
+    //     $role = get_info_employee_byuser($_SESSION['user'])['role'];
+    //     move_page($role);
+    //     exit();
+    // }
 
 ?>
 

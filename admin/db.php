@@ -179,13 +179,18 @@
         return array('code'=>0,'data'=>$data);
         
     }
-
-    function get_absence(){
-        $sql = "select * from absence_form ";
+    function get_absence_by_role($role){
+        $sql = "SELECT absence_form.id, employee.username, role, create_date, number_dayoff,reason,file,status FROM employee RIGHT JOIN absence_form ON employee.username = absence_form.username where role = ?";
         $conn = open_database();
 
-        $result = $conn->query($sql);
-        
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$role);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
         $data = array();
         if($result->num_rows==0){
             return array('code'=>2,'error'=>'Database is empty');
@@ -195,8 +200,24 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
+    // function get_absence(){
+    //     $sql = "select * from absence_form ";
+    //     $conn = open_database();
+
+    //     $result = $conn->query($sql);
+        
+    //     $data = array();
+    //     if($result->num_rows==0){
+    //         return array('code'=>2,'error'=>'Database is empty');
+    //     }else{
+    //         while($row = $result->fetch_assoc()){
+    //             $data[] = $row;
+    //         }
+    //     }
+    //     return array('code'=>0,'data'=>$data);
+        
+    // }
 
     function get_absence_byid($id){
         $sql = "select * from absence_form where id = ? ";

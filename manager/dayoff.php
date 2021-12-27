@@ -1,5 +1,5 @@
 <?php
-    require_once('db.php');
+    require_once('../admin/db.php');
 	session_start();
     if (!isset($_SESSION['user'])) {
         header('Location: login.php');
@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<!-- <link rel="stylesheet" href="/style.css"> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<link rel="stylesheet" href="style2.css"> <!-- Change -->
+	<link rel="stylesheet" href="../admin/style2.css"> <!-- Change -->
 	<title>Home Page</title>
 </head>
 
@@ -47,10 +47,7 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav" style="flex-direction: column;">
 							<li class="nav-item ">
-								<a class="nav-link p20" href="index.php"><i class="fas fa-user"></i>  Account </a>
-							</li>
-							<li class="nav-item ">
-								<a class="nav-link p20" href="department.php"> <i class="fas fa-building"></i>  Department</a>
+								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>Tasks</a>
 							</li>
 							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
@@ -75,7 +72,7 @@
 						</tr>
 						<tbody id="tbody">
 						<?php 
-							$result = get_absence_by_role('manager'); 
+							$result = get_absence_by_role('employee'); 
 							if($result['code'] == 0){
 								$data = $result['data'];
 								foreach($data as $row){

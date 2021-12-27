@@ -103,7 +103,41 @@
         
         return array('code'=> 0,'success' => 'Password has changed.');
     }
+    function move_page($role){
+        if($role == 'employee'){
+            header('Location: index.php');
+        }
+        
+        else if($role == 'manager'){
+            header('Location: manager/index.php');
+        }
+        else{
+            header('Location: admin/index.php');
+        }
+    }
+    function get_info_employee_byuser($user){
+        $sql = "select role from employee where username = ? ";
+        $conn = open_database();
 
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = '';
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                return $row;
+            }
+        }
+        // return array('code'=>0,'data'=>$data);
+        
+    }
     ///////////////////////////
 
     
@@ -274,16 +308,5 @@
 
         return array('code'=>0,'data'=>$data);
     }
-    function move_page($role){
-        if($role == 'employee'){
-            header('Location: index.php');
-        }
-        
-        else if($role == 'manager'){
-            header('Location: manager/index.php');
-        }
-        else{
-            header('Location: admin/index.php');
-        }
-    }
+    
 ?>
