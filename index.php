@@ -35,8 +35,6 @@
 <body>
 <?php
 	include_once('layout/header.php');
-
-
 ?>
 
 
@@ -63,50 +61,15 @@
 							<th scope="row"><?=$row['id']?></th>
 							<td><?=$row['title']?></td>
 							<td><?=$row['deadline']?></td>
-							<td><?=$row['status']?></td>
+							<?php
+								status_ui($row['status']);
+							?>
 							<td><a href="task_detail.php?id=<?=$row['id']?>" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
 						</tr>
 				 	<?php
 					}
 				}
-				// echo count($data);
-				// foreach($row as $data){
-				// 	print_r($row);
-				// }
-				// if(count($data)>0){
-				// }else{
-				// 	echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>You do not have any tasks at the present</div>";
-				// }
-				
 				?>
-				<!-- <tr>
-					<th scope="row">1</th>
-					<td>Design UI</td>
-					<td>12-3-2020</td>
-					<td>New</td>
-					<td><a href="task_detail.php?id=1" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>Submit project</td>
-					<td>12-6-2020</td>
-					<td>Waiting</td>
-					<td><a href="task_detail.php?id=2" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td>Build idea</td>
-					<td>23-3-2020</td>
-					<td>Rejected</td>
-					<td><a href="task_detail.php?id=3" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr>
-				<tr>
-					<th scope="row">4</th>
-					<td>Meeting</td>
-					<td>24-6-2020</td>
-					<td>Completed</td>
-					<td><a href="task_detail.php?id=4" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-				</tr> -->
 			</tbody>
 		</table>
 	</div>
