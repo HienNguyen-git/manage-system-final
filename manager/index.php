@@ -69,35 +69,33 @@
 					</div>
 					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
 						<tr class="header">
-							<td>Tiêu đề</td>
-							<td>Mô tả</td>
-							<td>Người được giao</td>
+							<td>ID</td>
+							<td>Title</td>
+							<td>Person</td>
 							<td>Deadline</td>
-							<td>Tập tin file đính kèm</td>
-							<td>Trạng thái</td>
 							<td>Action</td>
 						</tr>
 						<tbody id="tbody">
-							<tr class="item">
-								<td>1</td>
-								<td>Đây là task 1</td>
-								<td>Nguyễn Văn A</td>
-								<td>2021-03-23</td>
-								<td>File</td>
-								<td>New</td>
-								<td ><a href="" class="btn btn-primary">Edit</a> |
-								<a href="#" class="btn btn-danger">Delete</a></td>
-							</tr>
-							<tr class="item">
-								<td>1</td>
-								<td>Đây là task 1</td>
-								<td>Nguyễn Văn A</td>
-								<td>2021-03-23</td>
-								<td>File</td>
-								<td>New</td>
-								<td ><a href="" class="btn btn-primary">Edit</a> |
-								<a href="#" class="btn btn-danger">Delete</a></td>
-							</tr>
+							<?php 
+								$result = get_tasks(); 
+								if($result['code'] == 0){
+									$data = $result['data'];
+									foreach($data as $row){
+										// print_r($row['id']) ;
+										?>
+										<tr class="item">
+											<td><?= $row['id'] ?></td>
+											<td><?= $row['title'] ?></td>
+											<td><?= $row['person'] ?></td>
+											<td><?= $row['deadline'] ?></td>
+											
+											<td ><a href="" class="btn btn-primary">Edit</a> |
+											<a href="#" class="btn btn-danger">Delete</a></td>
+										</tr>
+										<?php
+									}
+								}
+							?>
 						</tbody>
 					</table>
 				</div>

@@ -274,4 +274,16 @@
 
         return array('code'=>0,'data'=>$data);
     }
+    function move_page($role){
+        if($role == 'employee'){
+            header('Location: index.php');
+        }
+        
+        else if($role == 'manager'){
+            header('Location: manager/index.php');
+        }
+        else{
+            header('Location: admin/index.php');
+        }
+    }
 ?>

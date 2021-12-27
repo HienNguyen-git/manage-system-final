@@ -11,14 +11,7 @@
         }
         return $conn;
     }
-    function generateID(){
-        $sql = 'select * from department ORDER BY id DESC LIMIT 1';
-        $conn = open_database();
-
-        $result = $conn->query($sql);
-        $id = $result->fetch_assoc()['id'];
-        return $id;
-    }
+    
     function login($user,$pass){
         $sql = "select * from employee where username = ?";
         $conn = open_database();
@@ -126,26 +119,6 @@
         
         return array('code'=> 0,'success' => 'Password has changed.');
     }
-
-    // function reset_password($user){
-       
-    //     $hash = password_hash($user,PASSWORD_DEFAULT);
-    //     $sql = 'update employee set activated = 0, password = ? where username = ?';
-    //     $conn = open_database();
-
-    //     $stm= $conn->prepare($sql);
-    //     $stm->bind_param('ss',$hash,$user);
-
-    //     if(!$stm->execute()){
-    //         return array('code' => 2, 'error' => 'Cant execute command');
-    //     }
-        
-    //     // chèn thành công or update token của dòng đã có, gửi mail tới user để reset pass
-    //     return array('code' => 0, 'success' => 'Password reset');
-
-
-
-    // }
 
     function get_info_employees(){
         $sql = "select * from employee ";
@@ -286,5 +259,37 @@
         }
         
        
+    }
+
+    function status_ui($status){
+       
+        
+        if($status=='Waiting'){
+            echo "<td class='text-info'><i class='fas fa-spinner'></i> Waiting</td>";  
+        }
+        if($status=='Refused'){
+            echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Refused</td>";  
+        }
+        if($status=='Approved'){
+            echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Approved</td>";  
+        }
+    }
+
+    function get_tasks(){
+        $sql = "select * from task ";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+        
     }
 ?> 
