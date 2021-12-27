@@ -13,12 +13,13 @@
         $stm = $conn->prepare($sql);
         $stm->bind_param('i',$id);
         if(!$stm->execute()){
-            return array('code'=> 2, 'error' => 'Can not execute command.');
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
         }
         
-        return array('code'=> 0,'success' => 'Task status change to In progress.');
+        return json_encode(array('code'=> 0,'success' => 'Task status change to In progress.'));
     }else{
-        return array('code'=> 1,'error' => 'Only can use GET method');
+        return json_encode(array('code'=> 1,'success' => 'Only can use GET method'));
+        // return json_encode(array('code'=> 1,'error' => 'Only can use GET method'));
     }
 
 ?>

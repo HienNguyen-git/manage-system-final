@@ -38,7 +38,6 @@
         }
     }
     
-    
     function is_password_changed($username){
         $sql = 'select activated from employee where username = ?';
         $conn = open_database();
@@ -54,7 +53,6 @@
         // print_r($data['activated']);
         return $data['activated'];
     }
-
     
     function active_token($username){
         $sql = 'update employee set activated = 1  where username = ?';
@@ -100,23 +98,149 @@
         return array('code'=> 0,'success' => 'Password has changed.');
     }
 
-    function reset_password($user){
+    // function reset_password($user){
        
-        $hash = password_hash($user,PASSWORD_DEFAULT);
-        $sql = 'update account set activated = 0, password = ? where username = ?';
+    //     $hash = password_hash($user,PASSWORD_DEFAULT);
+    //     $sql = 'update employee set activated = 0, password = ? where username = ?';
+    //     $conn = open_database();
+
+    //     $stm= $conn->prepare($sql);
+    //     $stm->bind_param('ss',$hash,$user);
+
+    //     if(!$stm->execute()){
+    //         return array('code' => 2, 'error' => 'Cant execute command');
+    //     }
+        
+    //     // chèn thành công or update token của dòng đã có, gửi mail tới user để reset pass
+    //     return array('code' => 0, 'success' => 'Password reset');
+
+
+
+    // }
+
+    function get_info_employees(){
+        $sql = "select * from employee ";
         $conn = open_database();
 
-        $stm= $conn->prepare($sql);
-        $stm->bind_param('ss',$hash,$user);
+        $result = $conn->query($sql);
+        
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+        
+    }
+
+    function get_info_employee_byid($id){
+        $sql = "select * from employee where id = ? ";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id);
 
         if(!$stm->execute()){
-            return array('code' => 2, 'error' => 'Cant execute command');
+            return array('code'=>1,'error'=>'Command not execute');
         }
+
+        $result = $stm->get_result();
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
         
-        // chèn thành công or update token của dòng đã có, gửi mail tới user để reset pass
-        return array('code' => 0, 'success' => 'Password reset');
+    }
 
+    function get_departments(){
+        $sql = "select * from department ";
+        $conn = open_database();
 
+        $result = $conn->query($sql);
+        
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+        
+    }
 
+    function get_absence(){
+        $sql = "select * from absence_form ";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+        
+    }
+
+    function get_absence_byid($id){
+        $sql = "select * from absence_form where id = ? ";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+        
+    }
+
+    function get_absence_info_by_username($username){
+        $sql = "select * from absence_info where username = ? ";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$username);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+        
     }
 ?> 

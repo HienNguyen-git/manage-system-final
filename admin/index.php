@@ -1,4 +1,5 @@
 <?php
+	require_once('db.php');
     session_start();
     if (!isset($_SESSION['user'])) {
         header('Location: ../login.php');
@@ -66,6 +67,7 @@
 						<a href="register.php" class="addbtn" >Add Accout</a>
 					</div>
 					<table class="table-hover text-center pc-table"   border="1" >
+						
 						<tr class="header">
 							<th>ID</th>
 							<th>Username</th>
@@ -78,114 +80,44 @@
 							<th>Action</th>
 						</tr>
 						<tbody id="tbody">
-							<tr class="item">
-								<td>1</td>
-								<td>nguyenvana</td>
-								<td>Nguyễn</td>
-								<td> Văn A</td>
-								<td>Nhân viên</td>
-								<td>Phòng kế toán</td>
-								<!-- <td style="position: absolute;">
-										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
-										<ul style="place-items: flex-start; " id="suggestions" class="list-group my-2">
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-										</ul>
-										<a  href="#" class="btn btn-success">Update</a>
+							<?php 
+								$result = get_info_employees(); 
+								if($result['code'] == 0){
+									$data = $result['data'];
+									foreach($data as $row){
+										// print_r($row['id']) ;
+										?>
+										<tr class="item">
+											<td><?= $row['id'] ?></td>
+											<td><?= $row['username'] ?></td>
+											<td><?= $row['firstname'] ?></td>
+											<td><?= $row['lastname'] ?></td>
+											<td><?= $row['role'] ?></td>
+											<td><?= $row['department'] ?></td>
+											<!-- <td class="search-td" style="position: absolute; border: none;">
+												<div >
+													<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
+													<ul style="place-items: flex-start;" id="suggestions" class="list-group my-2">
+														<li class="list-group-item">Vietnam</li>
+												
+													</ul>
+												</div>
+												<a  href="#" class="btn btn-success">Update</a>
+											</td> -->
+											<td >
+												<a href="#" class="btn btn-primary">Edit</a> | 
+												<a href="#" class="btn btn-danger">Delete</a> |
+												<a href="detailEmployee.php?id=<?=$row['id']?>" class="btn btn-success">Detail</a>
+											</td>
+										</tr>
+										<?php
+									}
 									
-								</td> -->
-								<!-- <td class="search-td" style="position: absolute; border: none;">
-									<div >
-										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
-										<ul style="place-items: flex-start;" id="suggestions" class="list-group my-2">
-									
-										</ul>
-									</div>
-									<a  href="#" class="btn btn-success">Update</a>
-								</td> -->
-								
-
-								<td >
-									<a href="#" class="btn btn-primary">Edit</a> | 
-									<a href="#" class="btn btn-danger">Delete</a> |
-									<a href="detailEmployee.php" class="btn btn-success">Detail</a>
-								</td>
-							</tr>
-							<tr class="item">
-								<td>1</td>
-								<td>nguyenvana</td>
-								<td>Nguyễn</td>
-								<td> Văn A</td>
-								<td>Nhân viên</td>
-								<td>Phòng kế toán</td>
-								<!-- <td style="position: absolute;">
-										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
-										<ul style="place-items: flex-start; " id="suggestions" class="list-group my-2">
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-										</ul>
-										<a  href="#" class="btn btn-success">Update</a>
-									
-								</td> -->
-								<!-- <td class="search-td" style="position: absolute; border: none;">
-									<div >
-										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
-										<ul style="place-items: flex-start;" id="suggestions" class="list-group my-2">
-									
-										</ul>
-									</div>
-									<a  href="#" class="btn btn-success">Update</a>
-								</td> -->
-								
-
-								<td >
-									<a href="#" class="btn btn-primary">Edit</a> | 
-									<a href="#" class="btn btn-danger">Delete</a> |
-									<a href="detailEmployee.php" class="btn btn-success">Detail</a>
-								</td>
-							</tr>
-							<tr class="item">
-								<td>1</td>
-								<td>nguyenvana</td>
-								<td>Nguyễn</td>
-								<td> Văn A</td>
-								<td>Nhân viên</td>
-								<td>Phòng kế toán</td>
-								<!-- <td style="position: absolute;">
-										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
-										<ul style="place-items: flex-start; " id="suggestions" class="list-group my-2">
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-											<li class="list-group-item">Vietnam</li>
-										</ul>
-										<a  href="#" class="btn btn-success">Update</a>
-									
-								</td> -->
-								<!-- <td class="search-td" style="position: absolute; border: none;">
-									<div >
-										<input  oninput="suggest(this.value)" type="text" class="form-control input-search-employee" placeholder="Nhập ít nhất 2 ký tự">
-										<ul style="place-items: flex-start;" id="suggestions" class="list-group my-2">
-									
-										</ul>
-									</div>
-									<a  href="#" class="btn btn-success">Update</a>
-								</td> -->
-								
-
-								<td >
-									<a href="#" class="btn btn-primary">Edit</a> | 
-									<a href="#" class="btn btn-danger">Delete</a> |
-									<a href="detailEmployee.php" class="btn btn-success">Detail</a>
-								</td>
-							</tr>
+								}
+							?>
+							
+							
+							
 						</tbody>
 					</table>
 				</div>
