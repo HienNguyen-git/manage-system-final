@@ -15,6 +15,23 @@
     }
 
     /////////////////////////////////
+    function employee($user){
+        $sql = "select * from employee where username = ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+        if(!$stm->execute()){
+            return array('code' => 1, 'error' => 'Cant execute command'); //chạy sql fail
+        }
+
+        $result = $stm->get_result();
+        if($result->num_rows == 0){
+            return array('code' => 2, 'error' => 'User doesnt exist'); // user ko tồn tại
+        }
+        $data = $result->fetch_assoc();
+        return array('code' => 0, 'error' => '', 'data' => $data);
+    }
 
     function login($user,$pass){
         $sql = "select * from employee where username = ?";
@@ -72,14 +89,14 @@
         return array('code' => 0, 'message' => 'active token success');
     }
 
-    function change_password($newpass){
+    function change_password($newpass,$user){
         $hash = password_hash($newpass,PASSWORD_DEFAULT);
 
-        $sql = 'update employee set password = ?';
+        $sql = 'update employee set password = ? where username = ?';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('s',$hash);
+        $stm->bind_param('ss',$hash,$user);
         if(!$stm->execute()){
             return array('code'=> 2, 'error' => 'Can not execute command.');
         }

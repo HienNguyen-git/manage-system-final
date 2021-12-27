@@ -16,23 +16,11 @@
 <body style="background-color: #ccc;">
 <?php
     $error = '';
-    // $email = '';
     $pass = '';
     $pass_confirm = '';
-    
-    // $display_email = filter_input(INPUT_GET,'email',FILTER_SANITIZE_EMAIL);
     $post_error = '';
     $success= '';
-    // if(isset($_GET['email']) && isset($_GET['token'])){
-        // $email = $_GET['email'];
-        // $token = $_GET['token'];
-        
-        // if(filter_var($email,FILTER_SANITIZE_EMAIL) === false){
-            // $error = 'This isnt valid email';
-        // }else if(strlen($token) !=32){
-            // $error ='This isnt valid reset token';
-        // }
-        // else{ // xu li post
+    $user = $_SESSION['user'];
             if (isset($_POST['pass']) &&
                 isset($_POST['pass-confirm'])) {
 
@@ -57,13 +45,24 @@
                 }
                 else {
                     // echo 'Good';
-                    $result = change_password($pass);
+                    $result = change_password($pass,$user);
+                    $res = employee($user);
                     active_token($_SESSION['user']);
                     if($result['code'] == 0){
-                        // $success = $result['success'] . ' <a href="login.php">Login</a>' ;
-                        $success = $result['success'];
                         
-                        header('Location: index.php');
+                        $success = $result['success'];
+                        $data = $res['data'];
+                        
+                        if($data['role'] == 'employee'){
+                            header('Location: index.php');
+                        }
+                        else if($data['role'] == 'manager'){
+                            header('Location: manager/index.php');
+                        }
+                        else{
+                            header('Location: admin/index.php');
+                        }
+                        exit();
                     }else{
                         $post_error = $result['error'];
                     }

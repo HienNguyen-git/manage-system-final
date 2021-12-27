@@ -67,16 +67,10 @@
 						<a href="register.php" class="addbtn" >Add Accout</a>
 					</div>
 					<table class="table-hover text-center pc-table"   border="1" >
-						
 						<tr class="header">
 							<th>ID</th>
 							<th>Username</th>
-							
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Role</th>
 							<th>Department Name</th>
-							
 							<th>Action</th>
 						</tr>
 						<tbody id="tbody">
@@ -90,9 +84,6 @@
 										<tr class="item">
 											<td><?= $row['id'] ?></td>
 											<td><?= $row['username'] ?></td>
-											<td><?= $row['firstname'] ?></td>
-											<td><?= $row['lastname'] ?></td>
-											<td><?= $row['role'] ?></td>
 											<td><?= $row['department'] ?></td>
 											<!-- <td class="search-td" style="position: absolute; border: none;">
 												<div >
@@ -105,19 +96,20 @@
 												<a  href="#" class="btn btn-success">Update</a>
 											</td> -->
 											<td >
-												<a href="#" class="btn btn-primary">Edit</a> | 
-												<a href="#" class="btn btn-danger">Delete</a> |
+												
+												<a href="#" 
+													class="btn btn-danger"
+													onclick="handleTransferToDelete('<?= $row['username'] ?>','<?= $row['id'] ?>')" 
+													data-toggle="modal" 
+													data-target="#delete-employee" 
+												>Delete</a> |
 												<a href="detailEmployee.php?id=<?=$row['id']?>" class="btn btn-success">Detail</a>
 											</td>
 										</tr>
 										<?php
 									}
-									
 								}
 							?>
-							
-							
-							
 						</tbody>
 					</table>
 				</div>
@@ -125,7 +117,28 @@
 		</div>
 	</div>
 
-	
+	<!-- Delete Confirm Modal -->
+    <div id="delete-employee" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <hp class="modal-title">Xóa sản phẩm</hp>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <p>Bạn có chắc rằng muốn xóa <strong class="employee-delete-name">iPhone XS MAX</strong> ?</p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="btn-del" type="submit" class="btn btn-danger"  class="btn-delete-modal" data-dismiss="modal">Xóa</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -153,45 +166,42 @@
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 
-		// let listGroupItem;
 		let inputSearch = document.querySelector('.input-search-employee')
 		let listGroupItem = document.querySelectorAll('.list-group-item');
-		// inputSearch.addEventListener('keypress', function(e) {
-
-		// 	// console.log(listGroupItem);
-
-		// 	listGroupItem.forEach((nameitem) => {
-		// 		handleClickLi(nameitem);
-		// 	})
-		// })
-	
 		
 		function handleClickLi(nameitem){
 			inputSearch.value = nameitem.innerHTML;
 			$("#suggestions li").remove();
 		}
-		// function removeItemLi(){
+		
+		//xóa
+		let currentID;
+        const employeeDeleteName = document.querySelector('.employee-delete-name');
+        function handleTransferToDelete(name, id){
+            employeeDeleteName.innerHTML = name;
+            currentID = id;
+        }
+		document.getElementById('btn-del').addEventListener('click',async () =>{
+            const request = await fetch('delete_employee.php',{
+                method: 'delete',
+                body: JSON.stringify({id:currentID}),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+            
+            const res = await request.json();
 
-		// }
-		// listGroupItem.forEach(nameitem => {
-		// // console.log(nameitem);
-		// 	nameitem.addEventListener('click', function(e){
-		// 		console.log(e)
-		// 		// e.target.classList.toggle('bg-green');
-		// 		// console.log(e.currentTarget);
-		// 	})
-		// })
-		// let	listGroupItem = document.querySelectorAll('.list-group-item');
-		// console.log(listGroupItem);
-		// listGroupItem.forEach(item => {
-		// // console.log(item.innerHTML);
-		// 	item.addEventListener('click',(e) => {
-		// 		console.log(e.target);
-		// 	})
-		// })
-		
-		
+            reloadPage(res)
+        })
     </script>
+	<script>
+		function reloadPage(res){
+            if(res.code===0){
+                location.reload();
+            }
+        }
+	</script>
 </body>
 
 </html>

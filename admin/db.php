@@ -11,7 +11,14 @@
         }
         return $conn;
     }
+    function generateID(){
+        $sql = 'select * from department ORDER BY id DESC LIMIT 1';
+        $conn = open_database();
 
+        $result = $conn->query($sql);
+        $id = $result->fetch_assoc()['id'];
+        return $id;
+    }
     function login($user,$pass){
         $sql = "select * from employee where username = ?";
         $conn = open_database();
@@ -66,7 +73,29 @@
         return array('code' => 0, 'message' => 'active token success');
     }
 
+    function is_username_exists($user){
+        $sql = 'select username from employee where username = ?';
+        $conn = open_database();
+
+        $stm =$conn->prepare($sql);
+        $stm->bind_param('s',$user);
+        if(!$stm->execute()){
+            die('Query error: ' . $stm->error);
+        }
+
+        $result = $stm->get_result();
+        if($result->num_rows > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     function register($user, $first, $last,$role,$department){
+        if(is_username_exists($user)){
+            return array('code' => 1, 'error' => 'Username exists');
+        }
         $hash = password_hash($user,PASSWORD_DEFAULT);
         
 
@@ -242,5 +271,20 @@
         }
         return array('code'=>0,'data'=>$data);
         
+    }
+
+    function add_absence_info($username){
+        
+        $sql = 'insert into absence_info(username) values(?)';
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$username);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+        
+       
     }
 ?> 

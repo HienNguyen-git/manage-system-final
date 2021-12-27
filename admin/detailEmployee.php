@@ -79,17 +79,23 @@
                     </div>
                     <div class="account-container">
                         <?php
-                                $id = $_GET['id'];
-                                $username = '';
-                                $result = get_info_employee_byid($id);
-                                // print_r($data);
-                                if($result['code'] == 0){
-                                    $data = $result['data'];
-                                    foreach($data as $row){
-                                        $username = $row['username'];
-                                        // $id = $row['id'];
-                                        ?>
-                                    <table class="table-hover">
+                            $username = '';
+                            $firstname = '';
+                            $lastname = '';
+                            $role = '';
+                            $department = '';
+                            $id = $_GET['id'];
+                            $result = get_info_employee_byid($id);
+                            if($result['code'] == 0){
+                                $data = $result['data'];
+                                foreach($data as $row){
+                                    $username = $row['username'];
+                                    $firstname = $row['firstname'];
+                                    $lastname = $row['lastname'];
+                                    $role = $row['role'];
+                                    $department = $row['department'];
+                                    ?>
+                                <table class="table-hover">
                                     <tr>
                                         <td>ID</td>
                                         <td><?= $row['id']?></td>
@@ -114,29 +120,29 @@
                                         <td>Department</td>
                                         <td><?= $row['department']?></td>
                                     </tr>
-                                    <tr>
-                                        
-                                        <td>
-                                            
-                                        </td>
-                                    </tr>
-                                    </table>
-                                    <a id="btnReset" 
-
-                                            class="addbtn"
-                                            data-toggle="modal" 
-                                            data-target="#reset-modal"
-                                            onclick="handleTransferToDelete('<?= $username ?>')" 
-                                    >
-                                            Reset Password 
-                                            
-                                    </a>
-                                    <?php
-                                    }
-                                } 
-                                
+                                </table>
+                                <a id="btnReset" 
+                                    class="btn btn-info bg-info"
+                                    data-toggle="modal" 
+                                    data-target="#reset-modal"
+                                    onclick="handleTransferToReset('<?= $username ?>')" 
+                                >
+                                    Reset Password      
+                                </a>
+                                <a 
+                                    style="min-width: 145px;"
+                                    class="btn btn-primary bg-primary"
+                                    data-toggle="modal" 
+                                    data-target="#edit-employee-detail"
+                                    onclick="handleTransferToUpdate('<?= $id ?>','<?= $firstname ?>','<?= $lastname ?>','<?= $role ?>')" 
+                                >
+                                    Edit     
+                                </a>
+                                <?php
+                                }
+                            }  
                         ?>
-                        <!-- Add Modal -->
+                        <!-- Reset Modal -->
                         <div id="reset-modal" class="modal fade" role="dialog">
                             <div class="modal-dialog">
                                 <!-- Modal content-->
@@ -151,12 +157,45 @@
                                                 <p>Bạn có chắc rằng muốn reset password <strong class="name-resetpass"></strong> ?</p>
                                             </div>
                                             <div class="form-group">
+                                                
                                                 <a id="reset-btn" href="reset_password.php?username=<?=$username?>&id=<?=$id?>" class="btn btn-primary px-5 mr-2" >Reset</a>
                                             </div>
                                         </div>
                                 </div>  
                             </div>
-                        </div>    
+                        </div>
+                        
+                        <!-- Edit Confirm Modal -->
+                        <div id="edit-employee-detail" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <hp class="modal-title">Edit infomation employee</hp>
+                                        <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                                    </div>
+                                    <form method="post" id="update-form" novalidate enctype="multipart/form-data">
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="FirstNameUpdate">FirstName</label>
+                                                <input name="firstName" required class="form-control" type="text" placeholder="FirstName" id="firstNameUpdate">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="LastNameUpdate">LastName</label>
+                                                <input name="lastName" required class="form-control" type="text" placeholder="LastName" id="lastNameUpdate">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="RoleUpdate">Role</label>
+                                                <input name="role" required class="form-control" type="text" placeholder="Role" id="roleUpdate">
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary px-5 mr-2">Edit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>  
+                            </div>
+                        </div>
                     </div>
 				</div>
 			</div>		
@@ -174,23 +213,42 @@
     <script>
         const nameResetpass = document.querySelector('.name-resetpass');
         let currentUsernme;
-        function handleTransferToDelete(name){
+        function handleTransferToReset(name){
             nameResetpass.innerHTML = name;
             currentUsernme = name;
         }
-        // $('#reset-btn').click(function(){
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "reset_password.php.php",
-        //         data: JSON.stringify({username: currentUsernme}),
-        //         success: function(data) {
-        //             // console.log(data);
-        //             $('#reset-modal').modal('hide');
-        //             // loadproduct();
-        //         },
-        //         dataType: 'json'
-        //     })
-        // })
+        
+        let currentID
+        //update
+        function handleTransferToUpdate(id,firstname,lastname,role){
+            console.log(id,firstname,lastname,role);
+            currentID = id;
+            document.querySelector('#firstNameUpdate').value = firstname;
+            document.querySelector('#lastNameUpdate').value = lastname
+            document.querySelector('#roleUpdate').value = role
+        }
+
+        document.querySelector('#update-form').addEventListener('submit',async (e)=>{
+            e.preventDefault();
+            const firstname = document.querySelector('#firstNameUpdate').value
+            const lastname = document.querySelector('#lastNameUpdate').value
+            const role = document.querySelector('#roleUpdate').value
+
+            const sendRequest = await fetch('update_employee.php',{
+                method: 'POST',
+                body: JSON.stringify({id:currentID,firstname,lastname,role})
+            })
+
+            const res = await sendRequest.json();
+            reloadPage(res)
+        })
+    </script>
+    <script>
+        function reloadPage(res){
+            if(res.code===0){
+                location.reload();
+            }
+        }
     </script>
 </body>
 
