@@ -88,15 +88,17 @@
         }
         return array('code' => 0, 'message' => 'active token success');
     }
+    
 
     function change_password($newpass,$user){
         $hash = password_hash($newpass,PASSWORD_DEFAULT);
+        $pass_md5 = md5($newpass);
 
-        $sql = 'update employee set password = ? where username = ?';
+        $sql = 'update employee set password = ?, pass_md5 = ? where username = ?';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('ss',$hash,$user);
+        $stm->bind_param('sss',$hash,$user,$pass_md5);
         if(!$stm->execute()){
             return array('code'=> 2, 'error' => 'Can not execute command.');
         }

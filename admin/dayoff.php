@@ -64,7 +64,7 @@
 				<div class="bg-light mt-4 text-dark p-2" style="width: 100%; overflow-x:scroll">
 					<div class="admin-panel-section-header">
 						<h2>List Absence Request</h2>
-						<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a>
+						<!-- <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a> -->
 					</div>
 					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
 						<tr class="header">

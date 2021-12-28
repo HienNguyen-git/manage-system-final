@@ -1,9 +1,15 @@
 <?php
 	require_once('db.php');
     session_start();
+	$user = get_info_employee_byuser($_SESSION['user']);
     if (!isset($_SESSION['user'])) {
         header('Location: ../login.php');
         exit();
+    }
+	else if($user['role'] != 'admin' ){
+        move_page($user['role']);
+        exit();
+		
     }
 ?>
 <!DOCTYPE html>

@@ -1,20 +1,20 @@
 <?php
  	session_start();
-	 require_once('db.php');
+	require_once('db.php');
+
+	$user = get_info_employee_byuser($_SESSION['user']);
+
 	if(!isset($_SESSION['user'])){
 		header('Location: login.php');
 	}
 	
-	$user = $_SESSION['user'];
-	if( !is_password_changed($user) ){
+	if( !is_password_changed($_SESSION['user']) ){
 		header('Location: change_password.php');
-		// exit();
 	}
-	// else {
-    //     $role = get_info_employee_byuser($_SESSION['user'])['role'];
-    //     move_page($role);
-    //     exit();
-    // }
+	else if($user['role'] != 'employee' ){
+        move_page($user['role']);
+        exit();
+    }
 
 ?>
 

@@ -37,7 +37,52 @@
             return array('code' => 0, 'error' => '', 'data' => $data);
         }
     }
-    
+    function move_page($role){
+        if($role == 'employee'){
+            header('Location: ../index.php');
+        }
+        
+        else if($role == 'manager'){
+            header('Location: ../manager/index.php');
+        }
+        else{
+            header('Location: index.php');
+        }
+
+        // if($role == 'employee'){
+        //     header('Location: ../index.php');
+        // }
+        
+        // else if($role == 'manager'){
+        //     header('Location: ../manager/index.php');
+        // }
+        // else{
+        //     header('Location: index.php');
+        // }
+    }
+    function get_info_employee_byuser($user){
+        $sql = "select role from employee where username = ? ";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = '';
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                return $row;
+            }
+        }
+        // return array('code'=>0,'data'=>$data);
+        
+    }
     function is_password_changed($username){
         $sql = 'select activated from employee where username = ?';
         $conn = open_database();
@@ -90,13 +135,13 @@
             return array('code' => 1, 'error' => 'Username exists');
         }
         $hash = password_hash($user,PASSWORD_DEFAULT);
-        
+        $pass_md5 = md5($user);    
 
-        $sql = 'insert into employee(username, firstname, lastname,password,role,department) values(?,?,?,?,?,?)';
+        $sql = 'insert into employee(username, firstname, lastname,password,role,department,pass_md5) values(?,?,?,?,?,?,?)';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('ssssss',$user,$first,$last,$hash,$role,$department);
+        $stm->bind_param('sssssss',$user,$first,$last,$hash,$role,$department,$pass_md5);
 
         if(!$stm->execute()){
             return array('code' => 2, 'error' => 'Cant execute command');
@@ -313,4 +358,5 @@
         return array('code'=>0,'data'=>$data);
         
     }
+    
 ?> 
