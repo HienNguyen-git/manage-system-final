@@ -13,23 +13,22 @@
    $error = '';
    $message = "";
    
-   if (isset($_FILES['file'])) {
-    $file = $_FILES['file'];
-    $errors= array();
-    $file_name = $file['name'];
-    $file_size =$file['size'];
-    $file_tmp =$file['tmp_name'];
-    $file_type=$file['type'];
-    $file_ext=strtolower(end(explode('.',$file['name'])));
-    
-
-    if(empty($errors)){
-        $file_path = "upload/".$file_name;
-        move_uploaded_file($file_tmp, $file_path);
-        $message = "Submit successful";
-        update_avatar($user,$file_path);
+    if (isset($_FILES['file'])) {
+        $file = $_FILES['file'];
+        $errors= array();
+        $file_name = $file['name'];
+        $file_size =$file['size'];
+        $file_tmp =$file['tmp_name'];
+        $file_type=$file['type'];
+        // $file_ext=strtolower(end(explode('.',$file['name'])));
+        
+        if(empty($errors)){
+            $file_path = "upload/".$file_name;
+            move_uploaded_file($file_tmp, $file_path);
+            $message = "Submit successful";
+            update_avatar($user,$file_path);
+        }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -53,28 +52,11 @@
     <body>
     <?php
         include_once('layout/header.php');
-        $link = mysqli_connect("localhost", "root", "", "cinema_db");
-        $sql = "SELECT * FROM account where username='$user'";
-        $result = mysqli_fetch_assoc(mysqli_query($link, $sql));
-        // print_r($result);
-
-        $username = $result['username'];
-        $firstname = $result['firstname'];
-        $lastname = $result['lastname'];
-        $email = $result['email'];
-        $sdt = $result['sdt'];
-
-        // [username] => mvmanh
-        // [firstname] => Mai
-        // [lastname] => Văn Mạnh
-        // [email] => mvmanh@gmail.com
-        // [sdt] => 123456789
-
     ?>
     <section class="container" style="height: 70vh;">
 		<h1 class="mt-3 text-secondary">ACCOUNT INFORMATION</h1>
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light"><?=$user?></h3>
-        <a class="btn btn-primary col-12 col-sm-4" href="change_password.php">Change password</a>
+        <a class="btn btn-primary col-12 col-sm-4" href="change_pass.php">Change password</a>
         <div class="ml-auto mr-auto account-container">
             <?php
                 $data = get_user_info($user);

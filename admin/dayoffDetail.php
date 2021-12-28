@@ -127,13 +127,23 @@
                                 <td><a href="../<?=$row['file']?>"><?=$row['file']?></a></td>
                             </tr>
                             <tr>
+                                <td>Status</td>
+                                <?=status_ui($row['status'])  ?></td>
+                            </tr>
+                            <?php 
+                                if($row['status'] == 'Waiting'){
+
+                            ?>
+                            <tr>
                                 <td>Action</td>
                                 <td >
-                                    <a href="" class="btn btn-primary">Agree</a> | 
-                                    <a href="#" class="btn btn-danger">Not Agree</a>
+                                    <a href="update_status_absence.php?id=<?=$id?>" class="btn btn-primary">Agree</a> | 
+                                    <a href="refused_absence.php?id=<?=$id?>" class="btn btn-danger">Not Agree</a>
                                 </td>
                             </tr>
+                            
                             <?php
+                                        }
                                     }
 								}
 							}

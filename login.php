@@ -1,21 +1,13 @@
 <?php
+    require_once('db.php');
+    
     session_start();
+    // print_r(get_info_employees()['role']) ;
     if (isset($_SESSION['user'])) {
-        if($data['role'] == 'employee'){
-            header('Location: index.php');
-        }
-        
-        else if($data['role'] == 'manager'){
-            header('Location: manager/index.php');
-        }
-        else{
-            header('Location: admin/index.php');
-        }
-
-        // header('Location: index.php');
+        $role = get_info_employee_byuser($_SESSION['user'])['role'];
+        move_page($role);
         exit();
     }
-    require_once('db.php');
 
     $error = '';
     $role ='';
@@ -40,24 +32,11 @@
             if($result['code'] == 0){
                 $data = $result['data'];
                 $_SESSION['user'] = $user;
-                // $_SESSION['role'] = $role;
-                // print_r($_SESSION['role'])  ;
-                // die();
                 $_SESSION['name'] = $data['firstname'] . ' ' . $data['lastname'];
-
-                if($data['role'] == 'employee'){
-                    header('Location: index.php');
-                }
-                
-                else if($data['role'] == 'manager'){
-                    header('Location: manager/index.php');
-                }
-                else{
-                    header('Location: admin/index.php');
-                }
+                move_page($data['role']);
                 exit();
             }
-            else { // chưa active
+            else { 
                 $error = $result['error'];
             }
         }

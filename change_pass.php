@@ -6,13 +6,7 @@
         header('Location: login.php');
         exit();
     }
-	$user = $_SESSION['user'];
-	// echo is_password_changed($user);
-	if( is_password_changed($user) ){
-		// echo "pass changed";
-		header('Location: login.php');
-		exit();
-	}
+	
 ?>
 <DOCTYPE html>
 <html lang="en">
@@ -28,66 +22,60 @@
 <body style="background-color: #ccc;">
 <?php
     $error = '';
-    $pass = '';
-    $pass_confirm = '';
     $post_error = '';
     $success= '';
+    $oldpass = '';
+    $pass = '';
+    $pass_confirm = '';
     
-            if (isset($_POST['pass']) &&
-                isset($_POST['pass-confirm'])) {
+    if (isset($_POST['oldpass']) && isset($_POST['pass']) &&
+        isset($_POST['pass-confirm'])) {
 
-                // $email = $_POST['email'];
-                $pass = $_POST['pass'];
-                $pass_confirm = $_POST['pass-confirm'];
+        $oldpass = $_POST['oldpass'];
+        $pass = $_POST['pass'];
+        $pass_confirm = $_POST['pass-confirm'];
 
-                // if (empty($email)) {
-                //     $post_error = 'Please enter your email';
-                // }
-                // else if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-                //     $post_error = 'This is not a valid email address';
-                // }
-                if (empty($pass)) {
-                    $post_error = 'Please enter your password';
+        if (empty($oldpass)) {
+            $post_error = 'Please enter your old password';
+        }
+        else if (empty($pass)) {
+            $post_error = 'Please enter your password';
+        }
+        else if (strlen($pass) < 6) {
+            $post_error = 'Password must have at least 6 characters';
+        }
+        else if ($pass != $pass_confirm) {
+            $post_error = 'Password does not match';
+        }
+        else {
+            $result = change_password($pass,$user);
+            $res = employee($user);
+            // active_token($_SESSION['user']);
+            if($result['code'] == 0){
+                
+                $success = $result['success'];
+                $data = $res['data'];
+                
+                if($data['role'] == 'employee'){
+                    header('Location: index.php');
                 }
-                else if (strlen($pass) < 6) {
-                    $post_error = 'Password must have at least 6 characters';
+                else if($data['role'] == 'manager'){
+                    header('Location: manager/index.php');
                 }
-                else if ($pass != $pass_confirm) {
-                    $post_error = 'Password does not match';
+                else{
+                    header('Location: admin/index.php');
                 }
-                else {
-                    // echo 'Good';
-                    $result = change_password($pass,$user);
-                    $res = employee($user);
-                    active_token($_SESSION['user']);
-                    if($result['code'] == 0){
-                        
-                        $success = $result['success'];
-                        $data = $res['data'];
-                        
-                        if($data['role'] == 'employee'){
-                            header('Location: index.php');
-                        }
-                        else if($data['role'] == 'manager'){
-                            header('Location: manager/index.php');
-                        }
-                        else{
-                            header('Location: admin/index.php');
-                        }
-                        exit();
-                    }else{
-                        $post_error = $result['error'];
-                    }
-                }
+                exit();
+            }else{
+                $post_error = $result['error'];
             }
-            else {
-                // print_r($_POST);
-                // $error = 'Something went wrong';
-            }
-        // }
-    // }else{
-    //     $error = 'Invalid email or token';
-    // }
+        }
+    }
+    else {
+        // print_r($_POST);
+        $error = 'Something went wrong';
+    }
+        
 
     
 ?>
@@ -102,11 +90,11 @@
                 }else{
                     ?>
                         <form novalidate method="post" action="" class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-info">
-                            <!-- <div class="form-group">
-                                <label for="email">Email</label> -->
-                                <!-- <input readonly value="sample@gmail.com" name="email" id="email" type="text" class="form-control" placeholder="Email address"> -->
-                                <!-- <input readonly value="<?= $display_email ?>" name="email" id="email" type="text" class="form-control" placeholder="Email address">
-                            </div> -->
+                            <div class="form-group">
+                                <label for="oldpass">Old Password</label>
+                                <input  value="<?= $pass?>" name="oldpass" required class="form-control" type="password" placeholder="Old Password" id="oldpass">
+                                <div class="invalid-feedback">Old Password is not valid.</div>
+                            </div>
                             <div class="form-group">
                                 <label for="pass">Password</label>
                                 <input  value="<?= $pass?>" name="pass" required class="form-control" type="password" placeholder="Password" id="pass">
@@ -134,8 +122,6 @@
                     <?php
                 }
             ?>
-            
-
         </div>
     </div>
 </div>

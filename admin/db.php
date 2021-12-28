@@ -11,14 +11,7 @@
         }
         return $conn;
     }
-    function generateID(){
-        $sql = 'select * from department ORDER BY id DESC LIMIT 1';
-        $conn = open_database();
-
-        $result = $conn->query($sql);
-        $id = $result->fetch_assoc()['id'];
-        return $id;
-    }
+    
     function login($user,$pass){
         $sql = "select * from employee where username = ?";
         $conn = open_database();
@@ -44,7 +37,52 @@
             return array('code' => 0, 'error' => '', 'data' => $data);
         }
     }
-    
+    function move_page($role){
+        if($role == 'employee'){
+            header('Location: ../index.php');
+        }
+        
+        else if($role == 'manager'){
+            header('Location: ../manager/index.php');
+        }
+        else{
+            header('Location: index.php');
+        }
+
+        // if($role == 'employee'){
+        //     header('Location: ../index.php');
+        // }
+        
+        // else if($role == 'manager'){
+        //     header('Location: ../manager/index.php');
+        // }
+        // else{
+        //     header('Location: index.php');
+        // }
+    }
+    function get_info_employee_byuser($user){
+        $sql = "select role from employee where username = ? ";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = '';
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                return $row;
+            }
+        }
+        // return array('code'=>0,'data'=>$data);
+        
+    }
     function is_password_changed($username){
         $sql = 'select activated from employee where username = ?';
         $conn = open_database();
@@ -97,13 +135,13 @@
             return array('code' => 1, 'error' => 'Username exists');
         }
         $hash = password_hash($user,PASSWORD_DEFAULT);
-        
+        $pass_md5 = md5($user);    
 
-        $sql = 'insert into employee(username, firstname, lastname,password,role,department) values(?,?,?,?,?,?)';
+        $sql = 'insert into employee(username, firstname, lastname,password,role,department,pass_md5) values(?,?,?,?,?,?,?)';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('ssssss',$user,$first,$last,$hash,$role,$department);
+        $stm->bind_param('sssssss',$user,$first,$last,$hash,$role,$department,$pass_md5);
 
         if(!$stm->execute()){
             return array('code' => 2, 'error' => 'Cant execute command');
@@ -126,26 +164,6 @@
         
         return array('code'=> 0,'success' => 'Password has changed.');
     }
-
-    // function reset_password($user){
-       
-    //     $hash = password_hash($user,PASSWORD_DEFAULT);
-    //     $sql = 'update employee set activated = 0, password = ? where username = ?';
-    //     $conn = open_database();
-
-    //     $stm= $conn->prepare($sql);
-    //     $stm->bind_param('ss',$hash,$user);
-
-    //     if(!$stm->execute()){
-    //         return array('code' => 2, 'error' => 'Cant execute command');
-    //     }
-        
-    //     // chèn thành công or update token của dòng đã có, gửi mail tới user để reset pass
-    //     return array('code' => 0, 'success' => 'Password reset');
-
-
-
-    // }
 
     function get_info_employees(){
         $sql = "select * from employee ";
@@ -206,13 +224,18 @@
         return array('code'=>0,'data'=>$data);
         
     }
-
-    function get_absence(){
-        $sql = "select * from absence_form ";
+    function get_absence_by_role($role){
+        $sql = "SELECT absence_form.id, employee.username, role, create_date, number_dayoff,reason,file,status FROM employee RIGHT JOIN absence_form ON employee.username = absence_form.username where role = ?";
         $conn = open_database();
 
-        $result = $conn->query($sql);
-        
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$role);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
         $data = array();
         if($result->num_rows==0){
             return array('code'=>2,'error'=>'Database is empty');
@@ -222,8 +245,24 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
+    // function get_absence(){
+    //     $sql = "select * from absence_form ";
+    //     $conn = open_database();
+
+    //     $result = $conn->query($sql);
+        
+    //     $data = array();
+    //     if($result->num_rows==0){
+    //         return array('code'=>2,'error'=>'Database is empty');
+    //     }else{
+    //         while($row = $result->fetch_assoc()){
+    //             $data[] = $row;
+    //         }
+    //     }
+    //     return array('code'=>0,'data'=>$data);
+        
+    // }
 
     function get_absence_byid($id){
         $sql = "select * from absence_form where id = ? ";
@@ -287,4 +326,37 @@
         
        
     }
+
+    function status_ui($status){
+       
+        
+        if($status=='Waiting'){
+            echo "<td class='text-info'><i class='fas fa-spinner'></i> Waiting</td>";  
+        }
+        if($status=='Refused'){
+            echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Refused</td>";  
+        }
+        if($status=='Approved'){
+            echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Approved</td>";  
+        }
+    }
+
+    function get_tasks(){
+        $sql = "select * from task ";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+        
+    }
+    
 ?> 

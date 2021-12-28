@@ -77,7 +77,8 @@
                         
                         <!-- <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a> -->
                     </div>
-                    <div class="account-container">
+                    <div class="account-container" style="position: relative;">
+                        
                         <?php
                             $username = '';
                             $firstname = '';
@@ -89,56 +90,63 @@
                             if($result['code'] == 0){
                                 $data = $result['data'];
                                 foreach($data as $row){
+                                    // echo $row['avatar'];
+                                    // die();
                                     $username = $row['username'];
                                     $firstname = $row['firstname'];
                                     $lastname = $row['lastname'];
                                     $role = $row['role'];
                                     $department = $row['department'];
+                                    // $img = $row['avatar']
                                     ?>
-                                <table class="table-hover">
-                                    <tr>
-                                        <td>ID</td>
-                                        <td><?= $row['id']?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Username</td>
-                                        <td><?= $row['username']?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>FirstName</td>
-                                        <td><?= $row['firstname']?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>LastName</td>
-                                        <td><?= $row['lastname']?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Role</td>
-                                        <td><?= $row['role']?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Department</td>
-                                        <td><?= $row['department']?></td>
-                                    </tr>
-                                </table>
-                                <a id="btnReset" 
-                                    class="btn btn-info bg-info"
-                                    data-toggle="modal" 
-                                    data-target="#reset-modal"
-                                    onclick="handleTransferToReset('<?= $username ?>')" 
-                                >
-                                    Reset Password      
-                                </a>
-                                <a 
-                                    style="min-width: 145px;"
-                                    class="btn btn-primary bg-primary"
-                                    data-toggle="modal" 
-                                    data-target="#edit-employee-detail"
-                                    onclick="handleTransferToUpdate('<?= $id ?>','<?= $firstname ?>','<?= $lastname ?>','<?= $role ?>')" 
-                                >
-                                    Edit     
-                                </a>
-                                <?php
+                                        <div class="image-box">
+                                                <img src="../<?= $row['avatar'] ?>" alt="Avatar">
+                                            
+                                        </div>
+                                        <table class="table-hover">
+                                            <tr>
+                                                <td>ID</td>
+                                                <td><?= $row['id']?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Username</td>
+                                                <td><?= $row['username']?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>FirstName</td>
+                                                <td><?= $row['firstname']?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>LastName</td>
+                                                <td><?= $row['lastname']?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Role</td>
+                                                <td><?= $row['role']?></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Department</td>
+                                                <td><?= $row['department']?></td>
+                                            </tr>
+                                        </table>
+                                        <a id="btnReset" 
+                                            class="btn btn-info bg-info"
+                                            data-toggle="modal" 
+                                            data-target="#reset-modal"
+                                            onclick="handleTransferToReset('<?= $username ?>')" 
+                                        >
+                                            Reset Password      
+                                        </a>
+                                        <a 
+                                            style="min-width: 145px;"
+                                            class="btn btn-primary bg-primary"
+                                            data-toggle="modal" 
+                                            data-target="#edit-employee-detail"
+                                            onclick="handleTransferToUpdate('<?= $id ?>','<?= $firstname ?>','<?= $lastname ?>','<?= $role ?>')" 
+                                        >
+                                            Edit     
+                                        </a>
+                                    <?php
                                 }
                             }  
                         ?>

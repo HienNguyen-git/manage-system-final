@@ -34,7 +34,7 @@
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="logout.php">Log out</a>
+					<a href="../logout.php">Log out</a>
 			</div>
 		</div>
 		<div class="row h-100">
@@ -279,18 +279,18 @@
             document.querySelector('#departmentNumUpdate').value = number;
             document.querySelector('#departmentManagerUpdate').value = manager;
             document.querySelector('#departmentDetailUpdate').innerHTML = detail;
-            
         }
 
         document.querySelector('#update-form').addEventListener('submit',async (e)=>{
             e.preventDefault();
-            const firstname = document.querySelector('#firstNameUpdate').value
-            const lastname = document.querySelector('#lastNameUpdate').value
-            const role = document.querySelector('#roleUpdate').value
+            const departmentNameUpdate = document.querySelector('#departmentNameUpdate').value
+            const departmentNumUpdate = document.querySelector('#departmentNumUpdate').value
+            const departmentManagerUpdate = document.querySelector('#departmentManagerUpdate').value
+            const departmentDetailUpdate = document.querySelector('#departmentDetailUpdate').value
 
-            const sendRequest = await fetch('update_employee.php',{
+            const sendRequest = await fetch('update_department.php',{
                 method: 'POST',
-                body: JSON.stringify({id:currentID,firstname,lastname,role})
+                body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
             })
 
             const res = await sendRequest.json();

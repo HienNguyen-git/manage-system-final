@@ -96,6 +96,7 @@ td{
     padding-bottom: 20px;
     border-bottom: #c7c7c7 1px solid;
 }
+
 .active-menu{
     background-color: lightblue !important;
 }
@@ -126,7 +127,14 @@ td{
         margin: 12px 0px;
     }
 }
-
+@media (max-width: 900px){
+    .navbar-toggler{
+        margin: 12px 0px;
+    }
+    .image-box {
+        width: 40%;
+    }
+}
 
 .form-control{
     min-width: 70% !important;
@@ -135,6 +143,20 @@ td{
 .bg-green{
     background-color: green !important;
 }
+
 .list-group-item:hover{
     background-color: #ccc;
+}
+
+
+.image-box{
+    position: absolute;
+    right: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.image-box img{
+    max-width: 70%;
+
 }
