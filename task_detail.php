@@ -18,21 +18,30 @@
         $description = $_POST['description'];
         $file = $_FILES['file'];
         $errors= array();
-		$file_name = $file['name'];
-		$file_size =$file['size'];
-		$file_tmp =$file['tmp_name'];
-		$file_type=$file['type'];
-		$file_ext=strtolower(end(explode('.',$file['name'])));
-		
+        $file_name = $file['name'];
+        $file_size =$file['size'];
+        $file_tmp =$file['tmp_name'];
+        $file_ext=strtolower(end(explode('.',$file_name)));
 
-        if(empty($errors)){
+        $extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","html","sql","ppt","jpeg");
+        if(empty($description)){ // Check description is empty or not
+            $error = "Please enter your description";
+            // echo "1";
+        }else if(!$file_name){
+            $error = "Please upload your file";
+            // echo "2";
+        }else if(!in_array($file_ext,$extensions)){ // Check file type is allow or not
+            $error = "This type of file is not allowed";
+            // echo "3";
+        }else if($file_size>104857600){ // Check file size is less than 100M
+            $error = "This file is larger than 100M";
+            // echo "4";
+        }else{ // Upload task
             $file_path = "upload/".$file_name;
             $date = date("Y-m-d");
             move_uploaded_file($file_tmp, $file_path);
             $message = "Submit successful";
-            submit_task($id,$description,$file_path,$date,$user);
-        }else{
-            print_r($errors);
+            submit_task($id,$description,$file_path);
         }
     }
 ?>
@@ -59,7 +68,7 @@
 <body>
 <?php
     if(!empty($error)){
-        echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>$error</div>";
+        echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>Something went wrong! Check your submit again</div>";
     }
     if(!empty($message)){
         echo "<div class='alert alert-primary text-center' style='margin-bottom: 0 !important'>$message</div>";
@@ -97,9 +106,7 @@
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" >Design UI</h3>
 		<div class="ml-auto mr-auto task-container">
             <?php
-                // echo $_GET['id'];
                 $data = get_task_by_id($id)['data'];
-                // print_r($data)
             ?>
             <table>
                 <tr>
@@ -166,7 +173,7 @@
                         <form class="submit-form" id="task-form" style="display: none;" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" class="form-control" id="description" rows="3"></textarea>
+                                <textarea name="description" class="form-control" id="description" rows="3"><?=$description?></textarea>
                             </div>
                             <div class="form-group">
                                 <div class="custom-file">
@@ -175,6 +182,11 @@
                                 </div>
                             </div>
                             <div class="form-group" id="error-message">
+                                <?php
+                                    if(!empty($error)){
+                                        echo "<div class='alert alert-danger'>$error</div>";
+                                    }
+                                ?>
                             </div>
                                 <div class="form-group">
                                 <button type="submit" id="upload-btn" class="btn btn-primary col-12 col-sm-12`">Submit</button>
@@ -183,8 +195,6 @@
                     <?php
                 }
             ?>
-			
-			
 		</div>
 </div>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
@@ -205,8 +215,20 @@
             const messageBox = document.querySelector('#error-message')
             const descriptionBox = document.querySelector('#description')
             const uploadBtn = document.querySelector('#upload-btn')
+            const uploadFile = document.querySelector('#file')
+            let isFileValidate
+        </script>
+        <?php
+            if(empty($error)){
+                ?>
+                <script>
+                    messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-primary">Enter your description and upload your file before submit</div>`)
+                </script>
+                <?php
+            }
+        ?>
 
-            messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-primary">Enter your description and upload your file before submit</div>`)
+        <script>
             uploadBtn.disabled = true
 
             $(".custom-file-input").on("change", function () {
@@ -214,7 +236,8 @@
                 $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
             });
             
-            let isDetailValidate
+            let isDetailValidate = descriptionBox.value===''?false:true
+
             descriptionBox.addEventListener('change',()=>{
                 if(descriptionBox.value===''){
                     handleErrorMessage('Please enter your description')
@@ -224,11 +247,11 @@
                     checkIsValidation()
                 }
             })
-            let isFileValidate
-            document.querySelector('#file').addEventListener('change', e=>{
+            uploadFile.addEventListener('change', e=>{      
                 const file = e.target.files[0]
                 console.log(file)
-                const type = file['name'].split('.')[1]
+                const type = file['name'].split('.').pop();
+                console.log(type);
                 const size = file['size']
                 const type_list = ["txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","sql","ppt","jpeg"]
                 console.log(type, size, type_list)
@@ -238,7 +261,7 @@
                 }else if(!type_list.includes(type)){
                     handleErrorMessage('This type of file is not allowed')
                 }else if(size>100*Math.pow(1024,2)){
-				    handleErrorMessage('This file is larger than 100M')
+                    handleErrorMessage('This file is larger than 100M')
                 }else{
                     messageBox.innerHTML = ''
                     isFileValidate = true;

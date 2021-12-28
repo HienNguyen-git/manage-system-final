@@ -8,4 +8,5 @@
     // echo $role;
     
     print_r(md5('123')) ;
+	print_r(get_absence_history('hiengay'));
 ?>

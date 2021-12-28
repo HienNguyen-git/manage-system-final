@@ -71,7 +71,7 @@
 								status_ui($row['status']);
 							?>
 							<td><a href="task_detail.php?id=<?=$row['id']?>" class="btn btn-primary"><i class="fas fa-eye"></i> View detail</a></td>
-						</tr>
+						</tr>	
 				 	<?php
 					}
 				}

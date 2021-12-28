@@ -94,6 +94,7 @@ body {
 .task-container table{	
 	overflow: scroll;
 	margin-bottom: 2rem;
+	flex-basis: 100%;
 }
 
 .task-container table th{
