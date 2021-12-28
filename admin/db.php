@@ -359,4 +359,57 @@
         
     }
     
+    function select_manager_name (){
+        $sql = "select username from employee where role = 'employee' ";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        $data = array();
+        if($result->num_rows == 0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+        
+    }
+    function current_manager($department){
+        $sql = "select manager_user from department where name = ?";
+        $conn = open_database();
+        
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$department);
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+        return $data['manager_user'];
+    }
+    function manager_to_employee($manager){
+        $sql = "update employee set role = 'employee' where username = ?";
+        $conn = open_database();
+         
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$manager);
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+    }
+    function update_to_manager($user,$department){
+        $current_manager = current_manager($department);
+        manager_to_employee($current_manager);
+        $sql = "update employee set role = 'manager' where username = ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+    }
+
+    
 ?> 

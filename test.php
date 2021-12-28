@@ -7,4 +7,5 @@
     // $role = get_info_employee_byuser($_SESSION['user'])['role'];
     // echo $role;
     
+    print_r(md5('123')) ;
 ?>
