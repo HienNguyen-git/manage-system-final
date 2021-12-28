@@ -1,15 +1,48 @@
 <?php
 	session_start();
 	require_once('db.php');
-   if(!isset($_SESSION['user'])){
-	   header('Location: login.php');
-   }
-   $user = $_SESSION['user'];
-   if( !is_password_changed($user) ){
-	   header('Location: change_password.php');
-	   exit();
-   }
+	if(!isset($_SESSION['user'])){
+		header('Location: login.php');
+	}
+	$user = $_SESSION['user'];
+	if( !is_password_changed($user) ){
+		header('Location: change_password.php');
+		exit();
+	}
 
+   	$error = '';
+    $message = "";
+    $description = '';
+	$dayoff = '';
+
+    if (isset($_POST['description']) && isset($_FILES['file']) && isset($_POST['dayoff'])) {
+        $description = $_POST['description'];
+        $file = $_FILES['file'];
+		$dayoff = $_POST['dayoff'];
+
+        $errors= array();
+        $file_name = $file['name'];
+        $file_size =$file['size'];
+        $file_tmp =$file['tmp_name'];
+        $file_ext=strtolower(end(explode('.',$file_name)));
+
+        $extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","html","sql","ppt","jpeg");
+        if(empty($description)){ // Check description is empty or not
+            $error = "Please enter your description";
+        }else if(!$file_name){
+            $message = "Submit successful";
+            submit_absence_form($user,$dayoff,$description,'-');
+        }else if(!in_array($file_ext,$extensions)){ // Check file type is allow or not
+            $error = "This type of file is not allowed";
+        }else if($file_size>104857600){ // Check file size is less than 100M
+            $error = "This file is larger than 100M";
+        }else{ // Upload task
+            $file_path = "upload/".$file_name;
+            move_uploaded_file($file_tmp, $file_path);
+            $message = "Submit successful";
+            submit_absence_form($user,$dayoff,$description,$file_path);
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -34,10 +67,14 @@
 
 <body>
 <?php
-	include_once('layout/header.php')
+    if(!empty($error)){
+        echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>Something went wrong! Check your submit again</div>";
+    }
+    if(!empty($message)){
+        echo "<div class='alert alert-primary text-center' style='margin-bottom: 0 !important'>$message</div>";
+    }
+	include_once('layout/header.php');
 ?>
-
-
 <div class="container pb-2" style="height: 70vh;">
 		<h1 class="mt-3 text-secondary">ABSENCE MANAGE</h1>
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light">Your absence info</h3>
@@ -74,30 +111,24 @@
 						<tbody>
 							<?php
 								foreach($data as $row){
-									?>
-										<tr>
-											<th scope="row"><?=$row['id']?></th>
-											<td><?=$row['create_date']?></td>
-											<td><?=$row['number_dayoff']?></td>
-											<td><?=$row['reason']?></td>
-											<td><a href="<?=$row['file']?>"><?=$row['file']?></a></td>
-											<?php
-											if ($row['status']=='refused'){
-												echo "<td class='text-danger'><i class='fas fa-times-circle'></i> Refused</td>";
-											}else if($row['status']=='approved'){
-												echo "<td class='text-success'><i class='fas fa-check'></i> Approved</td>";
-											}else{
-												echo "<td class='text-warning'><i class='fas fa-circle-notch fa-spin'></i> Waiting</td>";
-											}
+								?>
+									<tr>
+										<th scope="row"><?=$row['id']?></th>
+										<td><?=$row['create_date']?></td>
+										<td><?=$row['number_dayoff']?></td>
+										<td><?=$row['reason']?></td>
+										<td><a href="<?=$row['file']?>"><?=$row['file']?></a></td>
+										<?php
+										status_ui($row['status']);
 
-											if($row['approval_date']){
-												echo "<td>".$row['approval_date']."</td>";
-											}else{
-												echo "<td>-</td>";
-											}
-											?>
-										</tr>
-									<?php
+										if($row['approval_date']){
+											echo "<td>".$row['approval_date']."</td>";
+										}else{
+											echo "<td>-</td>";
+										}
+										?>
+									</tr>
+								<?php
 								}
 							?>
 						</tbody>
@@ -110,16 +141,18 @@
 				<form class="submit-form" id="task-form" style=" flex-basis: 100%;" method="POST" enctype="multipart/form-data">
 					<div class="form-row">
 						<div class="form-group col-sm-12 col-md-9">
-							<input name="description" class="form-control" id="description" placeholder="Reason"></input>
+							<input value="<?=$description?>" name="description" class="form-control" id="description" placeholder="Reason"></input>
 						</div>
 						<div class="form-group col-sm-12 col-md-3">
-							<select class="form-control" id="dayoff">
+							<select name="dayoff" class="form-control" id="dayoff">
 							<option value="" disabled selected>Number of day off</option>
 							<?php
 								for ($i = 1; $i <= $day_off_permit; $i++){
-									?>
-                                        <option value="<?=$i?>"><?=$i?></option>
-                                    <?php
+									if($dayoff==$i){
+										echo "<option value='$i' selected>$i</option>";
+									}else{
+										echo "<option value='$i'>$i</option>";
+									}
 								}
 							?>
 							</select>
@@ -132,8 +165,13 @@
 						</div>
 					</div>
 					<div class="form-group" id="error-message">
+						<?php
+							if(!empty($error)){
+								echo "<div class='alert alert-danger text-center'>$error</div>";
+							}
+						?>
 					</div>
-					<div class="form-group" id="error-message">
+					<div class="form-group">
 						<div class="form-group">
 							<button type="submit" id="upload-btn" class="btn btn-primary col-sm-12 col-md-4">Submit</button>
 						</div>
@@ -171,7 +209,7 @@
 		const files = document.querySelector('#file');
 		const messageBox = document.querySelector('#error-message')
 		const uploadBtn = document.querySelector('#upload-btn')
-		uploadBtn.disabled = true;
+		uploadBtn.disabled = false;
 		let isDetailValidate
 
 		dayOff.addEventListener('change', ()=>{
@@ -187,7 +225,7 @@
 			}
 		})
 
-		let isFileValidate
+		let isFileValidate = true
 		files.addEventListener('change', e=>{
 			const file = e.target.files[0]
 			console.log(file)
@@ -225,7 +263,7 @@
 
 		function handleErrorMessage(message){
 			messageBox.innerHTML = ''
-			messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger">${message}</div>`)
+			messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger text-center">${message}</div>`)
 			uploadBtn.disabled = true
 		}
 	</script>

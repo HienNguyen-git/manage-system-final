@@ -13,7 +13,7 @@
     $error = '';
     $message = "";
     $description = '';
-    $file = '';
+
     if (isset($_POST['description']) && isset($_FILES['file'])) {
         $description = $_POST['description'];
         $file = $_FILES['file'];
@@ -21,20 +21,21 @@
         $file_name = $file['name'];
         $file_size =$file['size'];
         $file_tmp =$file['tmp_name'];
-        $file_type=$file['type'];
-        echo $file_type;
         $file_ext=strtolower(end(explode('.',$file_name)));
 
-        $extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","sql","ppt","jpeg");
-
+        $extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","html","sql","ppt","jpeg");
         if(empty($description)){ // Check description is empty or not
             $error = "Please enter your description";
+            // echo "1";
         }else if(!$file_name){
             $error = "Please upload your file";
+            // echo "2";
         }else if(!in_array($file_ext,$extensions)){ // Check file type is allow or not
             $error = "This type of file is not allowed";
+            // echo "3";
         }else if($file_size>104857600){ // Check file size is less than 100M
             $error = "This file is larger than 100M";
+            // echo "4";
         }else{ // Upload task
             $file_path = "upload/".$file_name;
             $date = date("Y-m-d");

@@ -269,10 +269,15 @@
         if($status=='Completed'){
             echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Completed</td>";  
         }
+        if($status=='Approved'){
+            echo "<td class='text-success'><i class='fas fa-check'></i> Approved</td>";  
+        }
+        if($status=='Refused'){
+            echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Refused</td>";  
+        }
         if($status=='Canceled'){
             echo "<td class='text-muted'><i class='fas fa-times-circle'></i> Canceled</td>";  
         }
-
     }
 
     function submit_task($id_task,$description,$file){
@@ -342,15 +347,17 @@
         return $d1<=$d2;
     }
 
-    function submit_absence_form($user,$description,$file,$submit_date){
-        $sql = "insert into submit_task(id_task,description,file,submit_day,username) values(?,?,?,?,?)";
+    function submit_absence_form($user,$number_dayoff ,$reason,$file){
+        $sql = "insert into absence_form(username,number_dayoff ,reason,file) values(?,?,?,?)";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('issss',$id_task,$description,$file,$submit_date,$user);
+        echo $number_dayoff;
+        $stm->bind_param('ssss',$user,$number_dayoff ,$reason,$file);
         if(!$stm->execute()){
             return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
         }
-        change_to_waiting($id_task);
+
     }
+
 ?>
