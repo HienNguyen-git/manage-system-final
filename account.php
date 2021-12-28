@@ -95,7 +95,7 @@
                     </tr>
                     <tr>
                         <th>Username:</th>
-                        <td><?=$row['username']?></td>
+                        <td><?=$user?></td>
                     </tr>
                     <tr>
                         <th>Full name:</th>

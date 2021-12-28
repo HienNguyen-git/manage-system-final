@@ -108,7 +108,7 @@
 
     
     function get_tasks($user){
-        $sql = "select id, title, deadline, status from task where person=? ORDER BY id DESC";
+        $sql = "select id, title, deadline, status from task where person=? ORDER BY deadline DESC";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -150,7 +150,7 @@
 
     function get_absence_history($user){
         // 
-        $sql = "select id, create_date, number_dayoff, reason, file, status from absence_form where username=? ORDER BY id DESC";
+        $sql = "select id, create_date, number_dayoff, reason, file, approval_date, status from absence_form where username=? ORDER BY create_date DESC";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -190,7 +190,7 @@
     }
 
     function get_user_info($user){
-        $sql = "select id, username, firstname, lastname, role, department, avatar from employee where username=?";
+        $sql = "select id, firstname, lastname, role, department, avatar from employee where username=?";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -222,7 +222,7 @@
             echo "<td class='text-primary'><i class='fas fa-thumbtack'></i> New</td>";  
         }
         if($status=='In progress'){
-            echo "<td class='text-muted'><i class='fas fa-running'></i> In progress</td>";  
+            echo "<td><i class='fas fa-cog fa-spin'></i> In progress</td>";  
         }
         if($status=='Waiting'){
             echo "<td class='text-info'><i class='fas fa-circle-notch fa-spin'></i> Waiting</td>";  
@@ -233,14 +233,18 @@
         if($status=='Completed'){
             echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Completed</td>";  
         }
+        if($status=='Canceled'){
+            echo "<td class='text-muted'><i class='fas fa-times-circle'></i> Canceled</td>";  
+        }
+
     }
 
-    function submit_task($id_task,$description,$file,$submit_date,$user){
-            $sql = "insert into submit_task(id_task,description,file,submit_day,username) values(?,?,?,?,?)";
+    function submit_task($id_task,$description,$file){
+            $sql = "insert into submit_task(id_task,description,file) values(?,?,?)";
             $conn = open_database();
     
             $stm = $conn->prepare($sql);
-            $stm->bind_param('issss',$id_task,$description,$file,$submit_date,$user);
+            $stm->bind_param('iss',$id_task,$description,$file);
             if(!$stm->execute()){
                 return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
             }
@@ -273,5 +277,44 @@
         $data = $result->fetch_assoc();
 
         return array('code'=>0,'data'=>$data);
+    }
+
+    function unlock_absence_form_date($username){
+        $sql = "SELECT DATE_ADD(approval_date, INTERVAL 7 DAY) as unlock_form_day from absence_form where username=? and status!='waiting' ORDER BY approval_date DESC LIMIT 1";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$username);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+
+        return $data['unlock_form_day'];
+    }
+
+    function is_absence_form_unlock($username){
+        $date = unlock_absence_form_date($username);
+        $today = date("Y-m-d H:i:s");
+
+        $d1 = new DateTime($date);
+        $d2 = new DateTime($today);
+
+        return $d1<=$d2;
+    }
+
+    function submit_absence_form($user,$description,$file,$submit_date){
+        $sql = "insert into submit_task(id_task,description,file,submit_day,username) values(?,?,?,?,?)";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('issss',$id_task,$description,$file,$submit_date,$user);
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+        change_to_waiting($id_task);
     }
 ?>
