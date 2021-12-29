@@ -291,6 +291,22 @@
         if($status=='Canceled'){
             echo "<td class='text-muted'><i class='fas fa-times-circle'></i> Canceled</td>";  
         }
+        if($status=='Good'){
+            echo "<td style='color: #f06595;'><i class='fas fa-heart'></i> Good</td>";  
+        }
+        if($status=='OK'){
+            echo "<td class='text-primary'><i class='fas fa-thumbs-up'></i> OK</td>";  
+        }
+        if($status=='Bad'){
+            echo "<td class='text-danger'><i class='fas fa-thumbs-down'></i> Bad</td>";  
+        }
+        if($status=='On time'){
+            echo "<td class='text-success'><i class='fas fa-clock'></i> On time</td>";  
+        }
+        if($status=='Late'){
+            echo "<td class='text-muted'><i class='fas fa-calendar-times'></i> Late</td>";  
+        }
+
     }
 
     function submit_task($id_task,$description,$file){
@@ -318,6 +334,23 @@
     
     function get_feedback_reject_task($id_task){
         $sql = "select description, file, extend_deadline from feedback_reject where id_task=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id_task);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function get_feedback_complete_task($id_task){
+        $sql = "select  rating, time_submit from feedback_complete where id_task=?";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);

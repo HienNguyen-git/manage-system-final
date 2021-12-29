@@ -16,6 +16,7 @@
 	$dayoff = '';
 	$status = '';
 	$is_lock = '';
+	$dayoff_left = 1;
     if (isset($_POST['description']) && isset($_FILES['file']) && isset($_POST['dayoff'])) {
         $description = $_POST['description'];
         $file = $_FILES['file'];
@@ -96,6 +97,8 @@
 				if(!$absenceInfo['code']){
 					$data = $absenceInfo['data'];
 					$day_off_permit = $data['total_dayoff'];
+					$dayoff_used = $data['dayoff_used'];
+					$dayoff_left = $data['dayoff_left'];
 				}
 				?>
 					<p class="col-sm-12 col-md-6 text-center text-md-left"><strong>Day off Permit: </strong><?=$day_off_permit?> | <strong>Using: </strong><?=$data['dayoff_used']?> | <strong>The Rest: </strong><?=$data['dayoff_left']?></p>
@@ -105,7 +108,8 @@
 			$absenceHistory = get_absence_history($user);
 			if(!$absenceHistory['code']){
 				$data = $absenceHistory['data'];
-				if(!$data['status']=='Waiting'){
+				if(!$dayoff_left){}
+				else if($data['status']=='Waiting'){
 					$status = 'Waiting';
 				}else if(!is_absence_form_unlock($user)){
 					$is_lock = true;
@@ -198,8 +202,8 @@
 					</div>
 					<div class="form-group">
 						<div class="form-group">
-							<button type="submit" id="upload-btn" class="btn btn-primary col-sm-12 col-md-4">Submit</button>
-							<button type="submit" id="back-btn" class="btn btn-secondary col-sm-12 col-md-4">Back</button>
+							<button type="submit" id="upload-btn" class="btn btn-primary mb-3 col-sm-12 col-md-4">Submit</button>
+							<button type="submit" id="back-btn" class="btn btn-secondary mb-3 col-sm-12 col-md-4">Back</button>
 						</div>
 					</div>
 				</form>
@@ -212,7 +216,7 @@
 	
 	
 	<?php
-		if(!$status||!$is_lock){
+		if(!$status||!$is_lock || !$dayoff_left){
 			?>
 				<script>
 					$(".custom-file-input").on("change", function () {

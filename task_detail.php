@@ -167,6 +167,25 @@
                         </table>
                     <?php
                 }
+                if($data['status']=="Completed"){
+                    $feedback_data = get_feedback_complete_task($id);
+                    if(!$feedback_data['code']){
+                        $row = $feedback_data['data'];
+                    }
+                    ?>
+                        <h3 class="mt-1 mb-3 pb-3 text-center border-bottom border-info text-light" >Manager feedback</h3>
+                        <table>
+                            <tr>
+                                <th>Rating:</th>
+                                <?=status_ui($row['rating'])?>
+                            </tr>
+                            <tr>
+                                <th>Time submit:</th>
+                                <?=status_ui($row['time_submit'])?>
+                            </tr>
+                        </table>
+                    <?php
+                }
                 if($data['status']=='In progress' || $data['status']=='Rejected'){
                     ?>
                         <button class="btn btn-success submit-btn col-12 col-sm-4" style="display: block;">Create submit form</button>
