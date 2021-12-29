@@ -99,14 +99,24 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="role">Role</label>
-                        <input value="<?= $role?>" name="role" required class="form-control" type="text" placeholder="Role" id="role">
-                        <div class="invalid-feedback">Please enter role of employee</div>
-                    </div>
-                    <div class="form-group">
                         <label for="department">Department</label>
-                        <input value="<?= $department?>" name="department" required class="form-control" type="text" placeholder="Department" id="department">
-                        <div class="invalid-feedback">Please enter department of employee</div>
+                        <select name="department" class="form-control" id="department">
+                        <option value="" disabled selected>Please select department</option>
+                        <?php
+                            $result = get_department_name_list();
+                            if(!$result['code']){
+                                $department_list = $result['data'];
+                                foreach ($department_list as $row){
+                                    $name = $row['name'];
+                                    if($department==$name){
+                                        echo "<option value='$name' selected>$name</option>";
+                                    }else{
+                                        echo "<option value='$name'>$name</option>";
+                                    }
+                                }
+                            }
+                        ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <?php
@@ -130,5 +140,14 @@
     </div>
     
 </body>
+<script>
+    const department = document.querySelector('#department')
+    department.addEventListener('change', (e)=>{
+        // console.log(e.target.value);
+        // const role = e.target.value
+        
+        // if(role)
+    })
+</script>
 </html>
 

@@ -1,14 +1,14 @@
 <?php
     session_start();
     require_once('db.php');
-   if(!isset($_SESSION['user'])){
-       header('Location: login.php');
-   }
-   $user = $_SESSION['user'];
-   if( !is_password_changed($user) ){
-       header('Location: change_password.php');
-       exit();
-   }
+    if(!isset($_SESSION['user'])){
+        header('Location: login.php');
+    }
+    $user = $_SESSION['user'];
+    if( !is_password_changed($user) ){
+        header('Location: change_password.php');
+        exit();
+    }
     $id = $_GET['id'];
     $error = '';
     $message = "";
@@ -163,6 +163,25 @@
                                         echo "<td class='text-danger'><i class='fas fa-times-circle'> No</i></td>";
                                     }
                                 ?>
+                            </tr>
+                        </table>
+                    <?php
+                }
+                if($data['status']=="Completed"){
+                    $feedback_data = get_feedback_complete_task($id);
+                    if(!$feedback_data['code']){
+                        $row = $feedback_data['data'];
+                    }
+                    ?>
+                        <h3 class="mt-1 mb-3 pb-3 text-center border-bottom border-info text-light" >Manager feedback</h3>
+                        <table>
+                            <tr>
+                                <th>Rating:</th>
+                                <?=status_ui($row['rating'])?>
+                            </tr>
+                            <tr>
+                                <th>Time submit:</th>
+                                <?=status_ui($row['time_submit'])?>
                             </tr>
                         </table>
                     <?php

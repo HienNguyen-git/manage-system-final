@@ -355,4 +355,20 @@
             return array('code'=>1,'error'=>'Command not execute');
         }
     }
+
+    function get_department_name_list(){
+        $sql = "select name from department";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        $data = array();
+        if($result->num_rows == 0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+    }
 ?> 

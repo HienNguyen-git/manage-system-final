@@ -11,4 +11,5 @@
     //manager
     //làm những chức năng task
     //sửa ngày còn lại, đã sử dụng khi ấn agree,not agree trong absence request ở view detail
+    print_r(get_department_name_list());
 ?>
