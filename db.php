@@ -320,6 +320,23 @@
         return array('code'=>0,'data'=>$data);
     }
 
+    function is_approval($username){
+        $sql = "SELECT approval_date FROM absence_form where username=? order by approval_date LIMIT 1; ";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$username);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+
+        return $data['approval_date'];
+    }
+
     function unlock_absence_form_date($username){
         $sql = "SELECT DATE_ADD(approval_date, INTERVAL 7 DAY) as unlock_form_day from absence_form where username=? and status!='waiting' ORDER BY approval_date DESC LIMIT 1";
         $conn = open_database();
@@ -350,10 +367,8 @@
     function submit_absence_form($user,$number_dayoff ,$reason,$file){
         $sql = "insert into absence_form(username,number_dayoff ,reason,file) values(?,?,?,?)";
         $conn = open_database();
-
         $stm = $conn->prepare($sql);
-        echo $number_dayoff;
-        $stm->bind_param('ssss',$user,$number_dayoff ,$reason,$file);
+        $stm->bind_param('siss',$user,$number_dayoff ,$reason,$file);
         if(!$stm->execute()){
             return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
         }
