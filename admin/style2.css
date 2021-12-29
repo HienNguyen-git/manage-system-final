@@ -136,10 +136,10 @@ td{
     }
 }
 
-.form-control{
+/* .form-control{
     min-width: 70% !important;
     max-width: 80% !important;
-}
+} */
 .bg-green{
     background-color: green !important;
 }

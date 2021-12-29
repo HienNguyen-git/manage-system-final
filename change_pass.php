@@ -32,11 +32,18 @@
         isset($_POST['pass-confirm'])) {
 
         $oldpass = $_POST['oldpass'];
+        $pass_md5 = md5($oldpass);
+        echo $pass_md5 . '</br>';
         $pass = $_POST['pass'];
         $pass_confirm = $_POST['pass-confirm'];
+        $pass_md5old = select_passmd5($user);
+        echo $pass_md5old;
 
         if (empty($oldpass)) {
             $post_error = 'Please enter your old password';
+        }
+        else if($pass_md5 != $pass_md5old){
+            $post_error = 'Old password not match';
         }
         else if (empty($pass)) {
             $post_error = 'Please enter your password';
@@ -73,7 +80,7 @@
     }
     else {
         // print_r($_POST);
-        $error = 'Something went wrong';
+        // $error = 'Something went wrong';
     }
         
 
@@ -92,7 +99,7 @@
                         <form novalidate method="post" action="" class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-info">
                             <div class="form-group">
                                 <label for="oldpass">Old Password</label>
-                                <input  value="<?= $pass?>" name="oldpass" required class="form-control" type="password" placeholder="Old Password" id="oldpass">
+                                <input  value="<?= $oldpass?>" name="oldpass" required class="form-control" type="password" placeholder="Old Password" id="oldpass">
                                 <div class="invalid-feedback">Old Password is not valid.</div>
                             </div>
                             <div class="form-group">

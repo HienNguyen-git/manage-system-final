@@ -1,5 +1,8 @@
 <?php
     require_once('db.php');
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST');
+    header("Access-Control-Allow-Headers: X-Requested-With");
 
     if($_SERVER['REQUEST_METHOD']!='POST'){
         http_response_code(405);
@@ -29,7 +32,7 @@
     $departmentNumUpdate = $input->departmentNumUpdate;
     $departmentManagerUpdate = $input->departmentManagerUpdate;
     $departmentDetailUpdate = $input->departmentDetailUpdate;
-    // die(json_encode(array('code'=>5,'data'=> array($id,$name,$price,$desc))));
+    // die(json_encode(array('code'=>5,'data'=> array($id,$departmentNameUpdate,$departmentNumUpdate,$departmentManagerUpdate,$departmentDetailUpdate))));
 
     
     $sql = 'update department set name=?, number_room=?, manager_user=?, detail = ? where id=?';
@@ -42,5 +45,6 @@
         http_response_code(400);
         die(json_encode(array('code'=>5,'message'=>'Khong the thuc hien lenh')));
     }
+    update_to_manager($departmentManagerUpdate,$departmentNameUpdate);
     die(json_encode(array('code'=>0,'message'=>'Da them san pham thanh cong')));
 ?>

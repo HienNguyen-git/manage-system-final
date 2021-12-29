@@ -89,6 +89,20 @@
         return array('code' => 0, 'message' => 'active token success');
     }
     
+    function select_passmd5($user){
+        $sql = 'select pass_md5 from employee where username = ?';
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+        if(!$stm->execute()){
+            return array('code'=>2,'error'=>'Can not execute command');
+        }
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+        return $data['pass_md5'];
+        // return array('code' => 0, 'success' => 'selected pass_md5 from this user');
+    }
 
     function change_password($newpass,$user){
         $hash = password_hash($newpass,PASSWORD_DEFAULT);
@@ -98,7 +112,7 @@
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('sss',$hash,$user,$pass_md5);
+        $stm->bind_param('sss',$hash,$pass_md5,$user);
         if(!$stm->execute()){
             return array('code'=> 2, 'error' => 'Can not execute command.');
         }
@@ -138,7 +152,6 @@
             }
         }
         // return array('code'=>0,'data'=>$data);
-        
     }
     ///////////////////////////
 

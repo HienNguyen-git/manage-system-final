@@ -1,10 +1,10 @@
 <?php
     session_start();
+	require_once('db.php');
     if (!isset($_SESSION['user'])) {
         header('Location: login.php');
         exit();
     }
-	require_once('db.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -210,7 +210,24 @@
                         </div>
 						<div class="form-group">
                             <label for="departmentManagerUpdate">Manager Name</label>
-                            <input name="departmentManagerUpdate" required class="form-control" type="text" placeholder="Manager Name" id="departmentManagerUpdate">
+                            <!-- <input name="departmentManagerUpdate" required class="form-control" type="text" placeholder="Manager Name" id="departmentManagerUpdate"> -->
+
+							<select id="departmentManagerUpdate" class="form-control" name="departmentManagerUpdate" required>
+								<option value="" disabled selected>Manager Name</option>
+								<?php 
+									$select_maname = select_manager_name();
+									if($select_maname['code'] == 0){
+										$data = $select_maname['data'];
+										print_r($data);
+										foreach($data as $row_maname){
+											?>
+												<option value="<?= $row_maname['username'] ?>"><?= $row_maname['username'] ?></option>
+											<?php
+										}
+									}
+								?>
+								
+							</select>
                         </div>
                         <div class="form-group">
                             <label for="departmentDetailUpdate">Department Detail</label>
@@ -277,7 +294,7 @@
             currentID = id;
             document.querySelector('#departmentNameUpdate').value = name;
             document.querySelector('#departmentNumUpdate').value = number;
-            document.querySelector('#departmentManagerUpdate').value = manager;
+            // document.querySelector('#departmentManagerUpdate').value = manager;
             document.querySelector('#departmentDetailUpdate').innerHTML = detail;
         }
 
@@ -286,15 +303,17 @@
             const departmentNameUpdate = document.querySelector('#departmentNameUpdate').value
             const departmentNumUpdate = document.querySelector('#departmentNumUpdate').value
             const departmentManagerUpdate = document.querySelector('#departmentManagerUpdate').value
+			console.log(departmentManagerUpdate);
             const departmentDetailUpdate = document.querySelector('#departmentDetailUpdate').value
-
+			
             const sendRequest = await fetch('update_department.php',{
                 method: 'POST',
                 body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
             })
 
             const res = await sendRequest.json();
-            reloadPage(res)
+			// console.log(res);
+            reloadPage(res);
         })
 	</script>
 	<script>
