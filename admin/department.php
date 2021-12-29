@@ -148,10 +148,10 @@
                             <label for="departmentNumAdd">Department Number</label>
                             <input name="departmentNumAdd" required class="form-control" type="number" placeholder="Department Number" id="departmentNumAdd">
                         </div>
-						<div class="form-group">
+						<!-- <div class="form-group">
                             <label for="departmentManagerAdd">Manager Name</label>
                             <input name="departmentManagerAdd" required class="form-control" type="text" placeholder="Manager Name" id="departmentManagerAdd">
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="departmentDetailAdd">Department Detail</label>
                             <textarea id="departmentDetailAdd" name="departmentDetailAdd" rows="4" class="form-control" placeholder="Department Detail"></textarea>
@@ -255,12 +255,12 @@
             e.preventDefault();
             const departmentNameAdd = document.querySelector('#departmentNameAdd').value
             const departmentNumAdd = document.querySelector('#departmentNumAdd').value
-            const departmentManagerAdd = document.querySelector('#departmentManagerAdd').value;
+            // const departmentManagerAdd = document.querySelector('#departmentManagerAdd').value;
 			const departmentDetailAdd = document.querySelector('#departmentDetailAdd').value
 
             const sendRequest = await fetch('add_department.php',{
                 method: 'POST',
-                body: JSON.stringify({departmentNameAdd,departmentNumAdd,departmentManagerAdd,departmentDetailAdd})
+                body: JSON.stringify({departmentNameAdd,departmentNumAdd,departmentDetailAdd})
             })
 
             const res = await sendRequest.json();
@@ -303,7 +303,7 @@
             const departmentNameUpdate = document.querySelector('#departmentNameUpdate').value
             const departmentNumUpdate = document.querySelector('#departmentNumUpdate').value
             const departmentManagerUpdate = document.querySelector('#departmentManagerUpdate').value
-			console.log(departmentManagerUpdate);
+			// console.log(departmentManagerUpdate);
             const departmentDetailUpdate = document.querySelector('#departmentDetailUpdate').value
 			
             const sendRequest = await fetch('update_department.php',{

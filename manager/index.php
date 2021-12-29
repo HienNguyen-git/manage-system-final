@@ -11,8 +11,20 @@
 		exit();
 	}
 	else if($user['role'] != 'manager' ){
-        move_page($user['role']);
+        move_page_manager($user['role']);
+		
         exit();
+    }
+	function move_page_manager($role){
+        if($role == 'employee'){
+			header('Location: ../index.php');
+		}
+		else if($role == 'manager'){
+			header('Location: .index.php');
+		}
+		else{
+			header('Location: ../admin/index.php');
+		}
     }
 
 ?>

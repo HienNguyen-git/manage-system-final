@@ -160,3 +160,6 @@ td{
     max-width: 70%;
 
 }
+.btn:hover{
+	transform: scale(0.96) !important;
+}

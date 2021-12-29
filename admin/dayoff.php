@@ -70,6 +70,7 @@
 						<tr class="header">
 							<td>ID</td>
 							<td>Full Name</td>
+							<td>Number day off</td>
 							<td>Day created</td>
 							<td>Action</td>
 						</tr>
@@ -84,6 +85,7 @@
 									<tr class="item">
 										<td><?= $row['id']?></td>
 										<td><?= $row['username']?></td>
+										<td><?= $row['number_dayoff']?></td>
 										<td><?= $row['create_date']?></td>
 										<td ><a href="dayoffDetail.php?id=<?= $row['id']?>" class="btn btn-success">View detail</a> </td> 
 										
