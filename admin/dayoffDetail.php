@@ -78,7 +78,7 @@
 				<div class="bg-light mt-4 text-dark p-2">
 				<div class="admin-panel-section-header ">
 					<h2>Detail </h2>
-					<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a>
+					<!-- <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a> -->
 				</div>
 				<div class="account-container">
                 <table class="table-hover">
@@ -101,6 +101,10 @@
                             <tr>
                                 <td>Username</td>
                                 <td><?= $row['username']?></td>
+                            </tr>
+                            <tr>
+                                <td>Number day off</td>
+                                <td><?= $row['number_dayoff']?></td>
                             </tr>
                             <tr>
                                 <td>Total day off</td>

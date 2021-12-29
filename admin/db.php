@@ -41,24 +41,12 @@
         if($role == 'employee'){
             header('Location: ../index.php');
         }
-        
         else if($role == 'manager'){
             header('Location: ../manager/index.php');
         }
         else{
             header('Location: index.php');
         }
-
-        // if($role == 'employee'){
-        //     header('Location: ../index.php');
-        // }
-        
-        // else if($role == 'manager'){
-        //     header('Location: ../manager/index.php');
-        // }
-        // else{
-        //     header('Location: index.php');
-        // }
     }
     function get_info_employee_byuser($user){
         $sql = "select role from employee where username = ? ";
@@ -81,7 +69,6 @@
             }
         }
         // return array('code'=>0,'data'=>$data);
-        
     }
     function is_password_changed($username){
         $sql = 'select activated from employee where username = ?';
@@ -95,7 +82,6 @@
 
         $result = $stm->get_result();
         $data = $result->fetch_assoc();
-        // print_r($data['activated']);
         return $data['activated'];
     }
     
@@ -146,7 +132,6 @@
         if(!$stm->execute()){
             return array('code' => 2, 'error' => 'Cant execute command');
         }
-
         return array('code' => 0, 'success' => 'Create account successful');
     }
 
@@ -161,7 +146,6 @@
         if(!$stm->execute()){
             return array('code'=> 2, 'error' => 'Can not execute command.');
         }
-        
         return array('code'=> 0,'success' => 'Password has changed.');
     }
 
@@ -180,7 +164,6 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
 
     function get_info_employee_byid($id){
@@ -204,7 +187,6 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
 
     function get_departments(){
@@ -222,7 +204,6 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
     function get_absence_by_role($role){
         $sql = "SELECT absence_form.id, employee.username, role, create_date, number_dayoff,reason,file,status FROM employee RIGHT JOIN absence_form ON employee.username = absence_form.username where role = ?";
@@ -246,23 +227,6 @@
         }
         return array('code'=>0,'data'=>$data);
     }
-    // function get_absence(){
-    //     $sql = "select * from absence_form ";
-    //     $conn = open_database();
-
-    //     $result = $conn->query($sql);
-        
-    //     $data = array();
-    //     if($result->num_rows==0){
-    //         return array('code'=>2,'error'=>'Database is empty');
-    //     }else{
-    //         while($row = $result->fetch_assoc()){
-    //             $data[] = $row;
-    //         }
-    //     }
-    //     return array('code'=>0,'data'=>$data);
-        
-    // }
 
     function get_absence_byid($id){
         $sql = "select * from absence_form where id = ? ";
@@ -285,7 +249,6 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
 
     function get_absence_info_by_username($username){
@@ -309,11 +272,9 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
 
     function add_absence_info($username){
-        
         $sql = 'insert into absence_info(username) values(?)';
         $conn = open_database();
 
@@ -323,15 +284,11 @@
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
         }
-        
-       
     }
 
     function status_ui($status){
-       
-        
         if($status=='Waiting'){
-            echo "<td class='text-info'><i class='fas fa-spinner'></i> Waiting</td>";  
+            echo "<td class='text-info'><i class='fas fa-spinner fa-spin'></i> Waiting</td>";  
         }
         if($status=='Refused'){
             echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Refused</td>";  
@@ -356,7 +313,6 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
     
     function select_manager_name (){
@@ -373,34 +329,23 @@
             }
         }
         return array('code'=>0,'data'=>$data);
-        
     }
-    function current_manager($department){
-        $sql = "select manager_user from department where name = ?";
+    
+    function manager_to_employee($department){
+        $sql = "update employee set role = 'employee' where department = ?";
         $conn = open_database();
-        
+         
         $stm = $conn->prepare($sql);
         $stm->bind_param('s',$department);
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
         }
-        $result = $stm->get_result();
-        $data = $result->fetch_assoc();
-        return $data['manager_user'];
+        return array('code'=>0,'success'=>'success');
     }
-    function manager_to_employee($manager){
-        $sql = "update employee set role = 'employee' where username = ?";
-        $conn = open_database();
-         
-        $stm = $conn->prepare($sql);
-        $stm->bind_param('s',$manager);
-        if(!$stm->execute()){
-            return array('code'=>1,'error'=>'Command not execute');
-        }
-    }
+
     function update_to_manager($user,$department){
-        $current_manager = current_manager($department);
-        manager_to_employee($current_manager);
+        manager_to_employee($department);
+        
         $sql = "update employee set role = 'manager' where username = ?";
         $conn = open_database();
 
@@ -410,6 +355,4 @@
             return array('code'=>1,'error'=>'Command not execute');
         }
     }
-
-    
 ?> 
