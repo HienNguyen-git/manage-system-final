@@ -33,11 +33,11 @@
 
         $oldpass = $_POST['oldpass'];
         $pass_md5 = md5($oldpass);
-        echo $pass_md5 . '</br>';
+        // echo $pass_md5 . '</br>';
         $pass = $_POST['pass'];
         $pass_confirm = $_POST['pass-confirm'];
         $pass_md5old = select_passmd5($user);
-        echo $pass_md5old;
+        // echo $pass_md5old;
 
         if (empty($oldpass)) {
             $post_error = 'Please enter your old password';
@@ -52,7 +52,7 @@
             $post_error = 'Password must have at least 6 characters';
         }
         else if ($pass != $pass_confirm) {
-            $post_error = 'Password does not match';
+            $post_error = 'Confirm Password does not match';
         }
         else {
             $result = change_password($pass,$user);
@@ -99,12 +99,12 @@
                         <form novalidate method="post" action="" class="border rounded w-100 mb-5 mx-auto px-3 pt-3 bg-info">
                             <div class="form-group">
                                 <label for="oldpass">Old Password</label>
-                                <input  value="<?= $oldpass?>" name="oldpass" required class="form-control" type="password" placeholder="Old Password" id="oldpass">
+                                <input  value="<?= $oldpass?>" name="oldpass" required class="form-control" type="password" placeholder="Old Password" id="oldpass" autofocus>
                                 <div class="invalid-feedback">Old Password is not valid.</div>
                             </div>
                             <div class="form-group">
-                                <label for="pass">Password</label>
-                                <input  value="<?= $pass?>" name="pass" required class="form-control" type="password" placeholder="Password" id="pass">
+                                <label for="pass">New Password</label>
+                                <input  value="<?= $pass?>" name="pass" required class="form-control" type="password" placeholder="Password" id="pass" >
                                 <div class="invalid-feedback">Password is not valid.</div>
                             </div>
                             <div class="form-group">

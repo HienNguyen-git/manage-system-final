@@ -73,7 +73,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="firstname">First name</label>
-                            <input value="<?= $first_name?>" name="first" required class="form-control" type="text" placeholder="First name" id="firstname">
+                            <input value="<?= $first_name?>" name="first" required class="form-control" type="text" placeholder="First name" id="firstname" autofocus>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="lastname">Last name</label>

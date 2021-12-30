@@ -109,7 +109,7 @@
                             </div> -->
                             <div class="form-group">
                                 <label for="pass">Password</label>
-                                <input  value="<?= $pass?>" name="pass" required class="form-control" type="password" placeholder="Password" id="pass">
+                                <input  value="<?= $pass?>" name="pass" required class="form-control" type="password" placeholder="Password" id="pass" autofocus>
                                 <div class="invalid-feedback">Password is not valid.</div>
                             </div>
                             <div class="form-group">
