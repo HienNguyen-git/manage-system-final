@@ -255,16 +255,16 @@ ALTER TABLE `absence_form`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `account`
+-- Indexes for table `absence_form`
 --
-ALTER TABLE `account`
-  ADD PRIMARY KEY (`username`);
+ALTER TABLE `absence_info`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `department`
 --
 ALTER TABLE `department`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `employee`
@@ -288,8 +288,7 @@ ALTER TABLE `feedback_reject`
 -- Indexes for table `submit_task`
 --
 ALTER TABLE `submit_task`
-  ADD PRIMARY KEY (`id_submittask`),
-  ADD KEY `FK_submit_task_id_task` (`id_task`);
+  ADD PRIMARY KEY (`id_submittask`);
 
 --
 -- Indexes for table `task`

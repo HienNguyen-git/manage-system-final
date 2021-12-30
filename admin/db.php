@@ -470,5 +470,22 @@
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
         }
+
+        update_approval_date($user);
+    }
+
+    function update_approval_date($user){
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $today = date("Y-m-d H:i:s");
+        echo $today;
+        $sql = "update absence_form set approval_date = ? where username = ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('ss',$today,$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
     }
 ?> 

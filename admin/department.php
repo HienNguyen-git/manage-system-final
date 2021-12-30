@@ -238,13 +238,14 @@
             const departmentNumAdd = document.querySelector('#departmentNumAdd').value
             // const departmentManagerAdd = document.querySelector('#departmentManagerAdd').value;
 			const departmentDetailAdd = document.querySelector('#departmentDetailAdd').value
-
+			console.log(departmentNameAdd,departmentNumAdd,departmentDetailAdd);
             const sendRequest = await fetch('add_department.php',{
                 method: 'POST',
                 body: JSON.stringify({departmentNameAdd,departmentNumAdd,departmentDetailAdd})
             })
 
             const res = await sendRequest.json();
+			console.log(res);	
             reloadPage(res)
             
         })
