@@ -5,8 +5,11 @@
     // update_to_manager('bunnnguyen','it');
     // print_r(select_role_manager());
     // update_dayoff_manager();
-    print_r(select_number_dayoff('nguyenbibi'));
-    print_r(select_absence_info('nguyenbibi'));
+    // print_r(select_number_dayoff('nguyenbibi'));
+    // var_dump(select_absence_info('nguyenbibi')['dayoff_used']);
+    // select_absence_info($user)['dayoff_used']
+    update_dayused('nguyenbibi');
+
 
     //admin
     //sửa ngày còn lại, đã sử dụng khi ấn agree,not agree trong absence request ở view detail

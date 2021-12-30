@@ -424,7 +424,7 @@
         }
     }
     function select_absence_info($user){
-        $sql = "select dayoff_used from absence_info where username = ?";
+        $sql = "select * from absence_info where username = ?";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -440,17 +440,25 @@
             return array('code'=>2,'error'=>'Database is empty');
         }else{
             $row = $result->fetch_assoc();
-            return $row['dayoff_used'];
+            return $row;
+            
         }
+       
     }
+    
     function update_dayused($user){
         $number_dayoff = select_number_dayoff($user);
-        $upd_total_dayused = 
-        $sql = "update absence_info set total_dayused+= ?";
+        $data_absence = select_absence_info($user);
+        $day_off_used = $data_absence['dayoff_used'];
+        $upd_total_dayused = $day_off_used + $number_dayoff;
+        $day_off_left = $data_absence['dayoff_left'];
+        $upd_total_dayleft = $day_off_left - $number_dayoff;
+        
+        $sql = "update absence_info set dayoff_used = ?, dayoff_left = ? where username = ?";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('s',$number_dayoff);
+        $stm->bind_param('iis',$upd_total_dayused,$upd_total_dayleft,$user);
 
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');

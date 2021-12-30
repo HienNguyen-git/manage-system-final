@@ -49,7 +49,7 @@
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="logout.php">Log out</a>
+					<a href="../logout.php">Log out</a>
 			</div>
 		</div>
 		<div class="row h-100">
@@ -76,84 +76,96 @@
 			</div>
 			<div class="col-md-10 col-lg-10 col-xl-10 ">
 				<div class="bg-light mt-4 text-dark p-2">
-				<div class="admin-panel-section-header ">
-					<h2>Detail </h2>
-					<!-- <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a> -->
-				</div>
-				<div class="account-container">
-                <table class="table-hover">
-                <?php 
-                    $id = $_GET['id'];
-                    $result = get_absence_byid($id); 
-                    if($result['code'] == 0){
-                        $data = $result['data'];
-                        foreach($data as $row){
-                            $username = $row['username'];
-                            $infoAbsence = get_absence_info_by_username($username);
-                            $infoAbsenceData = $infoAbsence['data'];
-                            foreach($infoAbsenceData as $infoRow){
-                                // print_r($infoRow['total_dayoff']);
-                            ?>    
-                            <tr>
-                                <td>ID</td>
-                                <td><?= $row['id']?></td>
-                            </tr>
-                            <tr>
-                                <td>Username</td>
-                                <td><?= $row['username']?></td>
-                            </tr>
-                            <tr>
-                                <td>Number day off</td>
-                                <td><?= $row['number_dayoff']?></td>
-                            </tr>
-                            <tr>
-                                <td>Total day off</td>
-                                <td><?= $infoRow['total_dayoff']?></td>
-                            </tr>
-                            <tr>
-                                <td>Total day used</td>
-                                <td><?= $infoRow['dayoff_used']?></td>
-                            </tr>
-                            <tr>
-                                <td>Total day left</td>
-                                <td><?= $infoRow['dayoff_left']?></td>
-                            </tr>
-                            <tr>
-                                <td>Day Created</td>
-                                <td><?= $row['create_date']?></td>
-                            </tr>
-                            <tr>
-                                <td>Reason</td>
-                                <td><?= $row['reason']?></td>
-                            </tr>
-                            <tr>
-                                <td>File</td>
-                                <td><a href="../<?=$row['file']?>"><?=$row['file']?></a></td>
-                            </tr>
-                            <tr>
-                                <td>Status</td>
-                                <?=status_ui($row['status'])  ?></td>
-                            </tr>
+                    <div class="admin-panel-section-header ">
+                        <h2>Detail </h2>
+                        <!-- <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a> -->
+                    </div>
+                    <div class="account-container">
+                        <table class="table-hover">
                             <?php 
-                                if($row['status'] == 'Waiting'){
+                                $id = $_GET['id'];
+                                $result = get_absence_byid($id); 
+                                if($result['code'] == 0){
+                                    $data = $result['data'];
+                                    foreach($data as $row){
+                                        $username = $row['username'];
+                                        $infoAbsence = get_absence_info_by_username($username);
+                                        $infoAbsenceData = $infoAbsence['data'];
+                                        foreach($infoAbsenceData as $infoRow){
+                                            // print_r($infoRow['total_dayoff']);
+                                            ?>    
+                                                <tr>
+                                                    <td>ID</td>
+                                                    <td><?= $row['id']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Username</td>
+                                                    <td><?= $row['username']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Number day off</td>
+                                                    <td><?= $row['number_dayoff']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total day off</td>
+                                                    <td><?= $infoRow['total_dayoff']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total day used</td>
+                                                    <td><?= $infoRow['dayoff_used']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total day left</td>
+                                                    <td><?= $infoRow['dayoff_left']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Day Created</td>
+                                                    <td><?= $row['create_date']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Reason</td>
+                                                    <td><?= $row['reason']?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>File</td>
+                                                    <td><a href="../<?=$row['file']?>"><?=$row['file']?></a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Status</td>
+                                                    <?=status_ui($row['status'])  ?></td>
+                                                </tr>
+                                                <?php 
+                                                    if($row['status'] == 'Waiting'){
+                                                        ?>
+                                                            <tr>
+                                                                <td>Action</td>
+                                                                <td >
+                                                                    <?php
+                                                                        $dayleft = select_absence_info($username)['dayoff_left'];
+                                                                        $number_dayoff = select_number_dayoff($username);
 
-                            ?>
-                            <tr>
-                                <td>Action</td>
-                                <td >
-                                    <a href="update_status_absence.php?id=<?=$id?>" class="btn btn-primary">Agree</a> | 
-                                    <a href="refused_absence.php?id=<?=$id?>" class="btn btn-danger">Not Agree</a>
-                                </td>
-                            </tr>
-                            
-                            <?php
+                                                                        if($number_dayoff <= $dayleft){
+                                                                            ?>
+                                                                                <a href="update_status_absence.php?id=<?=$id?>&username=<?=$username?>" class="btn btn-primary">Agree</a> | 
+                                                                            <?php    
+                                                                        }
+                                                                        else{
+                                                                            ?>
+                                                                                <a href="#" class="btn btn-primary disabled">Agree</a> | 
+                                                                            <?php
+                                                                        }
+                                                                    ?> 
+                                                                    <a href="refused_absence.php?id=<?=$id?>" class="btn btn-danger">Not Agree</a>
+                                                                </td>
+                                                            </tr>
+                                                        <?php
+                                                    }
                                         }
                                     }
-								}
-							}
-						?>
-                </table>
-        </div>
+                                }
+                            ?>
+                        </table>
+                    </div>
 				</div>
 			</div>		
 		</div>

@@ -2,7 +2,7 @@
     require_once('../admin/db.php');
     session_start();
     if (!isset($_SESSION['user'])) {
-        header('Location: login.php');
+        header('Location: ../login.php');
         exit();
     }
 ?>
@@ -49,7 +49,7 @@
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="logout.php">Log out</a>
+					<a href="../logout.php">Log out</a>
 			</div>
 		</div>
 		<div class="row h-100">
@@ -103,6 +103,10 @@
                                                     <td><?= $row['username']?></td>
                                                 </tr>
                                                 <tr>
+                                                    <td>Number day off</td>
+                                                    <td><?= $row['number_dayoff']?></td>
+                                                </tr>
+                                                <tr>
                                                     <td>Total day off</td>
                                                     <td><?= $infoRow['total_dayoff']?></td>
                                                 </tr>
@@ -136,7 +140,23 @@
                                                             <tr>
                                                                 <td>Action</td>
                                                                 <td >
-                                                                    <a href="update_status_absence.php?id=<?=$id?>" class="btn btn-primary">Agree</a> | 
+                                                                    <?php
+                                                                        $dayleft = select_absence_info($username)['dayoff_left'];
+                                                                        $number_dayoff = select_number_dayoff($username);
+
+                                                                        if($number_dayoff <= $dayleft){
+                                                                            ?>
+                                                                                <a href="update_status_absence.php?id=<?=$id?>&username=<?=$username?>" class="btn btn-primary">Agree</a> | 
+
+                                                                            <?php    
+                                                                        }
+                                                                        else{
+                                                                            ?>
+                                                                                <a href="#" class="btn btn-primary disabled">Agree</a> | 
+                                                                            
+                                                                            <?php
+                                                                        }
+                                                                    ?>
                                                                     <a href="refused_absence.php?id=<?=$id?>" class="btn btn-danger">Not Agree</a>
                                                                 </td>
                                                             </tr>
