@@ -116,18 +116,18 @@
         }
     }
 
-    function register($user, $first, $last,$role,$department){
+    function register($user, $first, $last,$department){
         if(is_username_exists($user)){
             return array('code' => 1, 'error' => 'Username exists');
         }
         $hash = password_hash($user,PASSWORD_DEFAULT);
         $pass_md5 = md5($user);    
 
-        $sql = 'insert into employee(username, firstname, lastname,password,role,department,pass_md5) values(?,?,?,?,?,?,?)';
+        $sql = 'insert into employee(username, firstname, lastname,password,department,pass_md5) values(?,?,?,?,?,?)';
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('sssssss',$user,$first,$last,$hash,$role,$department,$pass_md5);
+        $stm->bind_param('ssssss',$user,$first,$last,$hash,$department,$pass_md5);
 
         if(!$stm->execute()){
             return array('code' => 2, 'error' => 'Cant execute command');
@@ -370,5 +370,90 @@
             }
         }
         return array('code'=>0,'data'=>$data);
+    }
+    function select_role_manager(){
+        $sql = "select e.username, a.username,role from employee e, absence_info a where e.username = a.username AND role = 'manager'";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        $data = array();
+        if($result->num_rows == 0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                // print_r($row) ;
+                $data[] = $row['username'];
+            }
+        }
+        return $data;
+        // return array('code'=>0,'data'=>$data);
+    }
+
+    function update_dayoff_manager(){
+        $sql = "UPDATE employee e,absence_info a set total_dayoff = 15 where e.username = a.username AND role = 'manager'";
+        $conn = open_database();
+
+        $conn->query($sql);
+        
+    }
+    function update_dayoff_employee(){
+        $sql = "UPDATE employee e,absence_info a set total_dayoff = 12 where e.username = a.username AND role = 'manager'";
+        $conn = open_database();
+
+        $conn->query($sql);
+        
+    }
+    function select_number_dayoff($user){
+        $sql = "select number_dayoff from absence_form where username = ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            $row = $result->fetch_assoc();
+            return $row['number_dayoff'];
+        }
+    }
+    function select_absence_info($user){
+        $sql = "select dayoff_used from absence_info where username = ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            $row = $result->fetch_assoc();
+            return $row['dayoff_used'];
+        }
+    }
+    function update_dayused($user){
+        $number_dayoff = select_number_dayoff($user);
+        $upd_total_dayused = 
+        $sql = "update absence_info set total_dayused+= ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$number_dayoff);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
     }
 ?> 
