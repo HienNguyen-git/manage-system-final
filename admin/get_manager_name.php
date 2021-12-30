@@ -6,7 +6,6 @@
 
     if(isset($_GET['department'])){
         $department = $_GET['department'];
-        // echo $department;
         $sql = "select username from employee where role = 'employee' and department = ? ";
         $conn = open_database();
     
@@ -26,8 +25,6 @@
                 $data[] = $row['username'];
             }
         }
-        // print_r($data);
         print_r(json_encode(array('code'=>0,'data'=>$data))) ;
     }
-
 ?>

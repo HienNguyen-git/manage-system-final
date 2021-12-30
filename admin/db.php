@@ -287,6 +287,7 @@
     }
 
     function status_ui($status){
+        //absence
         if($status=='Waiting'){
             echo "<td class='text-info'><i class='fas fa-spinner fa-spin'></i> Waiting</td>";  
         }
@@ -296,10 +297,26 @@
         if($status=='Approved'){
             echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Approved</td>";  
         }
+        //task
+        if($status=='New'){
+            echo "<td class='text-primary'><i class='fas fa-thumbtack'></i> New</td>";  
+        }
+        if($status=='In progress'){
+            echo "<td><i class='fas fa-cog fa-spin'></i> In progress</td>";  
+        }
+        if($status=='Waiting'){
+            echo "<td class='text-info'><i class='fas fa-circle-notch fa-spin'></i> Waiting</td>";  
+        }
+        if($status=='Rejected'){
+            echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Rejected</td>";  
+        }
+        if($status=='Completed'){
+            echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Completed</td>";  
+        }
     }
 
     function get_tasks(){
-        $sql = "select * from task where  ORDER BY id DESC";
+        $sql = "select * from task";
         $conn = open_database();
 
         $result = $conn->query($sql);
@@ -314,29 +331,6 @@
         }
         return array('code'=>0,'data'=>$data);
     }
-    
-    // function select_manager_name ($department){
-    //     $sql = "select username from employee where role = 'employee' and department = ? ";
-    //     $conn = open_database();
-
-    //     $stm = $conn->prepare($sql);
-    //     $stm->bind_param('s',$department);
-
-    //     if(!$stm->execute()){
-    //         return array('code'=>1,'error'=>'Command not execute');
-    //     }
-
-    //     $result = $stm->get_result();
-    //     $data = array();
-    //     if($result->num_rows==0){
-    //         return array('code'=>2,'error'=>'Database is empty');
-    //     }else{
-    //         while($row = $result->fetch_assoc()){
-    //             $data[] = $row;
-    //         }
-    //     }
-    //     return array('code'=>0,'data'=>$data);
-    // }
     
     function manager_to_employee($department){
         $sql = "update employee set role = 'employee' where department = ?";
@@ -448,7 +442,6 @@
         }else{
             $row = $result->fetch_assoc();
             return $row;
-            
         }
        
     }
@@ -487,5 +480,73 @@
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
         }
+    }
+
+    //manager
+    function get_taskdetail_byid($id){
+        $sql = 'select * from task where id = ?';
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id);
+        if(!$stm->execute()){
+            return array('code'=>1, 'error'=>'Command not execute');
+        }
+        $result = $stm->get_result();
+        $data = array();
+        if($result->num_rows == 0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function get_deparment_byuser($user){
+        $sql = "select department from employee where username = ? ";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = '';
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                return $row;
+            }
+        }
+        // return array('code'=>0,'data'=>$data);
+    }
+    function get_employee_bydepartment($department){
+        $sql = "select username from employee where department = ? AND role = 'employee'";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$department);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
     }
 ?> 

@@ -191,7 +191,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<hp class="modal-title">Edit infomation employee</hp>
-					<button type="button" class="close" data-dismiss="modal" >&times;</button>
+					<button type="button" class="close close-edit" data-dismiss="modal" >&times;</button>
 				</div>
 				<form method="post" id="update-form" novalidate enctype="multipart/form-data">
 					<div class="modal-body">
@@ -232,31 +232,30 @@
 	<script>
 		//thêm
 		const addForm = document.querySelector('#add-form')
+
         addForm.addEventListener('submit', async (e)=>{
             e.preventDefault();
             const departmentNameAdd = document.querySelector('#departmentNameAdd').value
             const departmentNumAdd = document.querySelector('#departmentNumAdd').value
-            // const departmentManagerAdd = document.querySelector('#departmentManagerAdd').value;
 			const departmentDetailAdd = document.querySelector('#departmentDetailAdd').value
-			console.log(departmentNameAdd,departmentNumAdd,departmentDetailAdd);
-            const sendRequest = await fetch('add_department.php',{
+            
+			const sendRequest = await fetch('add_department.php',{
                 method: 'POST',
                 body: JSON.stringify({departmentNameAdd,departmentNumAdd,departmentDetailAdd})
             })
-
             const res = await sendRequest.json();
-			console.log(res);	
             reloadPage(res)
-            
         })
 
 		//xóa
 		let currentID;
         const departmentDeleteName = document.querySelector('.department-delete-name');
+
         function handleTransferToDelete(name, id){
             departmentDeleteName.innerHTML = name;
             currentID = id;
         }
+
 		document.getElementById('btn-del').addEventListener('click',async () =>{
             const request = await fetch('delete_department.php',{
                 method: 'delete',
@@ -265,38 +264,40 @@
                     "Content-Type": "application/json"
                 },
             })
-            
             const res = await request.json();
             reloadPage(res)
         })
 
         //update
+		const select = document.getElementById('departmentManagerUpdate');
+
+		document.querySelector('.close-edit').addEventListener('click',() => {
+			select.innerHTML = '';
+		})
+
         function handleTransferToUpdate(id,name,number,manager,detail){
-            currentID = id;
+			currentID = id;
             document.querySelector('#departmentNameUpdate').value = name;
             document.querySelector('#departmentNumUpdate').value = number;
             // document.querySelector('#departmentManagerUpdate').value = manager;
             document.querySelector('#departmentDetailUpdate').innerHTML = detail;
 			const departmentName = document.querySelector('#departmentNameUpdate').value;
-			const select = document.getElementById('departmentManagerUpdate');
-			
-			
 			(async () => {
-				select.innerHTML = '';
-				select.insertAdjacentHTML('beforeend',`<option value="" disabled selected>Manager Name</option>`);
+				select.insertAdjacentHTML('beforeend','<option value="" disabled selected>Manager Name</option>');
 				const departmentName = document.querySelector('#departmentNameUpdate').value;
-				console.log(departmentName);
-				const link = `get_manager_name.php?department=${departmentName}`;
-				const request1 = await fetch(link);
+				
+				const request1 = await fetch(`get_manager_name.php?department=${departmentName}`);
 				const res = await request1.json();
-				// console.log(res);
-				const data = res['data']
+
+				const data = res['data'];
 				const optionSelectDeparment = data.map(e => `
-					<option value="${e}" >${e}</option>		
-				`).join()
+					<option value="${e}">${e}</option>		
+				`).join('')
+
 				select.insertAdjacentHTML('beforeend',optionSelectDeparment);
 			})()
         }
+
         document.querySelector('#update-form').addEventListener('submit',async (e)=>{
             e.preventDefault();
             const departmentNameUpdate = document.querySelector('#departmentNameUpdate').value
@@ -309,9 +310,9 @@
                 method: 'POST',
                 body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
             })
-
             const res = await sendRequest.json();
 			// console.log(res);
+			select.innerHTML = '';
             reloadPage(res);
         })
 	</script>
