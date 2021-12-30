@@ -1,9 +1,5 @@
 <?php
     session_start();
-    // if (isset($_SESSION['user'])) {
-    //     header('Location: index.php');
-    //     exit();
-    // }
     require_once('db.php');
 ?>
 <!DOCTYPE html>
@@ -26,17 +22,15 @@
     $first_name = '';
     $last_name = '';
     $user = '';
-    $role ='';
     $department = '';
 
     if (isset($_POST['first']) && isset($_POST['last'])
-    && isset($_POST['user']) && isset($_POST['role']) && isset($_POST['department']) )
+    && isset($_POST['user']) && isset($_POST['department']) )
     {
         $first_name = $_POST['first'];
         $last_name = $_POST['last'];
         
         $user = $_POST['user'];
-        $role = $_POST['role'];
         $department = $_POST['department'];
         if (empty($first_name)) {
             $error = 'Please enter your first name';
@@ -48,23 +42,19 @@
         else if (empty($user)) {
             $error = 'Please enter your username';
         }
-        else if (empty($role)) {
-            $error = 'Please enter role';
-        }
         else if (empty($department)) {
             $error = 'Please enter department';
         }
         else {
             // register a new account
             // echo 'good';
-            $result = register($user,$first_name,$last_name,$role,$department);
+            $result = register($user,$first_name,$last_name,$department);
             if($result['code'] == 0){
                 $success = $result['success'];
                 add_absence_info($user);
                 $first_name = '';
                 $last_name = '';
                 $user = '';
-                $role ='';
                 $department = '';
             }else if($result['code'] == 1){ //trùng username
                 $error = $result['error'];
@@ -140,14 +130,6 @@
     </div>
     
 </body>
-<script>
-    const department = document.querySelector('#department')
-    department.addEventListener('change', (e)=>{
-        // console.log(e.target.value);
-        // const role = e.target.value
-        
-        // if(role)
-    })
-</script>
+
 </html>
 
