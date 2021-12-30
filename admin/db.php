@@ -315,21 +315,28 @@
         return array('code'=>0,'data'=>$data);
     }
     
-    function select_manager_name (){
-        $sql = "select username from employee where role = 'employee' ";
-        $conn = open_database();
+    // function select_manager_name ($department){
+    //     $sql = "select username from employee where role = 'employee' and department = ? ";
+    //     $conn = open_database();
 
-        $result = $conn->query($sql);
-        $data = array();
-        if($result->num_rows == 0){
-            return array('code'=>2,'error'=>'Database is empty');
-        }else{
-            while($row = $result->fetch_assoc()){
-                $data[] = $row;
-            }
-        }
-        return array('code'=>0,'data'=>$data);
-    }
+    //     $stm = $conn->prepare($sql);
+    //     $stm->bind_param('s',$department);
+
+    //     if(!$stm->execute()){
+    //         return array('code'=>1,'error'=>'Command not execute');
+    //     }
+
+    //     $result = $stm->get_result();
+    //     $data = array();
+    //     if($result->num_rows==0){
+    //         return array('code'=>2,'error'=>'Database is empty');
+    //     }else{
+    //         while($row = $result->fetch_assoc()){
+    //             $data[] = $row;
+    //         }
+    //     }
+    //     return array('code'=>0,'data'=>$data);
+    // }
     
     function manager_to_employee($department){
         $sql = "update employee set role = 'employee' where department = ?";

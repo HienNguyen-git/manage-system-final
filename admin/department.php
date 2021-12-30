@@ -78,9 +78,13 @@
 						<tbody id="tbody">
 						<?php 
 							$result = get_departments(); 
+							// $department = '';
 							if($result['code'] == 0){
 								$data = $result['data'];
+								// print_r($data) ;
 								foreach($data as $row){
+									// $department = $row['name'];
+									// print_r($department);
 									// print_r($row) ;
 									?>
 									<tr class="item">
@@ -89,14 +93,6 @@
 										<td><?= $row['number_room'] ?></td>
 										<td>
 											<?= $row['manager_user'] ?>
-											<!-- <select name="namePerson" required>
-												<option value="" disabled selected>Person</option>
-												<option value="HaiDang">Hải Đăng</option>
-												<option value="HaiDang">Hải Đăng</option>
-												<option value="HaiDang">Hải Đăng</option>
-												<option value="HaiDang">Hải Đăng</option>
-												<option value="HaiDang">Hải Đăng</option>
-											</select> -->
 										</td>
 										<td><?= $row['detail'] ?></td>
 										<td >
@@ -118,7 +114,6 @@
 									</tr>
 									<?php 
 								}
-									
 							}
 						?>
 							
@@ -210,22 +205,8 @@
                         </div>
 						<div class="form-group">
                             <label for="departmentManagerUpdate">Manager Name</label>
-                            <!-- <input name="departmentManagerUpdate" required class="form-control" type="text" placeholder="Manager Name" id="departmentManagerUpdate"> -->
-
 							<select id="departmentManagerUpdate" class="form-control" name="departmentManagerUpdate" required>
 								<option value="" disabled selected>Manager Name</option>
-								<?php 
-									$select_maname = select_manager_name();
-									if($select_maname['code'] == 0){
-										$data = $select_maname['data'];
-										print_r($data);
-										foreach($data as $row_maname){
-											?>
-												<option value="<?= $row_maname['username'] ?>"><?= $row_maname['username'] ?></option>
-											<?php
-										}
-									}
-								?>
 								
 							</select>
                         </div>
@@ -290,14 +271,31 @@
 
         //update
         function handleTransferToUpdate(id,name,number,manager,detail){
-            // console.log(id,firstname,lastname,role);
             currentID = id;
             document.querySelector('#departmentNameUpdate').value = name;
             document.querySelector('#departmentNumUpdate').value = number;
             // document.querySelector('#departmentManagerUpdate').value = manager;
             document.querySelector('#departmentDetailUpdate').innerHTML = detail;
+			const departmentName = document.querySelector('#departmentNameUpdate').value;
+			const select = document.getElementById('departmentManagerUpdate');
+			
+			
+			(async () => {
+				select.innerHTML = '';
+				select.insertAdjacentHTML('beforeend',`<option value="" disabled selected>Manager Name</option>`);
+				const departmentName = document.querySelector('#departmentNameUpdate').value;
+				console.log(departmentName);
+				const link = `get_manager_name.php?department=${departmentName}`;
+				const request1 = await fetch(link);
+				const res = await request1.json();
+				// console.log(res);
+				const data = res['data']
+				const optionSelectDeparment = data.map(e => `
+					<option value="${e}" >${e}</option>		
+				`).join()
+				select.insertAdjacentHTML('beforeend',optionSelectDeparment);
+			})()
         }
-
         document.querySelector('#update-form').addEventListener('submit',async (e)=>{
             e.preventDefault();
             const departmentNameUpdate = document.querySelector('#departmentNameUpdate').value
