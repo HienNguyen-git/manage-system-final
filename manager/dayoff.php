@@ -30,7 +30,7 @@
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+					<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
@@ -48,6 +48,9 @@
 						<ul class="navbar-nav" style="flex-direction: column;">
 							<li class="nav-item ">
 								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>Tasks</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task submit</a>
 							</li>
 							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>

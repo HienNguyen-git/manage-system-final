@@ -333,7 +333,7 @@
     }   
     
     function get_feedback_reject_task($id_task){
-        $sql = "select description, file, extend_deadline from feedback_reject where id_task=?";
+        $sql = "select description, file, extend_deadline from feedback_reject where id_task=? ORDER BY id_feedback";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -344,7 +344,14 @@
         }
 
         $result = $stm->get_result();
-        $data = $result->fetch_assoc();
+        $data = [];
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'User not exist');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
 
         return array('code'=>0,'data'=>$data);
     }
@@ -364,6 +371,26 @@
         $data = $result->fetch_assoc();
 
         return array('code'=>0,'data'=>$data);
+    }
+
+    function is_rejected($id_task){
+        $sql = "select * from feedback_reject where id_task=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id_task);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        if($result->num_rows==0){
+            return 0;
+        }else{
+            return 1;
+        }
+
     }
 
     function is_approval($username){
@@ -420,5 +447,7 @@
         }
 
     }
+
+
 
 ?>
