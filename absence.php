@@ -109,7 +109,7 @@
 			if(!$absenceHistory['code']){
 				$data = $absenceHistory['data'];
 				if(!$dayoff_left){}
-				else if($data['status']=='Waiting'){
+				else if($data[0]['status']=='Waiting'){
 					$status = 'Waiting';
 				}else if(!is_absence_form_unlock($user)){
 					$is_lock = true;
