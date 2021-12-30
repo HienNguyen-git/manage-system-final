@@ -28,7 +28,6 @@
         $file_tmp =$file['tmp_name'];
         $file_ext=strtolower(end(explode('.',$file_name)));
 
-		echo $file_name;
 
         $extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","html","sql","ppt","jpeg");
         if(empty($description)){ // Check description is empty or not
@@ -46,7 +45,6 @@
             $error = "This file is larger than 100M";
         }else{ // Upload task
             $file_path = "upload/".$file_name;
-			echo $file_path;
 
             move_uploaded_file($file_tmp, $file_path);
             $message = "Submit successful";
@@ -106,6 +104,11 @@
 			?>
 		<?php
 			$absenceHistory = get_absence_history($user);
+			if($absenceHistory['code']==2){
+				?>
+					<button class="btn btn-success submit-btn col-sm-12 col-md-6 mb-3">Create request absence form</button>
+				<?php
+			}
 			if(!$absenceHistory['code']){
 				$data = $absenceHistory['data'];
 				if(!$dayoff_left){}

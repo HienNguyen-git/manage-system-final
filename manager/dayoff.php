@@ -56,7 +56,6 @@
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
 						</ul>
-
 					</div>
 				</nav>
 			</div>

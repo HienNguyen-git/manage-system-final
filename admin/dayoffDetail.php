@@ -155,7 +155,7 @@
                                                                             <?php
                                                                         }
                                                                     ?> 
-                                                                    <a href="refused_absence.php?id=<?=$id?>" class="btn btn-danger">Not Agree</a>
+                                                                    <a href="refused_absence.php?id=<?=$id?>&username=<?=$username?>" class="btn btn-danger">Not Agree</a>
                                                                 </td>
                                                             </tr>
                                                         <?php

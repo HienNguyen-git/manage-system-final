@@ -61,8 +61,11 @@
 		
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav" style="flex-direction: column;">
-                            <li class="nav-item ">
+							<li class="nav-item ">
 								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>Tasks</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task submit</a>
 							</li>
 							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
@@ -157,7 +160,7 @@
                                                                             <?php
                                                                         }
                                                                     ?>
-                                                                    <a href="refused_absence.php?id=<?=$id?>" class="btn btn-danger">Not Agree</a>
+                                                                    <a href="refused_absence.php?id=<?=$id?>&username=<?=$username?>" class="btn btn-danger">Not Agree</a>
                                                                 </td>
                                                             </tr>
                                                         <?php
