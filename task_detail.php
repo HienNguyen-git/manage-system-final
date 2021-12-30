@@ -102,12 +102,12 @@
 </nav>
 
 <div class="container pb-2">
+        <?php
+            $data = get_task_by_id($id)['data'];
+        ?>
 		<h1 class="mt-3 text-secondary">TASK INFORMATION</h1>
-        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" >Design UI</h3>
+        <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light" ><?=$data['title']?></h3>
 		<div class="ml-auto mr-auto task-container">
-            <?php
-                $data = get_task_by_id($id)['data'];
-            ?>
             <table>
                 <tr>
                     <th>Status:</th>
@@ -138,34 +138,40 @@
         	</table>
 
             <?php
-                if($data['status']=="Rejected"){
-                    $feedback_data = get_feedback_reject_task($id);
-                    if(!$feedback_data['code']){
-                        $row = $feedback_data['data'];
+                if($data['status']=="Rejected" || is_rejected($id)){
+                    $result = get_feedback_reject_task($id);
+                    if(!$result['code']){
+                        $feedback_data = $result['data'];
+                        ?>
+                            <h3 class="mt-1 mb-3 pb-3 text-center border-bottom border-info text-light" >Reject feedback</h3>
+                        <?php
+
+                        foreach($feedback_data as $key=>$row){
+                            ?>
+                                <table style="width: 0%;">
+                                    <tr>
+                                        <th>Feedback: <?=$key+1?></th>
+                                        <td><?=$row['description']?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>File:</th>
+                                        <td><a href="<?=$row['file']?>"><?=$row['file']?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Extend deadline:</th>
+                                        <?php
+                                            if($row['extend_deadline']){
+                                                echo "<td class='text-primary'><i class='fas fa-check'> Yes</i></td>";
+                                            }else{
+                                                echo "<td class='text-danger'><i class='fas fa-times-circle'> No</i></td>";
+                                            }
+                                        ?>
+                                    </tr>
+                                </table>
+                                <p class="mt-1 mb-5 border-bottom border-info text-light" style="width:50%;"></p>
+                            <?php
+                        }
                     }
-                    ?>
-                        <h3 class="mt-1 mb-3 pb-3 text-center border-bottom border-info text-light" >Manager feedback</h3>
-                        <table>
-                            <tr>
-                                <th>Feedback:</th>
-                                <td><?=$row['description']?></td>
-                            </tr>
-                            <tr>
-                                <th>File:</th>
-                                <td><a href="<?=$row['file']?>"><?=$row['file']?></a></td>
-                            </tr>
-                            <tr>
-                                <th>Extend deadline:</th>
-                                <?php
-                                    if($row['extend_deadline']){
-                                        echo "<td class='text-primary'><i class='fas fa-check'> Yes</i></td>";
-                                    }else{
-                                        echo "<td class='text-danger'><i class='fas fa-times-circle'> No</i></td>";
-                                    }
-                                ?>
-                            </tr>
-                        </table>
-                    <?php
                 }
                 if($data['status']=="Completed"){
                     $feedback_data = get_feedback_complete_task($id);
@@ -173,7 +179,7 @@
                         $row = $feedback_data['data'];
                     }
                     ?>
-                        <h3 class="mt-1 mb-3 pb-3 text-center border-bottom border-info text-light" >Manager feedback</h3>
+                        <h3 class="mt-1 mb-3 pb-3 text-center border-bottom border-info text-light" >Complete feedback</h3>
                         <table>
                             <tr>
                                 <th>Rating:</th>
@@ -188,7 +194,7 @@
                 }
                 if($data['status']=='In progress' || $data['status']=='Rejected'){
                     ?>
-                        <button class="btn btn-success submit-btn col-12 col-sm-4" style="display: block;">Create submit form</button>
+                        <button class="btn btn-success submit-btn col-12 col-sm-4 mb-5" style="display: block;">Create submit form</button>
                         <form class="submit-form" id="task-form" style="display: none;" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="description">Description</label>

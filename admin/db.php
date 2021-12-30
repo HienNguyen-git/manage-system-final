@@ -299,7 +299,7 @@
     }
 
     function get_tasks(){
-        $sql = "select * from task ";
+        $sql = "select * from task where  ORDER BY id DESC";
         $conn = open_database();
 
         $result = $conn->query($sql);

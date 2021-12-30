@@ -45,7 +45,7 @@
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+					<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
