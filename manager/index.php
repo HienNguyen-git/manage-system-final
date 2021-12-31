@@ -1,12 +1,14 @@
 <?php
 	require_once('../admin/db.php');
     session_start();
-	
+	//is_login
 	$user =get_info_employee_byuser($_SESSION['user']);
     if (!isset($_SESSION['user'])) {
         header('Location: ../login.php');
         exit();
     }
+	
+	//is_change_pass and check role
 	if( !is_password_changed($_SESSION['user']) ){
 		header('Location: ../change_password.php');
 		exit();
@@ -26,8 +28,57 @@
 			header('Location: ../admin/index.php');
 		}
     }
+	//save department
 	$department = get_deparment_byuser($_SESSION['user'])['department'];
-	// print_r($department);
+	
+	//file
+	$error = '';
+	$success = '';
+	$title = '';
+	$detail = '';
+	$deadline = '';
+	$taskEmployeeAdd = '';
+
+	if(isset($_POST['taskTitleAdd']) && isset($_POST['taskDetailAdd']) && isset($_POST['deadlineAdd'])
+	&& isset($_FILES['file']) && isset($_POST['taskEmployeeAdd'])){
+		$title = $_POST['taskTitleAdd'];
+		$detail = $_POST['taskDetailAdd'];
+		$deadline = $_POST['deadlineAdd'];
+		$taskEmployeeAdd = $_POST['taskEmployeeAdd'];
+		
+		$file = $_FILES['file'];
+		$file_name = $file['name'];
+		echo $file_name;
+		$file_size = $file['size'];
+		$file_tmp = $file['tmp_name'];
+		$tmp = explode('.', $file_name);
+		$file_ext = end($tmp);
+		// $file_ext = strtolower(end(explode('.',$file_name)));
+        
+		$extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","html","sql","ppt","jpeg");
+		if(empty($title)){
+			$error = "Please enter title task";
+		}else if(empty($detail)){
+			$error = "Please enter detail task";
+		}else if(empty($deadline)){
+			$error = "Please enter deadline task";
+		}else if(empty($taskEmployeeAdd)){
+			$error = "Please enter person do task";
+		}else if(!$file_name){
+			$error = "Please upload file task";
+		}else if(!in_array($file_ext,$extensions)){
+			$error = "This type of file is not allowed";
+		}else if($file_size > 104857600){
+			$error = "This file is larger than 100M";
+		}else{
+			$file_path = "../upload/".$file_name;
+			move_uploaded_file($file_tmp,$file_path);
+			$success ="submit successful";
+			add_task($title,$detail,$taskEmployeeAdd,$deadline,$file_path);
+		}
+	}else{
+		$error = "Please fill all";
+	}
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +136,8 @@
 				<div class="bg-light mt-4 text-dark p-2">
 					<div class="admin-panel-section-header">
 						<h2>List Tasks</h2>
-						<a class="addbtn"  data-toggle="modal" data-target="#add-task">Add Task</a>
+						<!-- <a class="addbtn"  data-toggle="modal" data-target="#add-task">Add Task</a> -->
+						<a class="addbtn"  href="add_task.php">Add Task</a>
 					</div>
 					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
 						<tr class="header">
@@ -133,7 +185,7 @@
                     <hp class="modal-title">Add Task</hp>
                     <button type="button" class="close" data-dismiss="modal" >&times;</button>
                 </div>
-                <form id="add-form" method="post" novalidate enctype="multipart/form-data">
+                <form id="add-form" method="POST" novalidate enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="taskTitleAdd">Title Task</label>
@@ -173,8 +225,18 @@
 								?>
 							</select>
                         </div>
+						<div class="form-group" id="error-message">
+                                <?php
+                                    if(!empty($error)){
+                                        echo "<div class='alert alert-danger'>$error</div>";
+                                    }
+									if(!empty($success)){
+                                        echo "<div class='alert alert-danger'>$success</div>";
+                                    }
+                                ?>
+                            </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary px-5 mr-2">Add</button>
+                            <button type="submit" class="btn btn-primary px-5 mr-2 " id="add-btn">Add</button>
                         </div>
                     </div>
                 </form>
@@ -194,29 +256,61 @@
 		});
 	</script>
 	<script>
-		//thêm
-		const addForm = document.querySelector('#add-form');
+		//btn upload
+		const addBtn = document.getElementById('add-btn');
+		addBtn.disabled = true;
+		const taskTitleAdd = document.getElementById('taskTitleAdd');
+		console.log(taskTitleAdd.value);
+		// if()
+		//file
 		const uploadFile = document.querySelector('#file')
 		uploadFile.addEventListener('change', e=>{      
 			const file = e.target.files[0];
-			console.log(file);
-		})
-        addForm.addEventListener('submit', async (e)=>{
-            e.preventDefault();
-            const taskTitleAdd = document.querySelector('#taskTitleAdd').value;
-            const taskDetailAdd = document.querySelector('#taskDetailAdd').value;
-			const deadlineAdd = document.querySelector('#deadlineAdd').value;
-			const uploadFile = document.querySelector('#file');
-			const taskEmployeeAdd = document.querySelector('#taskEmployeeAdd').value;
+			const fileSize = file.size;
+			const fileName = file.name;
+			const fileExt = fileName.split('.').pop().toLowerCase();
+			const type_list = ["txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","sql","ppt","jpeg"];
+			if(fileSize === 0){
+				handleErrorMessage('Please upload file');
+			}else if(!type_list.includes(fileExt)){
+				handleErrorMessage('This type of file is not allowed');
+			}else if(fileSize > 100*Math.pow(1024,2)){
+				handleErrorMessage('This file is larger than 100M');
+			}else{
+				handleSuccessMessage('This file is ok')
+			}
+		});
+		const messageBox = document.querySelector('#error-message')
+		//thành công
+		function handleSuccessMessage(message){
+			messageBox.innerHTML = '';
+			messageBox.insertAdjacentHTML('beforeend',`<div class='alert alert-success'>${message}</div>`)
+		}
+		//lỗi
+		function handleErrorMessage(message){
+			messageBox.innerHTML = '';
+			messageBox.insertAdjacentHTML('beforeend',`<div class='alert alert-danger'>${message}</div>`)
+			uploadBtn.disabled = true;
+		}
+
+		//thêm
+		// const addForm = document.querySelector('#add-form');
+        // addForm.addEventListener('submit', async (e)=>{
+        //     e.preventDefault();
+        //     const taskTitleAdd = document.querySelector('#taskTitleAdd').value;
+        //     const taskDetailAdd = document.querySelector('#taskDetailAdd').value;
+		// 	const deadlineAdd = document.querySelector('#deadlineAdd').value;
+		// 	const uploadFile = document.querySelector('#file');
+		// 	const taskEmployeeAdd = document.querySelector('#taskEmployeeAdd').value;
             
-			console.log(taskTitleAdd,taskDetailAdd,deadlineAdd,fileAdd,taskEmployeeAdd);
-			const sendRequest = await fetch('add_department.php',{
-                method: 'POST',
-                body: JSON.stringify({taskTitleAdd,taskDetailAdd,deadlineAdd})
-            })
-            const res = await sendRequest.json();
-            reloadPage(res)
-        })
+		// 	console.log(taskTitleAdd,taskDetailAdd,deadlineAdd,fileAdd,taskEmployeeAdd);
+		// 	const sendRequest = await fetch('add_department.php',{
+        //         method: 'POST',
+        //         body: JSON.stringify({taskTitleAdd,taskDetailAdd,deadlineAdd})
+        //     })
+        //     const res = await sendRequest.json();
+        //     reloadPage(res)
+        // })
 	</script>
 	<script>
 		function reloadPage(res){

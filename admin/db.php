@@ -288,9 +288,7 @@
 
     function status_ui($status){
         //absence
-        if($status=='Waiting'){
-            echo "<td class='text-info'><i class='fas fa-spinner fa-spin'></i> Waiting</td>";  
-        }
+        
         if($status=='Refused'){
             echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Refused</td>";  
         }
@@ -549,4 +547,15 @@
         }
         return array('code'=>0,'data'=>$data);
     }
+    function add_task($title,$description,$person,$deadline,$file){
+        $sql = "insert into task(title,description,person,deadline,file) values(?,?,?,?,?)";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('sssss',$title,$description,$person,$deadline,$file);
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+        return array('code'=>0,'success'=>'Add task successfully!');
+}
 ?> 

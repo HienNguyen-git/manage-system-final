@@ -25,14 +25,14 @@
 <body>
     <div class="container-fluid admin-section-header">	
         <div class="row">
-			<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
-                Company System
+            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
+				Company System
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
-                <a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+				<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
-                <a href="../logout.php">Log out</a>
+				<a href="../logout.php">Log out</a>
 			</div>
 		</div>
 		<div class="row h-100">
@@ -44,13 +44,13 @@
 		
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav" style="flex-direction: column;">
-                            <li class="nav-item ">
-								<a class="nav-link p20" href="index.php"><i class="fas fa-user"></i>  Account </a>
+                            <li class="nav-item active-menu">
+								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>List Task</a>
 							</li>
-							<li class="nav-item ">
-								<a class="nav-link p20" href="department.php"> <i class="fas fa-building"></i>  Department</a>
+							<li class="nav-item">
+								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task submit</a>
 							</li>
-							<li class="nav-item active-menu">
+							<li class="nav-item">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
 						</ul>
@@ -94,7 +94,12 @@
                                                 </tr>
                                                 <tr>
                                                     <td>File</td>
-                                                    <td><a href="../<?=$row['file']?>"><?=$row['file']?></a></td>
+                                                    <?php 
+                                                        $fileExplode = explode('/', $row['file']);
+                                                        // print_r($fileExplode[2]);
+                                                        // $filename = 
+                                                    ?>
+                                                    <td><a href="<?=$row['file']?>"><?=$fileExplode[2]?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Status</td>
