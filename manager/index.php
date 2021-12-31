@@ -28,16 +28,10 @@
 			header('Location: ../admin/index.php');
 		}
     }
-	//save department
 	echo $_SESSION['user'];
-	if(get_deparment_byuser($_SESSION['user'])['code']){
-		echo "Not working";
-	}else{
-		echo get_deparment_byuser($_SESSION['user'])['code'];
-		echo "Working";
-	}
-	$department = get_deparment_byuser($_SESSION['user'])['department'];
-	// echo $department;
+	//save department
+	$department = get_department_byuser($_SESSION['user'])['department'];
+	echo $department;
 	//file
 	$error = '';
 	$success = '';
