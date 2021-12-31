@@ -95,23 +95,23 @@
 						</tr>
 						<tbody id="tbody">
 							<?php 	
-								$result = get_submit_tasks();
-								if($result['code'] == 0){
-									$data = $result['data'];
-									foreach($data as $row){
-										// print_r($row['id']) ;
-										$file_name = explode("/",$row['sm_file'])[1];
-										?>
-										<tr class="item">
-											<td><?= $row['id_task'] ?></td>
-											<td><?= $row['sm_description'] ?></td>
-											<td><a href="../<?= $row['sm_file'] ?>"><?=$file_name ?></a></td>
-											<td><?= $row['submit_day'] ?></td>
-											<td ><a href="view_submit_task.php?id=<?=$row['id_task']?>" class="btn btn-primary"><i class="fas fa-eye"></i>View Detail</a></td>
-										</tr>
-										<?php
-									}
-								}
+								// $result = get_submit_tasks();
+								// if($result['code'] == 0){
+								// 	$data = $result['data'];
+								// 	foreach($data as $row){
+								// 		// print_r($row['id']) ;
+								// 		$file_name = explode("/",$row['sm_file'])[1];
+								// 		?>
+								// 		<!-- <tr class="item">
+								// 			<td><?= $row['id_task'] ?></td>
+								// 			<td><?= $row['sm_description'] ?></td>
+								// 			<td><a href="../<?= $row['sm_file'] ?>"><?=$file_name ?></a></td>
+								// 			<td><?= $row['submit_day'] ?></td>
+								// 			<td ><a href="view_submit_task.php?id=<?=$row['id_task']?>" class="btn btn-primary"><i class="fas fa-eye"></i>View Detail</a></td>
+								// 		</tr> -->
+								// 		<?php
+								// 	}
+								// }
 							?>
 						</tbody>
 					</table>

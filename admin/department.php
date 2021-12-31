@@ -78,9 +78,13 @@
 						<tbody id="tbody">
 						<?php 
 							$result = get_departments(); 
+							// $department = '';
 							if($result['code'] == 0){
 								$data = $result['data'];
+								// print_r($data) ;
 								foreach($data as $row){
+									// $department = $row['name'];
+									// print_r($department);
 									// print_r($row) ;
 									?>
 									<tr class="item">
@@ -89,14 +93,6 @@
 										<td><?= $row['number_room'] ?></td>
 										<td>
 											<?= $row['manager_user'] ?>
-											<!-- <select name="namePerson" required>
-												<option value="" disabled selected>Person</option>
-												<option value="HaiDang">Hải Đăng</option>
-												<option value="HaiDang">Hải Đăng</option>
-												<option value="HaiDang">Hải Đăng</option>
-												<option value="HaiDang">Hải Đăng</option>
-												<option value="HaiDang">Hải Đăng</option>
-											</select> -->
 										</td>
 										<td><?= $row['detail'] ?></td>
 										<td >
@@ -118,7 +114,6 @@
 									</tr>
 									<?php 
 								}
-									
 							}
 						?>
 							
@@ -196,7 +191,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<hp class="modal-title">Edit infomation employee</hp>
-					<button type="button" class="close" data-dismiss="modal" >&times;</button>
+					<button type="button" class="close close-edit" data-dismiss="modal" >&times;</button>
 				</div>
 				<form method="post" id="update-form" novalidate enctype="multipart/form-data">
 					<div class="modal-body">
@@ -210,22 +205,8 @@
                         </div>
 						<div class="form-group">
                             <label for="departmentManagerUpdate">Manager Name</label>
-                            <!-- <input name="departmentManagerUpdate" required class="form-control" type="text" placeholder="Manager Name" id="departmentManagerUpdate"> -->
-
 							<select id="departmentManagerUpdate" class="form-control" name="departmentManagerUpdate" required>
 								<option value="" disabled selected>Manager Name</option>
-								<?php 
-									$select_maname = select_manager_name();
-									if($select_maname['code'] == 0){
-										$data = $select_maname['data'];
-										print_r($data);
-										foreach($data as $row_maname){
-											?>
-												<option value="<?= $row_maname['username'] ?>"><?= $row_maname['username'] ?></option>
-											<?php
-										}
-									}
-								?>
 								
 							</select>
                         </div>
@@ -251,31 +232,30 @@
 	<script>
 		//thêm
 		const addForm = document.querySelector('#add-form')
+
         addForm.addEventListener('submit', async (e)=>{
             e.preventDefault();
             const departmentNameAdd = document.querySelector('#departmentNameAdd').value
             const departmentNumAdd = document.querySelector('#departmentNumAdd').value
-            // const departmentManagerAdd = document.querySelector('#departmentManagerAdd').value;
 			const departmentDetailAdd = document.querySelector('#departmentDetailAdd').value
-			console.log(departmentNameAdd,departmentNumAdd,departmentDetailAdd);
-            const sendRequest = await fetch('add_department.php',{
+            
+			const sendRequest = await fetch('add_department.php',{
                 method: 'POST',
                 body: JSON.stringify({departmentNameAdd,departmentNumAdd,departmentDetailAdd})
             })
-
             const res = await sendRequest.json();
-			console.log(res);	
             reloadPage(res)
-            
         })
 
 		//xóa
 		let currentID;
         const departmentDeleteName = document.querySelector('.department-delete-name');
+
         function handleTransferToDelete(name, id){
             departmentDeleteName.innerHTML = name;
             currentID = id;
         }
+
 		document.getElementById('btn-del').addEventListener('click',async () =>{
             const request = await fetch('delete_department.php',{
                 method: 'delete',
@@ -284,19 +264,38 @@
                     "Content-Type": "application/json"
                 },
             })
-            
             const res = await request.json();
             reloadPage(res)
         })
 
         //update
+		const select = document.getElementById('departmentManagerUpdate');
+
+		document.querySelector('.close-edit').addEventListener('click',() => {
+			select.innerHTML = '';
+		})
+
         function handleTransferToUpdate(id,name,number,manager,detail){
-            // console.log(id,firstname,lastname,role);
-            currentID = id;
+			currentID = id;
             document.querySelector('#departmentNameUpdate').value = name;
             document.querySelector('#departmentNumUpdate').value = number;
             // document.querySelector('#departmentManagerUpdate').value = manager;
             document.querySelector('#departmentDetailUpdate').innerHTML = detail;
+			const departmentName = document.querySelector('#departmentNameUpdate').value;
+			(async () => {
+				select.insertAdjacentHTML('beforeend','<option value="" disabled selected>Manager Name</option>');
+				const departmentName = document.querySelector('#departmentNameUpdate').value;
+				
+				const request1 = await fetch(`get_manager_name.php?department=${departmentName}`);
+				const res = await request1.json();
+
+				const data = res['data'];
+				const optionSelectDeparment = data.map(e => `
+					<option value="${e}">${e}</option>		
+				`).join('')
+
+				select.insertAdjacentHTML('beforeend',optionSelectDeparment);
+			})()
         }
 
         document.querySelector('#update-form').addEventListener('submit',async (e)=>{
@@ -311,9 +310,9 @@
                 method: 'POST',
                 body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
             })
-
             const res = await sendRequest.json();
 			// console.log(res);
+			select.innerHTML = '';
             reloadPage(res);
         })
 	</script>
