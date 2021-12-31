@@ -29,6 +29,13 @@
 		}
     }
 	//save department
+	echo $_SESSION['user'];
+	if(get_deparment_byuser($_SESSION['user'])['code']){
+		echo "Not working";
+	}else{
+		echo get_deparment_byuser($_SESSION['user'])['code'];
+		echo "Working";
+	}
 	$department = get_deparment_byuser($_SESSION['user'])['department'];
 	
 	//file
@@ -124,7 +131,7 @@
 							<li class="nav-item">
 								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task Submit</a>
 							</li>
-							<li class="nav-item">
+							<li class="nav-item">	
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
 						</ul>

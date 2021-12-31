@@ -556,9 +556,15 @@
         }
 
         $result = $stm->get_result();
-        $data = $result->fetch_assoc();
-
-        return array('code'=>0,'data'=>$data);
+        $data = '';
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                return $row;
+            }
+        }
+        // return array('code'=>0,'data'=>$data);
     }
 
     function convert_to_filename($name){
