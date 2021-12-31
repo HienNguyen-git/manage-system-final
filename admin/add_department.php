@@ -1,10 +1,7 @@
 <?php
     require_once('db.php');
-
     header('Access-Control-Allow-Origin: *');
-
     header('Access-Control-Allow-Methods: GET, POST');
-    
     header("Access-Control-Allow-Headers: X-Requested-With");
 
     if($_SERVER['REQUEST_METHOD']!='POST'){
@@ -28,14 +25,12 @@
         die(json_encode(array('code'=>4,'message'=>'Thong tin khong hop le')));
     }
 
-    // $id = generateID()+1;
     $departmentNameAdd = $input->departmentNameAdd;
     $departmentNumAdd = $input->departmentNumAdd;
     // $departmentManagerAdd = $input->departmentManagerAdd;
     $departmentDetailAdd = $input->departmentDetailAdd;
 
     $sql = 'INSERT INTO department(name, number_room, detail) VALUES (?,?,?)';
-    // $sql = 'insert into department values(?,?,?,?)';
     $conn = open_database();
     
     $stm = $conn->prepare($sql);

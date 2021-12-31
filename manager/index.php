@@ -28,10 +28,10 @@
 			header('Location: ../admin/index.php');
 		}
     }
-	echo $_SESSION['user'];
+	// echo $_SESSION['user'];
 	//save department
 	$department = get_department_byuser($_SESSION['user'])['department'];
-	echo $department;
+	// echo $department;
 	//file
 	$error = '';
 	$success = '';
@@ -122,9 +122,7 @@
 							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>List Task</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task Submit</a>
-							</li>
+							
 							<li class="nav-item">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
