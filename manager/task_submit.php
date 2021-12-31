@@ -12,7 +12,6 @@
 	}
 	else if($user['role'] != 'manager' ){
         move_page_manager($user['role']);
-		
         exit();
     }
 	function move_page_manager($role){
@@ -72,13 +71,12 @@
 								<a class="nav-link p20" href="./"><i class="fas fa-tasks"></i>List Task</a>
 							</li>
 							<li class="nav-item active-menu">
-								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task submit</a>
+								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task Submit</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
 						</ul>
-						</form>
 					</div>
 				</nav>
 			</div>
@@ -86,32 +84,30 @@
 				<div class="bg-light mt-4 text-dark p-2">
 					<div class="admin-panel-section-header">
 						<h2>Task Submit</h2>
-						<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Task</a>
 					</div>
 					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
 						<tr class="header">
 							<td>ID</td>
-							<td>Title</td>
-							<td>Person</td>
-							<td>Deadline</td>
+							<td>Description</td>
+							<td>File</td>
+							<td>Submit day</td>
 							<td>Action</td>
 						</tr>
 						<tbody id="tbody">
-							<?php 
-								$result = get_tasks(); 
+							<?php 	
+								$result = get_submit_tasks();
 								if($result['code'] == 0){
 									$data = $result['data'];
 									foreach($data as $row){
 										// print_r($row['id']) ;
+										$file_name = explode("/",$row['sm_file'])[1];
 										?>
 										<tr class="item">
-											<td><?= $row['id'] ?></td>
-											<td><?= $row['title'] ?></td>
-											<td><?= $row['person'] ?></td>
-											<td><?= $row['deadline'] ?></td>
-											
-											<td ><a href="" class="btn btn-primary">Edit</a> |
-											<a href="#" class="btn btn-danger">Delete</a></td>
+											<td><?= $row['id_task'] ?></td>
+											<td><?= $row['sm_description'] ?></td>
+											<td><a href="../<?= $row['sm_file'] ?>"><?=$file_name ?></a></td>
+											<td><?= $row['submit_day'] ?></td>
+											<td ><a href="view_submit_task.php?id=<?=$row['id_task']?>" class="btn btn-primary"><i class="fas fa-eye"></i>View Detail</a></td>
 										</tr>
 										<?php
 									}

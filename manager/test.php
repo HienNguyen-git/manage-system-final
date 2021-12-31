@@ -1,5 +1,9 @@
 <?php 
     require_once('../admin/db.php');
 
-    update_approval_date('hiengay');
+    if(is_task_submitted(2)){
+        echo "Submitted";
+    }else{
+        echo "Not yet";
+    }
 ?>

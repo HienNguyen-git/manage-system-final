@@ -72,7 +72,7 @@
 								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>List Task</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task submit</a>
+								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task Submit</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
@@ -98,7 +98,7 @@
 						</tr>
 						<tbody id="tbody">
 							<?php 
-								$result = get_tasks(); 
+								$result = get_task_by_order(); 
 								if($result['code'] == 0){
 									$data = $result['data'];
 									foreach($data as $row){

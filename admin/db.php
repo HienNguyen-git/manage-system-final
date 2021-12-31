@@ -287,18 +287,65 @@
     }
 
     function status_ui($status){
+        if($status=='New'){
+            echo "<td class='text-primary'><i class='fas fa-thumbtack'></i> New</td>";  
+        }
+        if($status=='In progress'){
+            echo "<td><i class='fas fa-cog fa-spin'></i> In progress</td>";  
+        }
         if($status=='Waiting'){
-            echo "<td class='text-info'><i class='fas fa-spinner fa-spin'></i> Waiting</td>";  
+            echo "<td class='text-info'><i class='fas fa-circle-notch fa-spin'></i> Waiting</td>";  
+        }
+        if($status=='Rejected'){
+            echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Rejected</td>";  
+        }
+        if($status=='Completed'){
+            echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Completed</td>";  
+        }
+        if($status=='Approved'){
+            echo "<td class='text-success'><i class='fas fa-check'></i> Approved</td>";  
         }
         if($status=='Refused'){
             echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Refused</td>";  
         }
-        if($status=='Approved'){
-            echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Approved</td>";  
+        if($status=='Canceled'){
+            echo "<td class='text-muted'><i class='fas fa-times-circle'></i> Canceled</td>";  
+        }
+        if($status=='Good'){
+            echo "<td style='color: #f06595;'><i class='fas fa-heart'></i> Good</td>";  
+        }
+        if($status=='OK'){
+            echo "<td class='text-primary'><i class='fas fa-thumbs-up'></i> OK</td>";  
+        }
+        if($status=='Bad'){
+            echo "<td class='text-danger'><i class='fas fa-thumbs-down'></i> Bad</td>";  
+        }
+        if($status=='On time'){
+            echo "<td class='text-success'><i class='fas fa-clock'></i> On time</td>";  
+        }
+        if($status=='Late'){
+            echo "<td class='text-muted'><i class='fas fa-calendar-times'></i> Late</td>";  
         }
     }
 
     function get_tasks(){
+        $sql = "select * from task where  ORDER BY id DESC";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function get_task_by_order(){
         $sql = "select * from task where  ORDER BY id DESC";
         $conn = open_database();
 
@@ -401,7 +448,6 @@
         $conn = open_database();
 
         $conn->query($sql);
-        
     }
     function select_number_dayoff($user){
         $sql = "select number_dayoff from absence_form where username = ?";
@@ -441,9 +487,7 @@
         }else{
             $row = $result->fetch_assoc();
             return $row;
-            
         }
-       
     }
     
     function update_dayused($user){
@@ -470,7 +514,6 @@
     function update_approval_date($user){
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $today = date("Y-m-d H:i:s");
-        echo $today;
         $sql = "update absence_form set approval_date = ? where username = ?";
         $conn = open_database();
 
@@ -480,5 +523,83 @@
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
         }
+    }
+
+    
+    function get_submit_tasks(){
+        $sql = "select id_task,sm_description,sm_file,submit_day,status from submit_task inner JOIN task on submit_task.id_task = task.id ORDER BY submit_day DESC";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function get_task_detail($id){
+        $sql = "SELECT * FROM task where id=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function convert_to_filename($name){
+        return explode("/",$name)[1];
+    }
+
+    function get_submit_list_by_id($id_task){
+        $sql = "SELECT * FROM submit_task where id_task=? ORDER BY submit_day ASC";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id_task);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        $data = [];
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'User not exist');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function is_task_submitted($id_task){
+        $sql = "SELECT * FROM  submit_task where id_task=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id_task);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        return $result->num_rows>0;
     }
 ?> 
