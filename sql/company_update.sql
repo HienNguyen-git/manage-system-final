@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 -- Database: `company`
 --
 
+CREATE DATABASE IF NOT EXISTS `company_clone` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `company_clone`;
 -- --------------------------------------------------------
 
 --
