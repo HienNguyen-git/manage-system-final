@@ -23,16 +23,33 @@
 </head>
 
 <body>
+    <?php
+    /*
+    $link = mysqli_connect("localhost", "root", "", "");
+    $sql = "SELECT * FROM account where username='$user'";
+    $result = mysqli_fetch_assoc(mysqli_query($link, $sql));
+    // print_r($result);
+
+    $username = $result['username'];
+    $firstname = $result['firstname'];
+    $lastname = $result['lastname'];
+    $email = $result['email'];
+    $sdt = $result['sdt'];
+    */
+    ?>
     <div class="container-fluid admin-section-header">	
         <div class="row">
-            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
-				Company System
+			<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
+
+					Company System
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
-				<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
+
+					<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
-				<a href="../logout.php">Log out</a>
+
+					<a href="../logout.php">Log out</a>
 			</div>
 		</div>
 		<div class="row h-100">
@@ -43,12 +60,12 @@
 					</button>
 		
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav" style="flex-direction: column;">
-                            <li class="nav-item active-menu">
-								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>List Task</a>
-							</li>
+                        <ul class="navbar-nav" style="flex-direction: column;">
 							<li class="nav-item">
-								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task submit</a>
+								<a class="nav-link p20" href="./"><i class="fas fa-tasks"></i>List Task</a>
+							</li>
+							<li class="nav-item active-menu">
+								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task Submit</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
@@ -60,35 +77,36 @@
 			<div class="col-md-10 col-lg-10 col-xl-10 ">
 				<div class="bg-light mt-4 text-dark p-2">
                     <div class="admin-panel-section-header ">
-                        <h2>Task Detail</h2>
+                        <h2>Submit detail </h2>
+                        <!-- <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a> -->
                     </div>
                     <div class="account-container">
                         <table class="table-hover">
                             <?php 
                                 $id = $_GET['id'];
-                                $result = get_taskdetail_byid($id); 
+                                $result = get_task_detail($id); 
                                 if($result['code'] == 0){
                                     $data = $result['data'];
                                     ?>    
                                         <tr>
                                             <th>ID Task</th>
-                                            <td><?=$data['id']?></td>
+                                            <td><?= $data['id']?></td>
                                         </tr>
                                         <tr>
                                             <th>Title</th>
-                                            <td><?=$data['title']?></td>
+                                            <td><?= $data['title']?></td>
                                         </tr>
                                         <tr>
                                             <th>Description</th>
-                                            <td><?=$data['description']?></td>
+                                            <td><?= $data['description']?></td>
                                         </tr>
                                         <tr>
                                             <th>Person</th>
-                                            <td><?=$data['person']?></td>
+                                            <td><?= $data['person']?></td>
                                         </tr>
                                         <tr>
                                             <th>Deadline</th>
-                                            <td><?=$data['deadline']?></td>
+                                            <td><?= $data['deadline']?></td>
                                         </tr>
                                         <tr class="mt-1 mb-3 pb-3 border-bottom border-info">
                                             <th>Task file</th>
@@ -122,7 +140,7 @@
                                         ?>
                                         <tr>
                                             <td>Status</td>
-                                            <?=status_ui($data['status'])?>
+                                            <?=status_ui($data['status'])  ?></td>
                                         </tr>
                                     <?php 
                                         if($data['status'] == 'Waiting'){
@@ -145,6 +163,7 @@
 		</div>
 	</div>
 
+	
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

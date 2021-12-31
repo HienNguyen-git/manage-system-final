@@ -287,15 +287,6 @@
     }
 
     function status_ui($status){
-        //absence
-        
-        if($status=='Refused'){
-            echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Refused</td>";  
-        }
-        if($status=='Approved'){
-            echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Approved</td>";  
-        }
-        //task
         if($status=='New'){
             echo "<td class='text-primary'><i class='fas fa-thumbtack'></i> New</td>";  
         }
@@ -311,10 +302,51 @@
         if($status=='Completed'){
             echo "<td class='text-success'><i class='fas fa-clipboard-check'></i> Completed</td>";  
         }
+        if($status=='Approved'){
+            echo "<td class='text-success'><i class='fas fa-check'></i> Approved</td>";  
+        }
+        if($status=='Refused'){
+            echo "<td class='text-danger'><i class='fas fa-exclamation'></i> Refused</td>";  
+        }
+        if($status=='Canceled'){
+            echo "<td class='text-muted'><i class='fas fa-times-circle'></i> Canceled</td>";  
+        }
+        if($status=='Good'){
+            echo "<td style='color: #f06595;'><i class='fas fa-heart'></i> Good</td>";  
+        }
+        if($status=='OK'){
+            echo "<td class='text-primary'><i class='fas fa-thumbs-up'></i> OK</td>";  
+        }
+        if($status=='Bad'){
+            echo "<td class='text-danger'><i class='fas fa-thumbs-down'></i> Bad</td>";  
+        }
+        if($status=='On time'){
+            echo "<td class='text-success'><i class='fas fa-clock'></i> On time</td>";  
+        }
+        if($status=='Late'){
+            echo "<td class='text-muted'><i class='fas fa-calendar-times'></i> Late</td>";  
+        }
     }
 
     function get_tasks(){
         $sql = "select * from task";
+        $conn = open_database();
+
+        $result = $conn->query($sql);
+        
+        $data = array();
+        if($result->num_rows==0){
+            return array('code'=>2,'error'=>'Database is empty');
+        }else{
+            while($row = $result->fetch_assoc()){
+                $data[] = $row;
+            }
+        }
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function get_task_by_order(){
+        $sql = "select * from task where  ORDER BY id DESC";
         $conn = open_database();
 
         $result = $conn->query($sql);
@@ -400,7 +432,6 @@
         $conn = open_database();
 
         $conn->query($sql);
-        
     }
     function select_number_dayoff($user){
         $sql = "select number_dayoff from absence_form where username = ?";
@@ -441,7 +472,6 @@
             $row = $result->fetch_assoc();
             return $row;
         }
-       
     }
     
     function update_dayused($user){
@@ -468,7 +498,6 @@
     function update_approval_date($user){
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $today = date("Y-m-d H:i:s");
-        echo $today;
         $sql = "update absence_form set approval_date = ? where username = ?";
         $conn = open_database();
 
@@ -487,21 +516,34 @@
 
         $stm = $conn->prepare($sql);
         $stm->bind_param('i',$id);
+        
         if(!$stm->execute()){
-            return array('code'=>1, 'error'=>'Command not execute');
+            return array('code'=>1,'error'=>'Command not execute');
         }
+
         $result = $stm->get_result();
-        $data = array();
-        if($result->num_rows == 0){
-            return array('code'=>2,'error'=>'Database is empty');
-        }else{
-            while($row = $result->fetch_assoc()){
-                $data[] = $row;
-            }
-        }
+        $data = $result->fetch_assoc();
+
         return array('code'=>0,'data'=>$data);
     }
 
+    function get_task_detail($id){
+        $sql = "SELECT * FROM task where id=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id);
+        
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc(); 
+
+        return array('code'=>0,'data'=>$data);
+    }
+    
     function get_deparment_byuser($user){
         $sql = "select department from employee where username = ? ";
         $conn = open_database();
@@ -514,16 +556,54 @@
         }
 
         $result = $stm->get_result();
-        $data = '';
+        $data = $result->fetch_assoc();
+
+        return array('code'=>0,'data'=>$data);
+    }
+
+    function convert_to_filename($name){
+        return explode("/",$name)[1];
+    }
+
+    function get_submit_list_by_id($id_task){
+        $sql = "SELECT * FROM submit_task where id_task=? ORDER BY submit_day ASC";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id_task);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        $data = [];
         if($result->num_rows==0){
-            return array('code'=>2,'error'=>'Database is empty');
+            return array('code'=>2,'error'=>'User not exist');
         }else{
             while($row = $result->fetch_assoc()){
-                return $row;
+                $data[] = $row;
             }
         }
-        // return array('code'=>0,'data'=>$data);
+
+        return array('code'=>0,'data'=>$data);
     }
+
+    function is_task_submitted($id_task){
+        $sql = "SELECT * FROM  submit_task where id_task=?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('i',$id_task);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+
+        $result = $stm->get_result();
+        return $result->num_rows>0;
+    }
+        
     function get_employee_bydepartment($department){
         $sql = "select username from employee where department = ? AND role = 'employee'";
         $conn = open_database();
@@ -547,6 +627,7 @@
         }
         return array('code'=>0,'data'=>$data);
     }
+    
     function add_task($title,$description,$person,$deadline,$file){
         $sql = "insert into task(title,description,person,deadline,file) values(?,?,?,?,?)";
         $conn = open_database();

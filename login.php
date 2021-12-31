@@ -33,6 +33,7 @@
                 $data = $result['data'];
                 $_SESSION['user'] = $user;
                 $_SESSION['name'] = $data['firstname'] . ' ' . $data['lastname'];
+                
                 move_page($data['role']);
                 exit();
             }
