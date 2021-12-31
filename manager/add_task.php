@@ -72,8 +72,10 @@
         else{
 			$file_path = "../upload/".$file_name;
 			move_uploaded_file($file_tmp,$file_path);
+			$file_path_name = "upload/".$file_name;
+
 			$success ="submit successful";
-			$result = add_task($taskTitleAdd,$taskDetailAdd,$taskEmployeeAdd,$deadlineAdd,$file_path);
+			$result = add_task($taskTitleAdd,$taskDetailAdd,$taskEmployeeAdd,$deadlineAdd,$file_path_name);
             if($result['code'] == 0){
                 $success = $result['success'];
             }
@@ -115,7 +117,7 @@
                             <option value="<?= $row['username'] ?>" disabled selected>Employee Name</option>
                             <?php 
                                 $result = get_employee_bydepartment($department);
-                                // print_r($result);
+                                print_r($result);
                                 if($result['code'] == 0){
                                     $data = $result['data'];
                                     foreach($data as $row){

@@ -145,22 +145,22 @@
 							<td>Title</td>
 							<td>Person</td>
 							<td>Deadline</td>
+							<td>Status</td>
 							<td>Action</td>
 						</tr>
 						<tbody id="tbody">
 							<?php 
-								$result = get_task_by_order(); 
+								$result = get_tasks(); 
 								if($result['code'] == 0){
 									$data = $result['data'];
 									foreach($data as $row){
-										// print_r($row['id']) ;
 										?>
 										<tr class="item">
 											<td><?= $row['id'] ?></td>
 											<td><?= $row['title'] ?></td>
 											<td><?= $row['person'] ?></td>
 											<td><?= $row['deadline'] ?></td>
-											
+											<?=status_ui($row['status'])?>
 											<td >
 												<a href="task_detail.php?id=<?= $row['id']?>" class="btn btn-success">View detail</a>
 											</td>

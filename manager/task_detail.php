@@ -60,7 +60,7 @@
 			<div class="col-md-10 col-lg-10 col-xl-10 ">
 				<div class="bg-light mt-4 text-dark p-2">
                     <div class="admin-panel-section-header ">
-                        <h2>Detail </h2>
+                        <h2>Task Detail</h2>
                     </div>
                     <div class="account-container">
                         <table class="table-hover">
@@ -69,44 +69,73 @@
                                 $result = get_taskdetail_byid($id); 
                                 if($result['code'] == 0){
                                     $data = $result['data'];
-                                    foreach($data as $row){
-                                        // $username = $row['username'];
-                                            ?>    
-                                                <tr>
-                                                    <td>ID</td>
-                                                    <td><?= $row['id']?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Title</td>
-                                                    <td><?= $row['title']?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Description</td>
-                                                    <td><?= $row['description']?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Person</td>
-                                                    <td><?= $row['person']?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Deadline</td>
-                                                    <td><?= $row['deadline']?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>File</td>
-                                                    <?php 
-                                                        $fileExplode = explode('/', $row['file']);
-                                                        // print_r($fileExplode[2]);
-                                                        // $filename = 
+                                    ?>    
+                                        <tr>
+                                            <th>ID Task</th>
+                                            <td><?=$data['id']?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Title</th>
+                                            <td><?=$data['title']?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Description</th>
+                                            <td><?=$data['description']?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Person</th>
+                                            <td><?=$data['person']?></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Deadline</th>
+                                            <td><?=$data['deadline']?></td>
+                                        </tr>
+                                        <tr class="mt-1 mb-3 pb-3 border-bottom border-info">
+                                            <th>Task file</th>
+                                            <td><a href="../<?=$data['file']?>"><?=convert_to_filename($data['file'])?></a></td>
+                                        </tr>
+                                        <?php
+                                            $submit_list = get_submit_list_by_id($id);
+                                            if(!$submit_list['code']){
+                                                $submit_data = $submit_list['data'];
+                                                foreach($submit_data as $key=>$row){
                                                     ?>
-                                                    <td><a href="<?=$row['file']?>"><?=$fileExplode[2]?></a></td>
-                                                </tr>
+                                                    <tr>
+                                                        <th>Submit_<?=$key+1?></th>
+                                                        <td>-----------</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Description</th>
+                                                        <td><?= $row['sm_description']?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>File</th>
+                                                        <td><a href="../<?=$row['sm_file']?>"><?=convert_to_filename($row['sm_file'])?></a></td>
+                                                    </tr>
+                                                    <tr class="mt-1 mb-3 pb-3 border-bottom border-info">
+                                                        <th >Date</th>
+                                                        <td><?= $row['submit_day']?></td>
+                                                    </tr>
+                                                    <?php
+                                                }
+                                            }
+                                        ?>
+                                        <tr>
+                                            <td>Status</td>
+                                            <?=status_ui($data['status'])?>
+                                        </tr>
+                                    <?php 
+                                        if($data['status'] == 'Waiting'){
+                                            ?>
                                                 <tr>
-                                                    <td>Status</td>
-                                                    <?=status_ui($row['status'])  ?></td>
+                                                    <td>Action</td>
+                                                    <td >
+                                                        <a href="update_status_absence.php?id=<?=$id?>&username=<?=$username?>" class="btn btn-primary">Complete</a> | 
+                                                        <a href="refused_absence.php?id=<?=$id?>&username=<?=$username?>" class="btn btn-danger">Reject</a>
+                                                    </td>
                                                 </tr>
                                             <?php
-                                    }
+                                        }
                                 }
                             ?>
                         </table>

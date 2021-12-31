@@ -138,7 +138,6 @@
                                                 }
                                             }
                                         ?>
-                                        
                                         <tr>
                                             <td>Status</td>
                                             <?=status_ui($data['status'])  ?></td>
