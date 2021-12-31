@@ -29,16 +29,15 @@
     {
         $first_name = $_POST['first'];
         $last_name = $_POST['last'];
-        
         $user = $_POST['user'];
         $department = $_POST['department'];
+
         if (empty($first_name)) {
             $error = 'Please enter your first name';
         }
         else if (empty($last_name)) {
             $error = 'Please enter your last name';
         }
-        
         else if (empty($user)) {
             $error = 'Please enter your username';
         }
@@ -52,10 +51,10 @@
             if($result['code'] == 0){
                 $success = $result['success'];
                 add_absence_info($user);
-                $first_name = '';
-                $last_name = '';
-                $user = '';
-                $department = '';
+                // $first_name = '';
+                // $last_name = '';
+                // $user = '';
+                // $department = '';
             }else if($result['code'] == 1){ //trùng username
                 $error = $result['error'];
             }else{
@@ -69,7 +68,7 @@
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-8 border my-5 p-4 rounded mx-3 bg-info">
                 <h3 class="text-center text-secondary mt-2 mb-3 mb-3">Create a new account</h3>
-                <form method="post" action="register.php" novalidate>
+                <form method="post" action="" novalidate enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="firstname">First name</label>
@@ -121,7 +120,7 @@
                         <button id="btnReset" type="reset" class="btn btn-success px-5 mt-3" style="width: 100%;">Reset</button>
                     </div>
                     <div class="form-group">
-                        <p>Already have an account? <a href="../login.php">Login</a> now.</p>
+                        <p>Already have an account? <a href="../login.php" style="color: red">Login</a> now.</p>
                     </div>
                 </form>
             </div>

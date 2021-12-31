@@ -37,7 +37,7 @@
 		echo "Working";
 	}
 	$department = get_deparment_byuser($_SESSION['user'])['department'];
-	
+	// echo $department;
 	//file
 	$error = '';
 	$success = '';
