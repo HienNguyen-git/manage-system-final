@@ -7,7 +7,7 @@
         exit();
     }
     //save department
-	$department = get_deparment_byuser($_SESSION['user'])['department'];
+	$department = get_department_byuser($_SESSION['user'])['department'];
 ?>
 <!DOCTYPE html>
 <html lang="en">

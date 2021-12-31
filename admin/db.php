@@ -544,7 +544,7 @@
         return array('code'=>0,'data'=>$data);
     }
     
-    function get_deparment_byuser($user){
+    function get_department_byuser($user){
         $sql = "select department from employee where username = ? ";
         $conn = open_database();
 
@@ -558,7 +558,7 @@
         $result = $stm->get_result();
         $data = $result->fetch_assoc();
 
-        return array('code'=>0,'data'=>$data);
+        return $data;
     }
 
     function convert_to_filename($name){
