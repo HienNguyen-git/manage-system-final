@@ -96,14 +96,14 @@
                                                     <td>File</td>
                                                     <?php 
                                                         $fileExplode = explode('/', $row['file']);
-                                                        // print_r($fileExplode[2]);
+                                                        print_r($fileExplode[2]);
                                                         // $filename = 
                                                     ?>
                                                     <td><a href="<?=$row['file']?>"><?=$fileExplode[2]?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Status</td>
-                                                    <?=status_ui($row['status'])  ?></td>
+                                                    <td><?=status_ui($row['status'])?></td>
                                                 </tr>
                                             <?php
                                     }
