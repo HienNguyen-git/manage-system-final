@@ -49,9 +49,7 @@
 							<li class="nav-item ">
 								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>List Task</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task Submit</a>
-							</li>
+							
 							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
@@ -63,7 +61,6 @@
 				<div class="bg-light mt-4 text-dark p-2" style="width: 100%; overflow-x:scroll">
 					<div class="admin-panel-section-header">
 						<h2>List Absence Request</h2>
-						<a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a>
 					</div>
 					<table class="table-hover" cellpadding="10" cellspacing="10" border="1" style="width: 100%; margin-top:20px">
 						<tr class="header">

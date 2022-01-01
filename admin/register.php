@@ -24,13 +24,13 @@
     $user = '';
     $department = '';
 
-    if (isset($_POST['first']) && isset($_POST['last'])
-    && isset($_POST['user']) && isset($_POST['department']) )
+    if (isset($_POST['first']) || isset($_POST['last'])
+    || isset($_POST['user'])  )
     {
         $first_name = $_POST['first'];
         $last_name = $_POST['last'];
         $user = $_POST['user'];
-        $department = $_POST['department'];
+        $department = isset($_POST['department']) ? $_POST['department'] : '';
 
         if (empty($first_name)) {
             $error = 'Please enter your first name';

@@ -22,7 +22,36 @@
 </head>
 
 <body>
+<?php
+    $success = '';
+    $error = '';
 
+    $departmentNameAdd = '';
+    $departmentNumAdd = '';
+    $departmentDetailAdd = '';
+
+    if (isset($_POST['departmentNameAdd']) || isset($_POST['departmentNumAdd'])
+    || isset($_POST['departmentDetailAdd'])  )
+    {
+        $departmentNameAdd = $_POST['departmentNameAdd'];
+        $departmentNumAdd = $_POST['departmentNumAdd'];
+        $departmentDetailAdd = $_POST['departmentDetailAdd'];
+
+        if (empty($departmentNameAdd)) {
+            $error = 'Please enter department name';
+        }
+        else if (empty($departmentNumAdd)) {
+            $error = 'Please enter department number';
+        }
+        else if (empty($departmentDetailAdd)) {
+            $error = 'Please enter department detail';
+        }
+        else {
+            $success = "Add success";
+
+        }
+    }
+?>
     <div class="container-fluid admin-section-header">	
         <div class="row">
 			<div class="col-sm-12 col-md-10 col-lg-10 col-xl-10 admin-logo">
@@ -153,6 +182,16 @@
                         </div>
 						
                         <div class="form-group">
+							<!-- <div id="error-message">loi</div> -->
+							<div id="error-message" style="display:none" class='alert alert-danger'></div>
+							<?php
+								if (!empty($error)) {
+									echo "<div class='alert alert-danger'>$error</div>";
+								}
+								if (!empty($success)) {
+									echo "<div class='alert alert-success'>$success</div>";
+								}
+							?>
                             <button type="submit" class="btn btn-primary px-5 mr-2">Add</button>
                         </div>
                     </div>
@@ -215,6 +254,7 @@
                             <textarea id="departmentDetailUpdate" name="departmentDetailUpdate" rows="4" class="form-control" placeholder="Department Detail"></textarea>
                         </div>
 						<div class="form-group">
+							
 							<button type="submit" class="btn btn-primary px-5 mr-2">Edit</button>
 						</div>
 					</div>
@@ -232,13 +272,18 @@
 	<script>
 		//thêm
 		const addForm = document.querySelector('#add-form')
-
+		const errorMess = document.getElementById('error-message')
         addForm.addEventListener('submit', async (e)=>{
             e.preventDefault();
             const departmentNameAdd = document.querySelector('#departmentNameAdd').value
             const departmentNumAdd = document.querySelector('#departmentNumAdd').value
 			const departmentDetailAdd = document.querySelector('#departmentDetailAdd').value
             
+			if(departmentNameAdd === '' || departmentNumAdd === '' || departmentDetailAdd === ''){
+				errorMess.style.display = 'block';
+				errorMess.innerHTML = 'Input is not plank';
+			}
+
 			const sendRequest = await fetch('add_department.php',{
                 method: 'POST',
                 body: JSON.stringify({departmentNameAdd,departmentNumAdd,departmentDetailAdd})
@@ -305,15 +350,17 @@
             const departmentManagerUpdate = document.querySelector('#departmentManagerUpdate').value
 			// console.log(departmentManagerUpdate);
             const departmentDetailUpdate = document.querySelector('#departmentDetailUpdate').value
-			
-            const sendRequest = await fetch('update_department.php',{
-                method: 'POST',
-                body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
-            })
-            const res = await sendRequest.json();
+
+			const sendRequest = await fetch('update_department.php',{
+				method: 'POST',
+				body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
+			})
+			const res = await sendRequest.json();
 			// console.log(res);
 			select.innerHTML = '';
-            reloadPage(res);
+			reloadPage(res);
+			
+			
         })
 	</script>
 	<script>

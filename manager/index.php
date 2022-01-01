@@ -120,10 +120,15 @@
 							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>List Task</a>
 							</li>
+<<<<<<< HEAD
 							<li class="nav-item">
 								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task Submit</a>
 							</li>
 							<li class="nav-item">	
+=======
+							
+							<li class="nav-item">
+>>>>>>> b52c927665073f1f3cc5d505329971ba57c3c02a
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
 						</ul>

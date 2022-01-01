@@ -162,9 +162,7 @@
                             <li class="nav-item active-menu">
 								<a class="nav-link p20" href="index.php"><i class="fas fa-tasks"></i>List Task</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link p20" href="task_submit.php"><i class="fas fa-tasks"></i>Task submit</a>
-							</li>
+							
 							<li class="nav-item">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
