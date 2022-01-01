@@ -640,5 +640,59 @@
         return array('code'=>0,'success'=>'Add task successfully!');
     }
 
+    function is_submit_late($deadline,$submit_date){
+        $d1 = new DateTime($deadline);
+        $d2 = new DateTime($submit_date);
+
+        return $d1>$d2?1:0;
+    }
+
+    function submit_complete_feedback($id_task,$rating,$time_submit){
+        $sql = "insert into feedback_complete(id_task,rating, time_submit) values(?,?,?)";
+        $conn = open_database();
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('iss',$id_task,$rating,$time_submit);
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+    }
+
+    function submit_reject_feedback($id_task,$description,$file,$is_extend){
+        
+        $sql = "insert into feedback_reject(id_task,description, file, extend_deadline) values(?,?,?,?)";
+        $conn = open_database();
+        $stm = $conn->prepare($sql);
+
+        $stm->bind_param('issi',$id_task,$description,$file,$is_extend);
+
+        if(!$stm->execute()){
+            echo json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+            die();
+        }
+    }
+
+    function update_deadline($id,$deadline){
+        $sql = "update task set deadline = ? where id = ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $extend_date = date("Y-m-d", strtotime($deadline))." 00:00:00";
+        $stm->bind_param('si',$extend_date,$id);
+
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+    }
+
+    function update_task_status($id,$status){
+        $sql = "update task set status = ? where id = ?";
+        $conn = open_database();
+
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('si',$status,$id);
+        if(!$stm->execute()){
+            return json_encode(array('code'=> 2, 'error' => 'Can not execute command.'));
+        }
+    }
 
 ?> 

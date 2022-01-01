@@ -32,7 +32,7 @@
     $deadlineAdd = '';
     $taskEmployeeAdd = '';
 
-    if (isset($_POST['taskTitleAdd']) && isset($_POST['taskDetailAdd']) && isset($_POST['deadlineAdd']) && isset($_POST['taskEmployeeAdd']) && isset($_FILES['file']))
+    if (isset($_POST['taskTitleAdd']) || isset($_POST['taskDetailAdd']) || isset($_POST['deadlineAdd']) || isset($_POST['taskEmployeeAdd']) || isset($_FILES['file']))
     {
         $taskTitleAdd = $_POST['taskTitleAdd'];
         $taskDetailAdd = $_POST['taskDetailAdd'];
@@ -41,7 +41,6 @@
 
         $file = $_FILES['file'];
 		$file_name = $file['name'];
-		echo $file_name;
 		$file_size = $file['size'];
 		$file_tmp = $file['tmp_name'];
 		$tmp = explode('.', $file_name);
