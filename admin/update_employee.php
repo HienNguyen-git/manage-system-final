@@ -14,12 +14,12 @@
         die(json_encode(array('code'=>2,'message'=>'Chi ho tro JSON')));
     }
 
-    if(!property_exists($input,'firstname')||!property_exists($input,'lastname')||!property_exists($input,'role')){
+    if(!property_exists($input,'firstname')||!property_exists($input,'lastname')){
         http_response_code(400);
         die(json_encode(array('code'=>3,'message'=>'Thieu thong tin dau vao ')));
     }
 
-    if(empty($input->firstname)||empty($input->lastname)||empty($input->role)){
+    if(empty($input->firstname)||empty($input->lastname)){
         http_response_code(405);
         die(json_encode(array('code'=>4,'message'=>'Thong tin khong hop le')));
     }
@@ -27,15 +27,14 @@
     $id = $input->id;
     $firstname = $input->firstname;
     $lastname = $input->lastname;
-    $role = $input->role;
     // die(json_encode(array('code'=>5,'data'=> array($id,$name,$price,$desc))));
 
     
-    $sql = 'update employee set firstname=?, lastname=?, role=? where id=?';
+    $sql = 'update employee set firstname=?, lastname=? where id=?';
     $conn = open_database();
     
     $stm = $conn->prepare($sql);
-    $stm->bind_param('sssi',$firstname,$lastname,$role,$id);
+    $stm->bind_param('ssi',$firstname,$lastname,$id);
     
     if(!$stm->execute()){
         http_response_code(400);

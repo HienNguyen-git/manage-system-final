@@ -142,7 +142,7 @@
                                             class="btn btn-primary bg-primary"
                                             data-toggle="modal" 
                                             data-target="#edit-employee-detail"
-                                            onclick="handleTransferToUpdate('<?= $id ?>','<?= $firstname ?>','<?= $lastname ?>','<?= $role ?>')" 
+                                            onclick="handleTransferToUpdate('<?= $id ?>','<?= $firstname ?>','<?= $lastname ?>')" 
                                         >
                                             Edit     
                                         </a>
@@ -192,11 +192,12 @@
                                                 <label for="LastNameUpdate">LastName</label>
                                                 <input name="lastName" required class="form-control" type="text" placeholder="LastName" id="lastNameUpdate">
                                             </div>
-                                            <div class="form-group">
+                                            <!-- <div class="form-group">
                                                 <label for="RoleUpdate">Role</label>
                                                 <input name="role" required class="form-control" type="text" placeholder="Role" id="roleUpdate">
-                                            </div>
+                                            </div> -->
                                             <div class="form-group">
+                                                <div id="error-message" style="display: none;" class="alert alert-danger"></div>
                                                 <button type="submit" class="btn btn-primary px-5 mr-2">Edit</button>
                                             </div>
                                         </div>
@@ -228,26 +229,39 @@
         
         let currentID
         //update
-        function handleTransferToUpdate(id,firstname,lastname,role){
-            console.log(id,firstname,lastname,role);
+        function handleTransferToUpdate(id,firstname,lastname){
+            // console.log(id,firstname,lastname,role);
             currentID = id;
             document.querySelector('#firstNameUpdate').value = firstname;
             document.querySelector('#lastNameUpdate').value = lastname
-            document.querySelector('#roleUpdate').value = role
+            // document.querySelector('#roleUpdate').value = role
         }
 
         document.querySelector('#update-form').addEventListener('submit',async (e)=>{
             e.preventDefault();
             const firstname = document.querySelector('#firstNameUpdate').value
             const lastname = document.querySelector('#lastNameUpdate').value
-            const role = document.querySelector('#roleUpdate').value
+            // const role = document.querySelector('#roleUpdate').value
+            const errorMessage = document.getElementById('error-message');
+
+            if(firstname === ''){
+                errorMessage.style.display = "block";
+                errorMessage.innerHTML = 'Please enter firstname of this person';
+            }else if(lastname === ''){
+                errorMessage.style.display = "block";
+                errorMessage.innerHTML = 'Please enter lastname of this person';
+            }
 
             const sendRequest = await fetch('update_employee.php',{
                 method: 'POST',
-                body: JSON.stringify({id:currentID,firstname,lastname,role})
+                body: JSON.stringify({id:currentID,firstname,lastname})
             })
 
             const res = await sendRequest.json();
+            if(res['code']){ //code khác 0 là lỗi
+                errorMessage.style.display = "block";
+                errorMessage.innerHTML = res['message'];
+            }
             reloadPage(res)
         })
     </script>

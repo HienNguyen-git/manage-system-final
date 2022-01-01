@@ -22,8 +22,8 @@
         $file_name = $file['name'];
         $file_size =$file['size'];
         $file_tmp =$file['tmp_name'];
-        $file_ext=strtolower(end(explode('.',$file_name)));
-
+        $file_extend=explode('.',$file_name);
+        $file_ext = strtolower(end($file_extend));
         $extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","html","sql","ppt","jpeg");
         if(empty($description)){ // Check description is empty or not
             $error = "Please enter your description";
@@ -264,7 +264,7 @@
             
             let isDetailValidate = descriptionBox.value===''?false:true
 
-            descriptionBox.addEventListener('change',()=>{
+            descriptionBox.addEventListener('keyup',()=>{
                 if(descriptionBox.value===''){
                     handleErrorMessage('Please enter your description')
                 }else{

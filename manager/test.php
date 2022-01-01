@@ -9,5 +9,7 @@
     // update_approval_date('hiengay');
     // print_r(get_taskdetail_byid(1));
     // print_r(get_employee_bydepartment('IT'));
-    print_r(get_department_byuser('hiengay')['data']['department']);
+    // print_r(get_department_byuser('hiengay')['data']['department']);
+    // print_r(get_tasks('Accountant'));    
+
 ?>

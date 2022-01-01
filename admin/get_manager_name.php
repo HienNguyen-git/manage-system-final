@@ -19,7 +19,8 @@
         $result = $stm->get_result();
         $data = array();
         if($result->num_rows==0){
-            return array('code'=>2,'error'=>'Database is empty');
+            print_r(json_encode(array('code'=>2,'error'=>'This department not have employee')));
+            die();
         }else{
             while($row = $result->fetch_assoc()){
                 $data[] = $row['username'];

@@ -328,13 +328,21 @@
         }
     }
 
-    function get_tasks(){
-        $sql = "select * from task";
+    function get_tasks($department){
+        // $sql = "select * from task ";
+        $sql = "select t.id,t.title,t.person,t.deadline,t.status from task t,employee e where e.department = ? AND t.person = e.username";
         $conn = open_database();
 
-        $result = $conn->query($sql);
-        
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$department);
+
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+
+        $result = $stm->get_result();
         $data = array();
+        
         if($result->num_rows==0){
             return array('code'=>2,'error'=>'Database is empty');
         }else{

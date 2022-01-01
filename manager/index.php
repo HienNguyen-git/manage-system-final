@@ -149,7 +149,7 @@
 						</tr>
 						<tbody id="tbody">
 							<?php 
-								$result = get_tasks(); 
+								$result = get_tasks($department); 
 								if($result['code'] == 0){
 									$data = $result['data'];
 									foreach($data as $row){
