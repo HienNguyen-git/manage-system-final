@@ -17,12 +17,12 @@
 
     if(!property_exists($input,'departmentNameAdd')||!property_exists($input,'departmentNumAdd') ||!property_exists($input,'departmentDetailAdd')){
         http_response_code(400);
-        die(json_encode(array('code'=>3,'message'=>'Thieu thong tin dau vao ID')));
+        die(json_encode(array('code'=>3,'message'=>'Thieu thong tin dau vao ID'))); 
     }
 
     if(empty($input->departmentNameAdd)||empty($input->departmentNumAdd) ||empty($input->departmentDetailAdd)){
         http_response_code(405);
-        die(json_encode(array('code'=>4,'message'=>'Thong tin khong hop le')));
+        die(json_encode(array('code'=>4,'message'=>'Input is not valid')));
     }
 
     $departmentNameAdd = $input->departmentNameAdd;

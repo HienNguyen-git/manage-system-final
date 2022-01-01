@@ -182,7 +182,6 @@
                         </div>
 						
                         <div class="form-group">
-							<!-- <div id="error-message">loi</div> -->
 							<div id="error-message" style="display:none" class='alert alert-danger'></div>
 							<?php
 								if (!empty($error)) {
@@ -254,7 +253,7 @@
                             <textarea id="departmentDetailUpdate" name="departmentDetailUpdate" rows="4" class="form-control" placeholder="Department Detail"></textarea>
                         </div>
 						<div class="form-group">
-							
+							<div id="err-message" style="display:none" class='alert alert-danger'></div>
 							<button type="submit" class="btn btn-primary px-5 mr-2">Edit</button>
 						</div>
 					</div>
@@ -279,9 +278,21 @@
             const departmentNumAdd = document.querySelector('#departmentNumAdd').value
 			const departmentDetailAdd = document.querySelector('#departmentDetailAdd').value
             
-			if(departmentNameAdd === '' || departmentNumAdd === '' || departmentDetailAdd === ''){
+			// if(departmentNameAdd === '' || departmentNumAdd === '' || departmentDetailAdd === ''){
+			// 	errorMess.style.display = 'block';
+			// 	errorMess.innerHTML = 'Input is not plank';
+			// }
+			if(departmentDeleteName === ''){
 				errorMess.style.display = 'block';
-				errorMess.innerHTML = 'Input is not plank';
+				errorMess.innerHTML = 'Please enter department name';
+			}
+			else if(departmentNumAdd === ''){
+				errorMess.style.display = 'block';
+				errorMess.innerHTML = 'Please enter department number';
+			}
+			else if(departmentDetailAdd === ''){
+				errorMess.style.display = 'block';
+				errorMess.innerHTML = 'Please enter department detail';
 			}
 
 			const sendRequest = await fetch('add_department.php',{
@@ -333,16 +344,22 @@
 				
 				const request1 = await fetch(`get_manager_name.php?department=${departmentName}`);
 				const res = await request1.json();
+				let optionSelectDeparment
+				if(res['code']){
+					select.innerHTML = '';
+					optionSelectDeparment = `<option value="" disabled selected>${res['error']}</option>`;
+				}else{
 
-				const data = res['data'];
-				const optionSelectDeparment = data.map(e => `
-					<option value="${e}">${e}</option>		
-				`).join('')
+					const data = res['data'];
+					optionSelectDeparment = data.map(e => `
+						<option value="${e}">${e}</option>		
+					`).join('')
+				}
 
 				select.insertAdjacentHTML('beforeend',optionSelectDeparment);
 			})()
         }
-
+		const errMess = document.getElementById('err-message');
         document.querySelector('#update-form').addEventListener('submit',async (e)=>{
             e.preventDefault();
             const departmentNameUpdate = document.querySelector('#departmentNameUpdate').value
@@ -351,14 +368,37 @@
 			// console.log(departmentManagerUpdate);
             const departmentDetailUpdate = document.querySelector('#departmentDetailUpdate').value
 
+			if(departmentNameUpdate === ''){
+				errMess.style.display = 'block';
+				errMess.innerHTML = 'Please enter department name';
+			}
+			else if(departmentNumUpdate === ''){
+				errMess.style.display = 'block';
+				errMess.innerHTML = 'Please enter department number';
+			}
+			else if(departmentManagerUpdate === ''){
+				errMess.style.display = 'block';
+				errMess.innerHTML = 'Please enter department manager name';
+			}
+			else if(departmentDetailUpdate === ''){
+				errMess.style.display = 'block';
+				errMess.innerHTML = 'Please enter department detail';
+			}
+
 			const sendRequest = await fetch('update_department.php',{
 				method: 'POST',
 				body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
 			})
 			const res = await sendRequest.json();
-			// console.log(res);
-			select.innerHTML = '';
-			reloadPage(res);
+			if(res['code']){
+				errMess.style.display = 'block';
+				errMess.innerHTML = res['message'];
+			}else{
+				
+				// console.log(res);
+				select.innerHTML = '';
+				reloadPage(res);
+			}
 			
 			
         })

@@ -10,7 +10,6 @@
     // select_absence_info($user)['dayoff_used']
     // update_dayused('nguyenbibi');
     // print_r(select_manager_name('IT'));
-    
 
     //admin
     //sửa ngày còn lại, đã sử dụng khi ấn agree,not agree trong absence request ở view detail

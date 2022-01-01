@@ -51,10 +51,10 @@
             if($result['code'] == 0){
                 $success = $result['success'];
                 add_absence_info($user);
-                // $first_name = '';
-                // $last_name = '';
-                // $user = '';
-                // $department = '';
+                $first_name = '';
+                $last_name = '';
+                $user = '';
+                $department = '';
             }else if($result['code'] == 1){ //trùng username
                 $error = $result['error'];
             }else{
@@ -110,7 +110,7 @@
                     <div class="form-group">
                         <?php
                             if (!empty($error)) {
-                                echo "<div class='alert alert-danger'>$error</div>";
+                                echo "<div id='error-mess' class='alert alert-danger'>$error</div>";
                             }
                             if (!empty($success)) {
                                 echo "<div class='alert alert-success'>$success</div>";
@@ -120,7 +120,7 @@
                         <button id="btnReset" type="reset" class="btn btn-success px-5 mt-3" style="width: 100%;">Reset</button>
                     </div>
                     <div class="form-group">
-                        <p>Already have an account? <a href="../login.php" style="color: red">Login</a> now.</p>
+                        <a href="../login.php" class="btn btn-secondary" >Back</a>
                     </div>
                 </form>
             </div>

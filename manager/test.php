@@ -13,4 +13,7 @@
     $extend_date = date("Y-m-d", strtotime($deadline))." 00:00:00";
     echo $extend_date;
     update_deadline(5,$extend_date)
+    // print_r(get_department_byuser('hiengay')['data']['department']);
+    // print_r(get_tasks('Accountant'));    
+
 ?>
