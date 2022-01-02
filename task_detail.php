@@ -303,13 +303,13 @@
                 }else{
                     uploadBtn.disabled = false
                     messageBox.innerHTML = ''
-                    messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-success">Your submit form is ready!</div>`)
+                    messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-success text-center">Your submit form is ready!</div>`)
                 }
             }
 
             function handleErrorMessage(message){
                 messageBox.innerHTML = ''
-                messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger">${message}</div>`)
+                messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger text-center">${message}</div>`)
                 uploadBtn.disabled = true
             }
         </script>

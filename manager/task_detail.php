@@ -406,7 +406,7 @@
 
             function handleErrorMessage(message){
                 rejectMessage.innerHTML = ''
-                rejectMessage.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger">${message}</div>`)
+                rejectMessage.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger text-center">${message}</div>`)
             }
 
             toggleDeadlineBox()

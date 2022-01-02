@@ -62,6 +62,7 @@
 
 				if($data['code']==0){
 					foreach($data['data'] as $row){
+						if($row['status']==="Canceled") continue;
 					?>
 						<tr>
 							<th scope="row"><?=$row['id']?></th>
