@@ -24,7 +24,14 @@
     $deadlineAdd = '';
     $is_extend = '';
     $id = "";
-
+    if(isset($_POST['is_task_cancel']) && isset($_POST['cancel_id_task'])){
+        if($_POST['is_task_cancel'] == 1)
+        {
+            $id = $_POST['cancel_id_task'];
+            
+            update_task_status($id,'Canceled');
+        }
+    }
     if(isset($_POST['complete-submit'])){
         if(isset($_POST['rating'])||isset($_POST['is_late'])||isset($_POST['id_task_complete'])){
             $rating = $_POST['rating'];
@@ -59,7 +66,8 @@
             $file_name = $file['name'];
             $file_size =$file['size'];
             $file_tmp =$file['tmp_name'];
-            $file_ext=strtolower(end(explode('.',$file_name)));
+            $file_extension = explode('.',$file_name);
+            $file_ext=strtolower(end($file_extension));
 
             $extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","html","sql","ppt","jpeg");
             
@@ -82,10 +90,11 @@
                     }else if($file_size>104857600){ // Check file size is less than 100M
                         $error = "This file is larger than 100M";
                     }else{ // Upload task
-                        $file_path = "upload/".$file_name;
+                        $file_path = "../upload/".$file_name;
                         move_uploaded_file($file_tmp, $file_path);
+                        $file_path_name = "upload/".$file_name;
                         $message = "Send reject feedback successful";
-                        submit_reject_feedback($id,$description,$file_path,$is_extend);
+                        submit_reject_feedback($id,$description,$file_path_name,$is_extend);
                         update_deadline($id,$deadlineAdd);
                         update_task_status($id,'Rejected');
                     }
@@ -102,10 +111,11 @@
                 }else if($file_size>104857600){ // Check file size is less than 100M
                     $error = "This file is larger than 100M";
                 }else{ // Upload task
-                    $file_path = "upload/".$file_name;
+                    $file_path = "../upload/".$file_name;
                     move_uploaded_file($file_tmp, $file_path);
+                    $file_path_name = "upload/".$file_name;
                     $message = "Send reject feedback successful";
-                    submit_reject_feedback($id,$description,$file_path,$is_extend);
+                    submit_reject_feedback($id,$description,$file_path_name,$is_extend);
                     update_task_status($id,'Rejected');
                 }
             }
@@ -165,6 +175,9 @@
 							
 							<li class="nav-item">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
+							</li>
+                            <li class="nav-item">
+								<a class="nav-link p20" href="absence.php"><i class="fas fa-address-book"></i>  Absence </a>
 							</li>
 						</ul>
 					</div>
@@ -242,7 +255,26 @@
                                             ?>
                                             <?=status_ui($data['status'])?>
                                         </tr>
+                                    
                                     <?php 
+                                        if($data['status'] == 'New'){
+                                            ?>
+                                            <tr id="action-task">
+                                                    <td>Action</td>
+                                                    <td>
+                                                        <form class="submit-form"   method="POST" enctype="multipart/form-data">
+
+                                                            <button type="submit" class="btn btn-dark " id="reject-btn">Cancel</button>
+                                                            <input type="hidden" name="is_task_cancel" value="1">
+                                                            <input type="hidden" name="cancel_id_task" value="<?= $id ?>">
+                                                        </form>
+
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </table>
+                                            <?php
+                                        }
                                         if($data['status'] == 'Waiting'){
                                             ?>
                                                 <tr id="action-task">

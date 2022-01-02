@@ -26,7 +26,8 @@
         $file_name = $file['name'];
         $file_size =$file['size'];
         $file_tmp =$file['tmp_name'];
-        $file_ext=strtolower(end(explode('.',$file_name)));
+		$file_extension = explode('.',$file_name);
+        $file_ext=strtolower(end($file_extension));
 
 
         $extensions= array("txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","html","sql","ppt","jpeg");

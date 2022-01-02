@@ -30,7 +30,7 @@
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+					<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
@@ -72,6 +72,7 @@
 							<td>Full Name</td>
 							<td>Number day off</td>
 							<td>Day created</td>
+							<td>Status</td>
 							<td>Action</td>
 						</tr>
 						<tbody id="tbody">
@@ -87,6 +88,7 @@
 										<td><?= $row['username']?></td>
 										<td><?= $row['number_dayoff']?></td>
 										<td><?= $row['create_date']?></td>
+										<?= status_ui($row['status'])?>
 										<td ><a href="dayoffDetail.php?id=<?= $row['id']?>" class="btn btn-success">View detail</a> </td> 
 										
 									</tr>

@@ -37,7 +37,7 @@
         $taskTitleAdd = $_POST['taskTitleAdd'];
         $taskDetailAdd = $_POST['taskDetailAdd'];
         $deadlineAdd = $_POST['deadlineAdd'];
-        $taskEmployeeAdd = $_POST['taskEmployeeAdd'];
+        $taskEmployeeAdd = isset($_POST['taskEmployeeAdd']) ? $_POST['taskEmployeeAdd'] : '';
 
         $file = $_FILES['file'];
 		$file_name = $file['name'];
@@ -76,6 +76,9 @@
 			$success ="submit successful";
 			$result = add_task($taskTitleAdd,$taskDetailAdd,$taskEmployeeAdd,$deadlineAdd,$file_path_name);
             if($result['code'] == 0){
+                $taskTitleAdd = '';
+                $taskDetailAdd = '';
+                $deadlineAdd = '';
                 $success = $result['success'];
             }
             else{

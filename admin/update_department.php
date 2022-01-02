@@ -17,12 +17,12 @@
         die(json_encode(array('code'=>2,'message'=>'Chi ho tro JSON')));
     }
     
-    if(!property_exists($input,'id')||!property_exists($input,'departmentNameUpdate')||!property_exists($input,'departmentNumUpdate')||!property_exists($input,'departmentManagerUpdate') ||!property_exists($input,'departmentDetailUpdate')){
+    if(!property_exists($input,'id')||!property_exists($input,'departmentNameUpdate')||!property_exists($input,'departmentNumUpdate') ||!property_exists($input,'departmentDetailUpdate')){
         http_response_code(400);
         die(json_encode(array('code'=>3,'message'=>'Thieu thong tin dau vao ')));
     }
 
-    if(empty($input->id)||empty($input->departmentNameUpdate)||empty($input->departmentNumUpdate)||empty($input->departmentManagerUpdate) ||empty($input->departmentDetailUpdate)){
+    if(empty($input->id)||empty($input->departmentNameUpdate)||empty($input->departmentNumUpdate) ||empty($input->departmentDetailUpdate)){
         http_response_code(405);
         die(json_encode(array('code'=>4,'message'=>'Thong tin khong hop le')));
     }

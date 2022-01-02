@@ -23,10 +23,11 @@
         // $file_ext=strtolower(end(explode('.',$file['name'])));
         
         if(empty($errors)){
-            $file_path = "upload/".$file_name;
+            $file_path = "../upload/".$file_name;
             move_uploaded_file($file_tmp, $file_path);
+            $file_pathname = "upload/".$file_name;
             $message = "Submit successful";
-            update_avatar($user,$file_path);
+            update_avatar($user,$file_pathname);
         }
     }
 ?>
@@ -142,7 +143,7 @@
     document.querySelector('#file').addEventListener('change', e=>{
         const file = e.target.files[0]
         console.log(file)
-        const type = file['name'].split('.')[1]
+        const type = file['name'].split('.')[1].toLowerCase();
         const size = file['size']
         const type_list = ["jpg","png","jpeg","gif"]
         console.log(type, size, type_list)

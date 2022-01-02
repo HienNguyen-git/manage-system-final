@@ -37,7 +37,7 @@
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+					<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
@@ -86,6 +86,8 @@
 									$data = $result['data'];
 									foreach($data as $row){
 										// print_r($row['id']) ;
+										if($row['username'] != 'admin'){
+
 										?>
 										<tr class="item">
 											<td><?= $row['id'] ?></td>
@@ -113,6 +115,7 @@
 											</td>
 										</tr>
 										<?php
+										}
 									}
 								}
 							?>

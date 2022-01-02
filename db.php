@@ -310,7 +310,7 @@
     }
 
     function submit_task($id_task,$description,$file){
-            $sql = "insert into submit_task(id_task,description,file) values(?,?,?)";
+            $sql = "insert into submit_task(id_task,sm_description,sm_file) values(?,?,?)";
             $conn = open_database();
     
             $stm = $conn->prepare($sql);

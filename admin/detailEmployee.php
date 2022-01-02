@@ -22,27 +22,14 @@
 </head>
 
 <body>
-    <?php
-    /*
-    $link = mysqli_connect("localhost", "root", "", "");
-    $sql = "SELECT * FROM account where username='$user'";
-    $result = mysqli_fetch_assoc(mysqli_query($link, $sql));
-    // print_r($result);
-
-    $username = $result['username'];
-    $firstname = $result['firstname'];
-    $lastname = $result['lastname'];
-    $email = $result['email'];
-    $sdt = $result['sdt'];
-    */
-    ?>
+    
     <div class="container-fluid admin-section-header">	
         <div class="row">
 			<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
 			    Company System
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
-    			<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+    			<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
     			<a href="../logout.php">Log out</a>
@@ -259,8 +246,8 @@
 
             const res = await sendRequest.json();
             if(res['code']){ //code khác 0 là lỗi
-                errorMessage.style.display = "block";
-                errorMessage.innerHTML = res['message'];
+                // errorMessage.style.display = "block";
+                // errorMessage.innerHTML = res['message'];
             }
             reloadPage(res)
         })

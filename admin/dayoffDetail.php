@@ -45,7 +45,7 @@
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+					<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
@@ -142,7 +142,7 @@
                                                                 <td >
                                                                     <?php
                                                                         $dayleft = select_absence_info($username)['dayoff_left'];
-                                                                        $number_dayoff = select_number_dayoff($username);
+                                                                        $number_dayoff = select_number_dayoff($id);
 
                                                                         if($number_dayoff <= $dayleft){
                                                                             ?>
