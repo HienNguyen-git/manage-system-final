@@ -330,7 +330,7 @@
 
     function get_tasks($department){
         // $sql = "select * from task ";
-        $sql = "select t.id,t.title,t.person,t.deadline,t.status from task t,employee e where e.department = ? AND t.person = e.username";
+        $sql = "select t.id,t.title,t.person,t.deadline,t.status from task t,employee e where e.department = ? AND t.person = e.username ORDER BY t.deadline DESC";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
