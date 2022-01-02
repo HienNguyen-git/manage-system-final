@@ -141,7 +141,7 @@
     document.querySelector('#file').addEventListener('change', e=>{
         const file = e.target.files[0]
         console.log(file)
-        const type = file['name'].split('.')[1]
+        const type = file['name'].split('.')[1].toLowerCase();
         const size = file['size']
         const type_list = ["jpg","png","jpeg","gif"]
         console.log(type, size, type_list)

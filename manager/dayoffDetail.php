@@ -22,21 +22,7 @@
 	<title>Home Page</title>
 </head>
 
-<body>
-    <?php
-    /*
-    $link = mysqli_connect("localhost", "root", "", "");
-    $sql = "SELECT * FROM account where username='$user'";
-    $result = mysqli_fetch_assoc(mysqli_query($link, $sql));
-    // print_r($result);
-
-    $username = $result['username'];
-    $firstname = $result['firstname'];
-    $lastname = $result['lastname'];
-    $email = $result['email'];
-    $sdt = $result['sdt'];
-    */
-    ?>
+<body >
     <div class="container-fluid admin-section-header">	
         <div class="row">
 			<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
@@ -67,6 +53,9 @@
 							
 							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
+							</li>
+                            <li class="nav-item">
+								<a class="nav-link p20" href="absence.php"><i class="fas fa-address-book"></i>  Absence </a>
 							</li>
 						</ul>
 					</div>
@@ -143,7 +132,7 @@
                                                                 <td >
                                                                     <?php
                                                                         $dayleft = select_absence_info($username)['dayoff_left'];
-                                                                        $number_dayoff = select_number_dayoff($username);
+                                                                        $number_dayoff = select_number_dayoff($id);
 
                                                                         if($number_dayoff <= $dayleft){
                                                                             ?>

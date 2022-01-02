@@ -17,7 +17,7 @@
         if(!$stm->execute()){
             return array('code' => 2, 'error' => 'Cant execute command');
         }
-        update_dayused($username);
+        update_dayused($id,$username);
         header("Location: dayoffDetail.php?id=$id");
         // return array('code' => 0, 'success' => 'Password reset');
     }

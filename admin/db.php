@@ -206,7 +206,7 @@
         return array('code'=>0,'data'=>$data);
     }
     function get_absence_by_role($role){
-        $sql = "SELECT absence_form.id, employee.username, role, create_date, number_dayoff,reason,file,status FROM employee RIGHT JOIN absence_form ON employee.username = absence_form.username where role = ?";
+        $sql = "SELECT absence_form.id, employee.username, role, create_date, number_dayoff,reason,file,status FROM employee RIGHT JOIN absence_form ON employee.username = absence_form.username where role = ? order by create_date desc";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
@@ -441,12 +441,12 @@
 
         $conn->query($sql);
     }
-    function select_number_dayoff($user){
-        $sql = "select number_dayoff from absence_form where username = ?";
+    function select_number_dayoff($id){
+        $sql = "select number_dayoff from absence_form where id = ?";
         $conn = open_database();
 
         $stm = $conn->prepare($sql);
-        $stm->bind_param('s',$user);
+        $stm->bind_param('s',$id);
 
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
@@ -482,8 +482,8 @@
         }
     }
     
-    function update_dayused($user){
-        $number_dayoff = select_number_dayoff($user);
+    function update_dayused($id,$user){
+        $number_dayoff = select_number_dayoff($id);
         $data_absence = select_absence_info($user);
         $day_off_used = $data_absence['dayoff_used'];
         $upd_total_dayused = $day_off_used + $number_dayoff;
@@ -703,4 +703,5 @@
         }
     }
 
+    
 ?> 

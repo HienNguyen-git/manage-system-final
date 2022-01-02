@@ -53,6 +53,9 @@
 							<li class="nav-item active-menu">
 								<a class="nav-link p20" href="dayoff.php"><i class="fas fa-address-book"></i>  Absence Request</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link p20" href="absence.php"><i class="fas fa-address-book"></i>  Absence </a>
+							</li>
 						</ul>
 					</div>
 				</nav>
@@ -67,6 +70,7 @@
 							<td>ID</td>
 							<td>Full Name</td>
 							<td>Day created</td>
+							<td>Status</td>
 							<td>Action</td>
 						</tr>
 						<tbody id="tbody">
@@ -81,6 +85,7 @@
 										<td><?= $row['id']?></td>
 										<td><?= $row['username']?></td>
 										<td><?= $row['create_date']?></td>
+										<?= status_ui($row['status'])?>
 										<td ><a href="dayoffDetail.php?id=<?= $row['id']?>" class="btn btn-success">View detail</a> </td> 
 										
 									</tr>

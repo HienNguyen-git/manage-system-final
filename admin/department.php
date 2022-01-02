@@ -59,7 +59,7 @@
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
-					<a href="#">Welcome, <?= $_SESSION['name'] ?></a>
+					<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
 			</div>
 			<div class="col-sm-12 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
@@ -120,9 +120,22 @@
 										<td><?= $row['id'] ?></td>
 										<td><?= $row['name'] ?></td>
 										<td><?= $row['number_room'] ?></td>
-										<td>
-											<?= $row['manager_user'] ?>
-										</td>
+										<?php
+											if($row['manager_user']){
+												?>
+													<td>
+														<?= $row['manager_user'] ?>
+													</td>
+												<?php
+											}else{
+												?>
+													<td style="color: red;">
+														Click Edit to choose manager
+													</td>
+												<?php 
+											}
+										?>
+										
 										<td><?= $row['detail'] ?></td>
 										<td >
 											<a 
@@ -235,7 +248,7 @@
 					<div class="modal-body">
 						<div class="form-group">
                             <label for="departmentNameUpdate">Department Name</label>
-                            <input name="departmentNameUpdate" required class="form-control" type="text" placeholder="Department Name" id="departmentNameUpdate">
+                            <input readonly name="departmentNameUpdate" required class="form-control" type="text" placeholder="Department Name" id="departmentNameUpdate">
                         </div>
                         <div class="form-group">
                             <label for="departmentNumUpdate">Department Number</label>
@@ -368,18 +381,18 @@
 			// console.log(departmentManagerUpdate);
             const departmentDetailUpdate = document.querySelector('#departmentDetailUpdate').value
 
-			if(departmentNameUpdate === ''){
-				errMess.style.display = 'block';
-				errMess.innerHTML = 'Please enter department name';
-			}
-			else if(departmentNumUpdate === ''){
+			// if(departmentNameUpdate === ''){
+			// 	errMess.style.display = 'block';
+			// 	errMess.innerHTML = 'Please enter department name';
+			// }
+			if(departmentNumUpdate === ''){
 				errMess.style.display = 'block';
 				errMess.innerHTML = 'Please enter department number';
 			}
-			else if(departmentManagerUpdate === ''){
-				errMess.style.display = 'block';
-				errMess.innerHTML = 'Please enter department manager name';
-			}
+			// else if(departmentManagerUpdate === ''){
+			// 	errMess.style.display = 'block';
+			// 	errMess.innerHTML = 'Please enter department manager name';
+			// }
 			else if(departmentDetailUpdate === ''){
 				errMess.style.display = 'block';
 				errMess.innerHTML = 'Please enter department detail';
@@ -391,8 +404,8 @@
 			})
 			const res = await sendRequest.json();
 			if(res['code']){
-				errMess.style.display = 'block';
-				errMess.innerHTML = res['message'];
+				// errMess.style.display = 'block';
+				// errMess.innerHTML = res['message'];
 			}else{
 				
 				// console.log(res);
