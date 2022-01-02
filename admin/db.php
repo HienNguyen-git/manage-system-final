@@ -381,18 +381,60 @@
         }
         return array('code'=>0,'success'=>'success');
     }
-
-    function update_to_manager($user,$department){
-        manager_to_employee($department);
-        
-        $sql = "update employee set role = 'manager' where username = ?";
+    function current_user_of_department($department){
+        $sql = "select manager_user from department where name = ? ";
         $conn = open_database();
 
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$department);
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+        $result = $stm->get_result();
+        $data = $result->fetch_assoc();
+        return $data['manager_user'];
+    }
+    
+    function update_total_dayoff($user,$total_dayoff ){
+        $sql = "update absence_info set total_dayoff = ?, dayoff_left = ? where username = ?";
+        $conn = open_database();
+        $dayoff_left= select_absence_info($user)['dayoff_left'];
+        print_r('<br></br>' . $user );
+        
+        print_r( $dayoff_left);
+        if($total_dayoff == 15){
+            $dayoff_left = $dayoff_left + 3;
+        }else{
+            $dayoff_left = $dayoff_left - 3;
+            
+        }
+        print_r($dayoff_left);
+
+        // $dayoff_left = $total_dayoff == 15 ? select_absence_info($user)['dayoff_left'] + 3 : select_absence_info($user)['dayoff_left'] - 3;
+        
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('iis',$total_dayoff,$dayoff_left,$user);
+        if(!$stm->execute()){
+            print_r(json_encode(array('code'=>1,'error'=>'Command not execute'))); 
+        }
+
+    }
+    function update_to_manager($user,$department){
+        
+        manager_to_employee($department);
+        $current_user = current_user_of_department($department);
+        print_r($current_user);
+        $sql = "update employee set role = 'manager' where username = ?";
+        $conn = open_database();
+        
         $stm = $conn->prepare($sql);
         $stm->bind_param('s',$user);
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
         }
+        update_total_dayoff($user,15);
+        update_total_dayoff($current_user,12);
+
     }
 
     function get_department_name_list(){
