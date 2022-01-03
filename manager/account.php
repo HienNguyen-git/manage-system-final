@@ -25,9 +25,9 @@
         if(empty($errors)){
             $file_path = "../upload/".$file_name;
             move_uploaded_file($file_tmp, $file_path);
-            $file_pathname = "upload/".$file_name;
+            $file_path_name = "upload/".$file_name;
             $message = "Submit successful";
-            update_avatar($user,$file_pathname);
+            update_avatar($user,$file_path_name);
         }
     }
 ?>

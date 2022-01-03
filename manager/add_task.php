@@ -71,7 +71,7 @@
         else{
 			$file_path = "../upload/".$file_name;
 			move_uploaded_file($file_tmp,$file_path);
-			$file_path_name = "upload/".$file_name;
+            $file_path_name = "upload/".$file_name;
 
 			$success ="submit successful";
 			$result = add_task($taskTitleAdd,$taskDetailAdd,$taskEmployeeAdd,$deadlineAdd,$file_path_name);

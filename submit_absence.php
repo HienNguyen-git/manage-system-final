@@ -43,9 +43,10 @@
         }else{ // Upload task
             $file_path = "upload/".$file_name;
             move_uploaded_file($file_tmp, $file_path);
+            $file_path_name = $file_name;
             $message = "Submit successful";
             http_response_code(200);
-            submit_absence_form($user,$dayoff,$description,$file_path);
+            submit_absence_form($user,$dayoff,$description,$file_path_name);
             die(json_encode(array('code'=>0,'message'=>'Submit successful')));
         }
     }

@@ -72,8 +72,9 @@
 		}else{
 			$file_path = "../upload/".$file_name;
 			move_uploaded_file($file_tmp,$file_path);
+			$file_path_name = $file_name;
 			$success ="submit successful";
-			add_task($title,$detail,$taskEmployeeAdd,$deadline,$file_path);
+			add_task($title,$detail,$taskEmployeeAdd,$deadline,$file_path_name);
 		}
 	}else{
 		$error = "Please fill all";

@@ -153,7 +153,8 @@
 											if(!$row['file']){
 												echo "<td>-</td>";
 											}else{
-												echo "<td><a href='".$row['file']."'>".$row['file']."</a></td>";
+                                            	$filename = explode('/',$row['file'])[1];
+												echo "<td><a href='../".$row['file']."'>".$filename."</a></td>";
 											}
 										?>
 										<?php

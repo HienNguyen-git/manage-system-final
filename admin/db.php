@@ -370,17 +370,17 @@
         return array('code'=>0,'data'=>$data);
     }
     
-    function manager_to_employee($department){
-        $sql = "update employee set role = 'employee' where department = ?";
-        $conn = open_database();
+    // function manager_to_employee($department){
+    //     $sql = "update employee set role = 'employee' where department = ?";
+    //     $conn = open_database();
          
-        $stm = $conn->prepare($sql);
-        $stm->bind_param('s',$department);
-        if(!$stm->execute()){
-            return array('code'=>1,'error'=>'Command not execute');
-        }
-        return array('code'=>0,'success'=>'success');
-    }
+    //     $stm = $conn->prepare($sql);
+    //     $stm->bind_param('s',$department);
+    //     if(!$stm->execute()){
+    //         return array('code'=>1,'error'=>'Command not execute');
+    //     }
+    //     return array('code'=>0,'success'=>'success');
+    // }
     function current_user_of_department($department){
         $sql = "select manager_user from department where name = ? ";
         $conn = open_database();
@@ -399,16 +399,16 @@
         $sql = "update absence_info set total_dayoff = ?, dayoff_left = ? where username = ?";
         $conn = open_database();
         $dayoff_left= select_absence_info($user)['dayoff_left'];
-        print_r('<br></br>' . $user );
+        // print_r('<br></br>' . $user );
         
-        print_r( $dayoff_left);
-        if($total_dayoff == 15){
+        // print_r( $dayoff_left);
+        if($total_dayoff === 15){
             $dayoff_left = $dayoff_left + 3;
         }else{
             $dayoff_left = $dayoff_left - 3;
             
         }
-        print_r($dayoff_left);
+        // print_r($dayoff_left);
 
         // $dayoff_left = $total_dayoff == 15 ? select_absence_info($user)['dayoff_left'] + 3 : select_absence_info($user)['dayoff_left'] - 3;
         
@@ -419,11 +419,31 @@
         }
 
     }
-    function update_to_manager($user,$department){
+    function update_to_employee($user){
+        $sql = "update employee set role = 'employee' where username = ?";
+        $conn = open_database();
         
-        manager_to_employee($department);
-        $current_user = current_user_of_department($department);
-        print_r($current_user);
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('s',$user);
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+    }
+    function update_managerName_department($user,$department){
+        $sql = "update department set manager_user = ? where name = ?";
+        $conn = open_database();
+        
+        $stm = $conn->prepare($sql);
+        $stm->bind_param('ss',$user,$department);
+        if(!$stm->execute()){
+            return array('code'=>1,'error'=>'Command not execute');
+        }
+    }
+    function update_to_manager($user){
+        
+        // manager_to_employee($department);
+        // sleep(1);
+        // print_r($current_user);
         $sql = "update employee set role = 'manager' where username = ?";
         $conn = open_database();
         
@@ -432,8 +452,12 @@
         if(!$stm->execute()){
             return array('code'=>1,'error'=>'Command not execute');
         }
-        update_total_dayoff($user,15);
-        update_total_dayoff($current_user,12);
+        // sleep(1);
+        // update_total_dayoff($user,15);
+        // sleep(1);
+        // $current_user = current_user_of_department($department);
+        // update_total_dayoff($current_user,12);
+        // sleep(1);
 
     }
 
