@@ -76,7 +76,7 @@
 						</tr>
 						<tbody id="tbody">
 						<?php 
-							$result = get_absence_by_role('employee'); 
+							$result = get_absence_by_role('employee',$department); 
 							if($result['code'] == 0){
 								$data = $result['data'];
 								foreach($data as $row){

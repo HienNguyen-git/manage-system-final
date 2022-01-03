@@ -21,7 +21,7 @@
 		if (isset($_POST['departmentNameUpdate']) && isset($_POST['departmentNumUpdate']) && isset($_POST['departmentManagerUpdate'])
 		&& isset($_POST['departmentDetailUpdate']))
 		{
-			echo 'ahoho   ';
+			// echo 'ahoho   ';
 			$departmentNameUpdate = $_POST['departmentNameUpdate'];
 			$departmentNumUpdate = $_POST['departmentNumUpdate'];
 			$departmentManagerUpdate = $_POST['departmentManagerUpdate'];
@@ -51,9 +51,12 @@
 				$departmentManagerUpdate = '';
 				$departmentDetailUpdate = '';
 				
-				$success = "Add success";
-				header("Refresh:0");
+				$success = "Update success";
+				// header("Refresh:0");
 			}
+		}
+		else{
+			$error = "Data is not allowed NULL. Update fail!";
 		}
 	}
 ?>
@@ -73,7 +76,14 @@
 </head>
 
 <body>
-
+<?php
+    if(!empty($error)){
+        echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>$error</div>";
+    }
+    if(!empty($success)){
+        echo "<div class='alert alert-primary text-center' style='margin-bottom: 0 !important'>$success</div>";
+    }
+?>
     <div class="container-fluid admin-section-header">	
         <div class="row">
 			<div class="col-sm-12 col-md-10 col-lg-10 col-xl-10 admin-logo">
@@ -251,7 +261,7 @@
                 </div>
                 
                 <div class="modal-body">
-                    <p>Bạn có chắc rằng muốn xóa <strong class="department-delete-name"></strong> ?</p>
+                    <p>Are you sure want to delete department <strong class="department-delete-name">Home</strong> ?</p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden">

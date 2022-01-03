@@ -61,7 +61,8 @@
 				<div class="bg-light mt-4 text-dark p-2">
                     <div class="admin-panel-section-header ">
                         <h2>Detail Employee </h2>
-                        
+                        <a class="addbtn btn " style="background-color: black;" href="index.php">Back</a>
+
                         <!-- <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a> -->
                     </div>
                     <div class="account-container" style="position: relative;">
@@ -133,6 +134,7 @@
                                         >
                                             Edit     
                                         </a>
+                                        
                                     <?php
                                 }
                             }  
@@ -152,7 +154,7 @@
                                                 <p>Bạn có chắc rằng muốn reset password <strong class="name-resetpass"></strong> ?</p>
                                             </div>
                                             <div class="form-group">
-                                                
+                                                <div id="success-message" style="display: none;" class="alert alert-success"></div>
                                                 <a id="reset-btn" href="reset_password.php?username=<?=$username?>&id=<?=$id?>" class="btn btn-primary px-5 mr-2" >Reset</a>
                                             </div>
                                         </div>
@@ -185,16 +187,20 @@
                                             </div> -->
                                             <div class="form-group">
                                                 <div id="error-message" style="display: none;" class="alert alert-danger"></div>
+                                                <div id="success-message" style="display: none;" class="alert alert-success"></div>
                                                 <button type="submit" class="btn btn-primary px-5 mr-2">Edit</button>
                                             </div>
                                         </div>
                                     </form>
+                                    
+                                    
                                 </div>  
                             </div>
                         </div>
                     </div>
 				</div>
-			</div>		
+                
+            </div>		
 		</div>
 	</div>
 
@@ -230,6 +236,7 @@
             const lastname = document.querySelector('#lastNameUpdate').value
             // const role = document.querySelector('#roleUpdate').value
             const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
 
             if(firstname === ''){
                 errorMessage.style.display = "block";
@@ -237,6 +244,10 @@
             }else if(lastname === ''){
                 errorMessage.style.display = "block";
                 errorMessage.innerHTML = 'Please enter lastname of this person';
+            }else{
+                errorMessage.style.display = "none";
+                successMessage.style.display = "block";
+                successMessage.innerHTML = 'Update success';
             }
 
             const sendRequest = await fetch('update_employee.php',{
@@ -245,11 +256,25 @@
             })
 
             const res = await sendRequest.json();
-            if(res['code']){ //code khác 0 là lỗi
-                // errorMessage.style.display = "block";
-                // errorMessage.innerHTML = res['message'];
-            }
-            reloadPage(res)
+            // $('.alert-suc').fadeIn(1000);
+            // $('.alert-suc').addClass("d-block");
+			setTimeout(function() {
+                if(res.code===0){
+                    location.reload();
+                }
+			}, 500);
+            // if(res['code']){ //code khác 0 là lỗi
+            //     // errorMessage.style.display = "block";
+            //     // errorMessage.innerHTML = res['message'];
+            // }
+            // reloadPage(res)
+        })
+
+        //reset pass
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            const successMessage = document.getElementById('success-message');
+            successMessage.style.display = "block";
+                successMessage.innerHTML = 'Reset password success';
         })
     </script>
     <script>

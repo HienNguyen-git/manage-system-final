@@ -5,6 +5,10 @@
         header('Location: login.php');
         exit();
     }
+	//save department
+	
+	// $department = get_department_byuser($_SESSION['user'])['department'];
+	// $department = get_info_employees()['department'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +81,7 @@
 						</tr>
 						<tbody id="tbody">
 						<?php 
-							$result = get_absence_by_role('manager'); 
+							$result = get_absence_admin('manager'); 
 							if($result['code'] == 0){
 								$data = $result['data'];
 								foreach($data as $row){

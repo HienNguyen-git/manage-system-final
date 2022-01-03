@@ -66,7 +66,6 @@
 				<div class="bg-light mt-4 text-dark p-2">
                     <div class="admin-panel-section-header ">
                         <h2>Detail </h2>
-                        <a class="addbtn"  data-toggle="modal" data-target="#add-movie">Add Accout</a>
                     </div>
                     <div class="account-container">
                         <table class="table-hover">
@@ -140,13 +139,13 @@
 
                                                                         if($number_dayoff <= $dayleft){
                                                                             ?>
-                                                                                <a href="update_status_absence.php?id=<?=$id?>&username=<?=$username?>" class="btn btn-primary">Agree</a> | 
+                                                                                <a href="update_status_absence.php?id=<?=$id?>&username=<?=$username?>" class="btn btn-primary">Agree</a> 
 
                                                                             <?php    
                                                                         }
                                                                         else{
                                                                             ?>
-                                                                                <a href="#" class="btn btn-primary disabled">Agree</a> | 
+                                                                                <a href="#" class="btn btn-primary disabled">Agree</a>  
                                                                             
                                                                             <?php
                                                                         }
