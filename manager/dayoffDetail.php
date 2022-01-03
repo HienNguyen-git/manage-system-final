@@ -118,7 +118,10 @@
                                                 </tr>
                                                 <tr>
                                                     <td>File</td>
-                                                    <td><a href="../<?=$row['file']?>"><?=$row['file']?></a></td>
+                                                    <?php 
+                                                        $filename = explode('/',$row['file'])[1];
+                                                    ?>
+                                                    <td><a href="../<?=$row['file']?>"><?=$filename?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Status</td>

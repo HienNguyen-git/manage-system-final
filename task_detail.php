@@ -41,8 +41,9 @@
             $file_path = "upload/".$file_name;
             $date = date("Y-m-d");
             move_uploaded_file($file_tmp, $file_path);
+            $file_path_name = $file_name;
             $message = "Submit successful";
-            submit_task($id,$description,$file_path);
+            submit_task($id,$description,$file_path_name);
         }
     }
 ?>
@@ -156,7 +157,10 @@
                                     </tr>
                                     <tr>
                                         <th>File:</th>
-                                        <td><a href="<?=$row['file']?>"><?=$row['file']?></a></td>
+                                        <?php 
+                                            $filename = explode('/',$row['file'])[1];
+                                        ?>
+                                        <td><a href="<?=$row['file']?>"><?=$filename?></a></td>
                                     </tr>
                                     <tr>
                                         <th>Extend deadline:</th>

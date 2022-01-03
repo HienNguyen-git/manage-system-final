@@ -6,6 +6,57 @@
         exit();
     }
 ?>
+<?php
+    $success = '';
+    $error = '';
+
+    $departmentNameUpdate = '';
+    $departmentNumUpdate = '';
+    $departmentManagerUpdate = '';
+    $departmentDetailUpdate = '';
+
+	$is_edit = isset($_POST['is_edit']) ? $_POST['is_edit'] : '';
+	if($is_edit){
+
+		if (isset($_POST['departmentNameUpdate']) && isset($_POST['departmentNumUpdate']) && isset($_POST['departmentManagerUpdate'])
+		&& isset($_POST['departmentDetailUpdate']))
+		{
+			echo 'ahoho   ';
+			$departmentNameUpdate = $_POST['departmentNameUpdate'];
+			$departmentNumUpdate = $_POST['departmentNumUpdate'];
+			$departmentManagerUpdate = $_POST['departmentManagerUpdate'];
+			$departmentDetailUpdate = $_POST['departmentDetailUpdate'];
+			// echo $departmentNameUpdate . ' ' . $departmentNumUpdate . ' ' . $departmentManagerUpdate . ' ' . $departmentDetailUpdate;
+			if (empty($departmentNameUpdate)) {
+				$error = 'Please enter department name';
+			}
+			else if (empty($departmentNumUpdate)) {
+				$error = 'Please enter department number';
+			}
+			else if (empty($departmentManagerUpdate)) {
+				$error = 'Please enter department Manager Name';
+			}
+			else if (empty($departmentDetailUpdate)) {
+				$error = 'Please enter department detail';
+			}
+			else {
+				$currentManager = current_user_of_department($departmentNameUpdate);
+				update_to_manager($departmentManagerUpdate);
+				update_to_employee($currentManager);
+				update_managerName_department($departmentManagerUpdate,$departmentNameUpdate);
+				update_total_dayoff($currentManager,12);
+				update_total_dayoff($departmentManagerUpdate,15);
+				$departmentNameUpdate = '';
+				$departmentNumUpdate = '';
+				$departmentManagerUpdate = '';
+				$departmentDetailUpdate = '';
+				
+				$success = "Add success";
+				header("Refresh:0");
+			}
+		}
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,36 +73,7 @@
 </head>
 
 <body>
-<?php
-    $success = '';
-    $error = '';
 
-    $departmentNameAdd = '';
-    $departmentNumAdd = '';
-    $departmentDetailAdd = '';
-
-    if (isset($_POST['departmentNameAdd']) || isset($_POST['departmentNumAdd'])
-    || isset($_POST['departmentDetailAdd'])  )
-    {
-        $departmentNameAdd = $_POST['departmentNameAdd'];
-        $departmentNumAdd = $_POST['departmentNumAdd'];
-        $departmentDetailAdd = $_POST['departmentDetailAdd'];
-
-        if (empty($departmentNameAdd)) {
-            $error = 'Please enter department name';
-        }
-        else if (empty($departmentNumAdd)) {
-            $error = 'Please enter department number';
-        }
-        else if (empty($departmentDetailAdd)) {
-            $error = 'Please enter department detail';
-        }
-        else {
-            $success = "Add success";
-
-        }
-    }
-?>
     <div class="container-fluid admin-section-header">	
         <div class="row">
 			<div class="col-sm-12 col-md-10 col-lg-10 col-xl-10 admin-logo">
@@ -146,6 +168,12 @@
 											>
 												Edit     
 											</a>
+											<!-- <a 
+												class="btn btn-primary bg-primary"
+												href="update_de.php"
+											>
+												Edit     
+											</a> -->
 											<a href="#" 
 													class="btn btn-danger"
 													onclick="handleTransferToDelete('<?= $row['name'] ?>','<?= $row['id'] ?>')" 
@@ -249,6 +277,7 @@
 						<div class="form-group">
                             <label for="departmentNameUpdate">Department Name</label>
                             <input readonly name="departmentNameUpdate" required class="form-control" type="text" placeholder="Department Name" id="departmentNameUpdate">
+							
                         </div>
                         <div class="form-group">
                             <label for="departmentNumUpdate">Department Number</label>
@@ -267,9 +296,10 @@
                         </div>
 						<div class="form-group">
 							<div id="err-message" style="display:none" class='alert alert-danger'></div>
-							<button type="submit" class="btn btn-primary px-5 mr-2">Edit</button>
+							<button id="edit-btn" type="submit" class="btn btn-primary px-5 mr-2">Edit</button>
 						</div>
 					</div>
+					<input id="edit-hidden" type="hidden" name="is_edit" value="0">
 				</form>
 			</div>  
 		</div>
@@ -348,16 +378,16 @@
 			currentID = id;
             document.querySelector('#departmentNameUpdate').value = name;
             document.querySelector('#departmentNumUpdate').value = number;
-            // document.querySelector('#departmentManagerUpdate').value = manager;
+            // console.log(document.querySelector('#departmentManagerUpdate').value);
             document.querySelector('#departmentDetailUpdate').innerHTML = detail;
 			const departmentName = document.querySelector('#departmentNameUpdate').value;
 			(async () => {
-				select.insertAdjacentHTML('beforeend','<option value="" disabled selected>Manager Name</option>');
+				// select.insertAdjacentHTML('beforeend','<option value="" disabled selected>Manager Name</option>');
 				const departmentName = document.querySelector('#departmentNameUpdate').value;
 				
 				const request1 = await fetch(`get_manager_name.php?department=${departmentName}`);
 				const res = await request1.json();
-				let optionSelectDeparment
+				let optionSelectDeparment;
 				if(res['code']){
 					select.innerHTML = '';
 					optionSelectDeparment = `<option value="" disabled selected>${res['error']}</option>`;
@@ -367,54 +397,47 @@
 					optionSelectDeparment = data.map(e => `
 						<option value="${e}">${e}</option>		
 					`).join('')
+					// console.log(optionSelectDeparment.value);
 				}
 
 				select.insertAdjacentHTML('beforeend',optionSelectDeparment);
 			})()
         }
-		const errMess = document.getElementById('err-message');
-        document.querySelector('#update-form').addEventListener('submit',async (e)=>{
-            e.preventDefault();
-            const departmentNameUpdate = document.querySelector('#departmentNameUpdate').value
-            const departmentNumUpdate = document.querySelector('#departmentNumUpdate').value
-            const departmentManagerUpdate = document.querySelector('#departmentManagerUpdate').value
-			// console.log(departmentManagerUpdate);
-            const departmentDetailUpdate = document.querySelector('#departmentDetailUpdate').value
+		// const errMess = document.getElementById('err-message');
+        // document.querySelector('#update-form').addEventListener('submit',async (e)=>{
+        //     e.preventDefault();
+        //     const departmentNameUpdate = document.querySelector('#departmentNameUpdate').value
+        //     const departmentNumUpdate = document.querySelector('#departmentNumUpdate').value
+        //     const departmentManagerUpdate = document.querySelector('#departmentManagerUpdate').value
+		// 	console.log(departmentManagerUpdate);
+        //     const departmentDetailUpdate = document.querySelector('#departmentDetailUpdate').value
+		// 	if(departmentNumUpdate === ''){
+		// 		errMess.style.display = 'block';
+		// 		errMess.innerHTML = 'Please enter department number';
+		// 	}
+		// 	else if(departmentDetailUpdate === ''){
+		// 		errMess.style.display = 'block';
+		// 		errMess.innerHTML = 'Please enter department detail';
+		// 	}
 
-			// if(departmentNameUpdate === ''){
-			// 	errMess.style.display = 'block';
-			// 	errMess.innerHTML = 'Please enter department name';
-			// }
-			if(departmentNumUpdate === ''){
-				errMess.style.display = 'block';
-				errMess.innerHTML = 'Please enter department number';
-			}
-			// else if(departmentManagerUpdate === ''){
-			// 	errMess.style.display = 'block';
-			// 	errMess.innerHTML = 'Please enter department manager name';
-			// }
-			else if(departmentDetailUpdate === ''){
-				errMess.style.display = 'block';
-				errMess.innerHTML = 'Please enter department detail';
-			}
+		// 	const sendRequest = await fetch('update_department.php',{
+		// 		method: 'POST',
+		// 		body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
+		// 	})
+		// 	const res = await sendRequest.json();
+		// 	if(res['code']){
+		// 		// errMess.style.display = 'block';
+		// 		// errMess.innerHTML = res['message'];
+		// 	}else{
+		// 		// console.log(res);
+		// 		select.innerHTML = '';
+		// 		reloadPage(res);
+		// 	}
+        // })
 
-			const sendRequest = await fetch('update_department.php',{
-				method: 'POST',
-				body: JSON.stringify({id:currentID,departmentNameUpdate,departmentNumUpdate,departmentManagerUpdate,departmentDetailUpdate})
-			})
-			const res = await sendRequest.json();
-			if(res['code']){
-				// errMess.style.display = 'block';
-				// errMess.innerHTML = res['message'];
-			}else{
-				
-				// console.log(res);
-				select.innerHTML = '';
-				reloadPage(res);
-			}
-			
-			
-        })
+		document.getElementById('edit-btn').addEventListener('click',() => {
+			document.getElementById('edit-hidden').value = 1;
+		})
 	</script>
 	<script>
         function reloadPage(res){
