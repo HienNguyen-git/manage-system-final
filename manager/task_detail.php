@@ -5,6 +5,7 @@
         header('Location: login.php');
         exit();
     }
+    $department = get_department_byuser($_SESSION['user'])['department'];
 
     $error = '';
     $message = "";
@@ -151,7 +152,7 @@
     <div class="container-fluid admin-section-header">	
         <div class="row">
             <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
-				Company System
+            Company System | <?=$department?>
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 				<a href="account.php">Welcome, <?= $_SESSION['name'] ?></a>
@@ -438,7 +439,7 @@
 
             function handleErrorMessage(message){
                 rejectMessage.innerHTML = ''
-                rejectMessage.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger">${message}</div>`)
+                rejectMessage.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger text-center">${message}</div>`)
             }
 
             toggleDeadlineBox()

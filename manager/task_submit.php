@@ -25,6 +25,7 @@
 			header('Location: ../admin/index.php');
 		}
     }
+	$department = get_department_byuser($_SESSION['user'])['department'];
 
 ?>
 <!DOCTYPE html>
@@ -47,7 +48,7 @@
     <div class="container-fluid admin-section-header">
         <div class="row">
 			<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
-				Company System
+			Company System | <?=$department?>
 			</div>
 			<div class="col-sm-1 col-md-1 col-lg-1 col-xl-1 admin-login-info">
 
