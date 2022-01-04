@@ -28,12 +28,7 @@
 </head>
 
 <body>
-<<<<<<< HEAD
 	<input type="hidden" id="page" name="page" value="indexphp">
-=======
-<input type="hidden" name="page" id="page" value="index-admin">
-
->>>>>>> 01edd61ab3cc0bd36f7b5a8b7d069813bb2d23bd
     <div class="container-fluid admin-section-header">	
         <div class="row">
 			<div class="col-sm-12 col-md-10 col-lg-10 col-xl-10 admin-logo">

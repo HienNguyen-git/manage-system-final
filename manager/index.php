@@ -97,7 +97,7 @@
 </head>
 
 <body>
-	<input type="hidden" name="page" id="page" value="manager-absence">
+	<input type="hidden" name="page" id="page" value="manager-index">
     <div class="container-fluid admin-section-header">
         <div class="row">
 			<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">

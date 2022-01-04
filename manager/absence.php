@@ -80,6 +80,8 @@
 </head>
 
 <body style="background-color: lightblue;">
+
+<input type="hidden" id="page" name="page" value="manager-absence">
 <?php
     if(!empty($error)){
         echo "<div class='alert alert-danger text-center' style='margin-bottom: 0 !important'>Something went wrong! Check your submit again</div>";
