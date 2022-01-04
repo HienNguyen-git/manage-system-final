@@ -110,7 +110,7 @@
 													onclick="handleTransferToDelete('<?= $row['username'] ?>','<?= $row['id'] ?>')" 
 													data-toggle="modal" 
 													data-target="#delete-employee" 
-												>Delete</a> |
+												>Delete </a> 
 												<a href="detailEmployee.php?id=<?=$row['id']?>" class="btn btn-success">Detail</a>
 											</td>
 										</tr>
@@ -124,6 +124,7 @@
 				</div>
 			</div>		
 		</div>
+		
 	</div>
 
 	<!-- Delete Confirm Modal -->
@@ -132,12 +133,12 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <hp class="modal-title">Xóa sản phẩm</hp>
+                    <hp class="modal-title">Delete User</hp>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 
                 <div class="modal-body">
-                    <p>Bạn có chắc rằng muốn xóa <strong class="employee-delete-name">iPhone XS MAX</strong> ?</p>
+                    <p>Are you sure want to delete user <strong class="employee-delete-name">lelong</strong> ?</p>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden">
@@ -200,8 +201,9 @@
             })
             
             const res = await request.json();
-
-            reloadPage(res)
+			
+			
+            reloadPage(res);
         })
     </script>
 	<script>
