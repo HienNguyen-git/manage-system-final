@@ -22,6 +22,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body class = "bg-info">
+
+<input type="hidden" name="page" id="page" value="manager-addtask">
 <?php
 
     $error = '';
@@ -149,7 +151,8 @@
         </div>
 
     </div>
-<script>
+    <script src="main4.js"></script>
+<!-- <script>
     // Add the following code if you want the name of the file appear on select
     $(".custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();
@@ -172,7 +175,7 @@
         
     today = yyyy + '-' + mm + '-' + dd;
     document.getElementById("deadlineAdd").setAttribute("min", today);
-</script>
+</script> -->
 </body>
 </html>
 
