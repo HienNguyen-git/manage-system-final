@@ -511,7 +511,7 @@ else if(pageValue === "manager-account"){
     }
 }
 ////////// Admin page
-else if(inputpage === 'accountphp'){
+else if(pageValue === 'accountphp'){
     //custom file name
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
@@ -549,7 +549,7 @@ else if(inputpage === 'accountphp'){
         uploadBtn.disabled = true
     }
 }
-else if(inputpage === 'departmentphp'){
+else if(pageValue === 'departmentphp'){
 
     //department.php
     //thêm
@@ -645,7 +645,7 @@ else if(inputpage === 'departmentphp'){
     })
     //reload
 }
-else if(inputpage === 'detailEmployeephp'){
+else if(pageValue === 'detailEmployeephp'){
     const nameResetpass = document.querySelector('.name-resetpass');
     let currentUsernme;
     function handleTransferToReset(name){
@@ -708,7 +708,7 @@ else if(inputpage === 'detailEmployeephp'){
             successMessage.innerHTML = 'Reset password success';
     })
 }
-else if(inputpage === 'indexphp'){
+else if(pageValue === 'indexphp'){
     //xóa
     let currentID;
     const employeeDeleteName = document.querySelector('.employee-delete-name');
