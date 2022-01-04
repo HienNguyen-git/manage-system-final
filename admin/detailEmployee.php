@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    
+    <input type="hidden" id="page" name="page" value="detailEmployeephp">
     <div class="container-fluid admin-section-header">	
         <div class="row">
 			<div class="col-sm-10 col-md-10 col-lg-10 col-xl-10 admin-logo">
@@ -210,9 +210,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<!-- <script src="main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+	<script src="main2.js"></script> 
 
-    <script>
+    <!-- <script>
         const nameResetpass = document.querySelector('.name-resetpass');
         let currentUsernme;
         function handleTransferToReset(name){
@@ -287,7 +287,7 @@
                 location.reload();
             }
         }
-    </script>
+    </script> -->
 </body>
 
 </html>

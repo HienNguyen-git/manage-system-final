@@ -51,7 +51,7 @@
 </head>
 
 <body style="background-color: lightblue;">
-    
+    <input type="hidden" id="page" name="page" value="accountphp">
     <section class="container" style="height: 70vh;">
 		<h1 class="mt-3 text-secondary">ACCOUNT INFORMATION</h1>
         
@@ -68,7 +68,6 @@
                     <div class="image-box">
                         <img src="../<?=$row['avatar']?>" alt="Avatar">
                         <div class="image-action">
-                        <!-- '.$row['movieID'].' -->
                             <button style="display: block; background-color:transparent; border: 0; color: #fff" data-toggle="modal" data-target="#edit-avatar"><i class="fas fa-images"></i> Change image</button>
                         </div>
                     </div>
@@ -127,8 +126,10 @@
             </div>  
         </div>
     </div>
+   
+	<script src="main2.js"></script> 
 
-<script>
+<!-- <script>
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -165,6 +166,6 @@
         messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-${type}">${message}</div>`)
         uploadBtn.disabled = true
     }
-</script>
+</script> -->
 </body>
 </html>
