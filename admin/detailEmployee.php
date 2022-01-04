@@ -151,7 +151,7 @@
                                     
                                         <div class="modal-body">
                                             <div class="modal-body">
-                                                <p>Bạn có chắc rằng muốn reset password <strong class="name-resetpass"></strong> ?</p>
+                                                <p>Are you sure reset password <strong class="name-resetpass"></strong> ?</p>
                                             </div>
                                             <div class="form-group">
                                                 <div id="succmessage" style="display: none;" class="alert alert-success"></div>
@@ -186,8 +186,8 @@
                                                 <input name="role" required class="form-control" type="text" placeholder="Role" id="roleUpdate">
                                             </div> -->
                                             <div class="form-group">
-                                                <div id="error-message" style="display: none;" class="alert alert-danger"></div>
-                                                <div id="success-message" style="display: none;" class="alert alert-success"></div>
+                                                <div id="error-message" style="display: none !important;" class="alert alert-danger"></div>
+                                                <div id="success-message" style="display: none !important;" class="alert alert-success"></div>
                                                 <button type="submit" class="btn btn-primary px-5 mr-2">Edit</button>
                                             </div>
                                         </div>
@@ -240,9 +240,11 @@
 
             if(firstname === ''){
                 errorMessage.style.display = "block";
+                successMessage.style.display = "none !important";
                 errorMessage.innerHTML = 'Please enter firstname of this person';
             }else if(lastname === ''){
                 errorMessage.style.display = "block";
+                successMessage.style.display = "none !important";
                 errorMessage.innerHTML = 'Please enter lastname of this person';
             }else{
                 errorMessage.style.display = "none";

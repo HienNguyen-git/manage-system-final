@@ -41,8 +41,11 @@
         else if (empty($user)) {
             $error = 'Please enter your username';
         }
+        else if (strlen($user) < 6) {
+            $error = 'Username must have at least 6 characters';
+        }
         else if (empty($department)) {
-            $error = 'Please enter department';
+            $error = 'Please select department';
         }
         else {
             // register a new account
