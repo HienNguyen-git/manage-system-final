@@ -88,9 +88,6 @@ body {
 	flex-direction: column;
 }
 
-.task-container .submit-btn{
-}
-
 .task-container table{	
 	overflow: scroll;
 	margin-bottom: 2rem;
@@ -114,9 +111,6 @@ body {
 	align-items: center;
 	flex-wrap: wrap;
 	height: 50%;
-}
-
-.absence-container .submit-btn{
 }
 
 .absence-container table{	

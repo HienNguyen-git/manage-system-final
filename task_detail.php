@@ -77,7 +77,7 @@
     }
 ?>
 </script>
-
+<input type="hidden" id="page" name="page" value="task">
 <nav class="navbar navbar-expand-lg bg-info navbar-dark">
 	<div class="container">
 		<a href="./" class="navbar-brand navbar-header" style="font-size: 3rem;">FINAL PROJECT</a>
@@ -234,95 +234,10 @@
 		</div>
 </div>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 	<?php
     if($data['status']=="In progress" || $data['status']=='Rejected'){
         ?>
-        <script>
-            const taskForm = document.querySelector('#task-form')
-            const submitBtn = document.querySelector('.submit-btn')
-            submitBtn.addEventListener('click',(e)=>{
-                submitBtn.style.display = 'none';
-                taskForm.style.display = '';
-            })
-        </script>
-
-        <script>
-            const messageBox = document.querySelector('#error-message')
-            const descriptionBox = document.querySelector('#description')
-            const uploadBtn = document.querySelector('#upload-btn')
-            const uploadFile = document.querySelector('#file')
-            let isFileValidate
-        </script>
-        <?php
-            if(empty($error)){
-                ?>
-                <script>
-                    messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-primary">Enter your description and upload your file before submit</div>`)
-                </script>
-                <?php
-            }
-        ?>
-
-        <script>
-            uploadBtn.disabled = true
-
-            $(".custom-file-input").on("change", function () {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-            });
-            
-            let isDetailValidate = descriptionBox.value===''?false:true
-
-            descriptionBox.addEventListener('keyup',()=>{
-                if(descriptionBox.value===''){
-                    handleErrorMessage('Please enter your description')
-                }else{
-                    messageBox.innerHTML = ''
-                    isDetailValidate = true
-                    checkIsValidation()
-                }
-            })
-            uploadFile.addEventListener('change', e=>{      
-                const file = e.target.files[0]
-                console.log(file)
-                const type = file['name'].split('.').pop();
-                console.log(type);
-                const size = file['size']
-                const type_list = ["txt","doc","docx","xls","xlsx","jpg","png","mp3","mp4","pdf","rar","zip","pptx","sql","ppt","jpeg"]
-                console.log(type, size, type_list)
-
-                if(size===0){
-                    handleErrorMessage('Please upload your submit file')
-                }else if(!type_list.includes(type)){
-                    handleErrorMessage('This type of file is not allowed')
-                }else if(size>100*Math.pow(1024,2)){
-                    handleErrorMessage('This file is larger than 100M')
-                }else{
-                    messageBox.innerHTML = ''
-                    isFileValidate = true;
-                    checkIsValidation()
-                }
-            })
-
-            function checkIsValidation(){ 
-                if(!isDetailValidate){
-                    handleErrorMessage('Please enter your description')
-                }else if(!isFileValidate){
-                    handleErrorMessage('Please check your file again')
-                }else{
-                    uploadBtn.disabled = false
-                    messageBox.innerHTML = ''
-                    messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-success text-center">Your submit form is ready!</div>`)
-                }
-            }
-
-            function handleErrorMessage(message){
-                messageBox.innerHTML = ''
-                messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger text-center">${message}</div>`)
-                uploadBtn.disabled = true
-            }
-        </script>
+        <script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
         <?php
     }
     ?>	
