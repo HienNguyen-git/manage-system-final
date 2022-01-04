@@ -23,6 +23,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </head>
   <body style="background-color: #ccc;">
+	  <input type="hidden" name="page" id="page" value="logout">
+
     <div class="container">
       <div class="row">
         <div class="bg-info col-md-6 mt-5 mx-auto p-3 border rounded">
@@ -33,7 +35,8 @@
         </div>
       </div>
     </div>
-  <script>
+  <script src="main.js"></script>
+  <!-- <script>
       let duration = 5;
       let countDown = 5;
       let id = setInterval(() => {
@@ -48,6 +51,6 @@
           }
 
       }, 1000);
-  </script>
+  </script> -->
   </body>
 </html>
