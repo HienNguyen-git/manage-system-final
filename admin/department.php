@@ -84,6 +84,7 @@
         echo "<div class='alert alert-primary text-center' style='margin-bottom: 0 !important'>$success</div>";
     }
 ?>
+	<input type="hidden" id="page" name="page" value="departmentphp">
     <div class="container-fluid admin-section-header">	
         <div class="row">
 			<div class="col-sm-12 col-md-10 col-lg-10 col-xl-10 admin-logo">
@@ -319,9 +320,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<!-- <script src="main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+	<script src="main2.js"></script> 
 
-	<script>
+	<!-- <script>
 		//thêm
 		const addForm = document.querySelector('#add-form')
 		const errorMess = document.getElementById('error-message')
@@ -331,10 +332,6 @@
             const departmentNumAdd = document.querySelector('#departmentNumAdd').value
 			const departmentDetailAdd = document.querySelector('#departmentDetailAdd').value
             
-			// if(departmentNameAdd === '' || departmentNumAdd === '' || departmentDetailAdd === ''){
-			// 	errorMess.style.display = 'block';
-			// 	errorMess.innerHTML = 'Input is not plank';
-			// }
 			if(departmentDeleteName === ''){
 				errorMess.style.display = 'block';
 				errorMess.innerHTML = 'Please enter department name';
@@ -455,7 +452,7 @@
                 location.reload();
             }
         }
-    </script>
+    </script> -->
 </body>
 
 </html>
