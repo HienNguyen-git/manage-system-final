@@ -43,6 +43,7 @@
 	include_once('layout/header.php');
 ?>
 
+<input type="hidden" name="index" id="page" value="index">
 
 <div class="container pb-2" style="height: 70vh;">
 		<h1 class="mt-3 mb-3 pb-3 border-bottom border-info text-secondary">WELCOME <?=$_SESSION['user']?></h1>

@@ -86,6 +86,7 @@
     }
 	include_once('layout/header.php');
 ?>
+<input type="hidden" name="page" id="page" value="absence">
 <div class="container pb-2" style="height: 70vh;">
 		<h1 class="mt-3 text-secondary">ABSENCE MANAGE</h1>
         <h3 class="mt-1 mb-3 pb-3 border-bottom border-info text-light">Your absence info</h3>
@@ -107,7 +108,7 @@
 			$absenceHistory = get_absence_history($user);
 			if($absenceHistory['code']==2){
 				?>
-					<button class="btn btn-success submit-btn col-sm-12 col-md-6 mb-3">Create request absence form</button>
+					<button class="btn btn-success submit-btn-absence col-sm-12 col-md-6 mb-3">Create request absence form</button>
 				<?php
 			}
 			if(!$absenceHistory['code']){
@@ -119,7 +120,7 @@
 					$is_lock = true;
 				}else{
 					?>
-						<button class="btn btn-success submit-btn col-sm-12 col-md-6 mb-3">Create request absence form</button>
+						<button class="btn btn-success submit-btn-absence col-sm-12 col-md-6 mb-3">Create request absence form</button>
 					<?php
 				}
 				?>
@@ -172,7 +173,7 @@
 				echo "<div class='alert alert-primary text-center' id='absence-history' style='flex-basis: 100%'>You haven't requested any absences yet!</div>";
 			}
 		?>
-				<form class="submit-form" id="task-form" style="display:none; flex-basis: 100%;" method="POST" enctype="multipart/form-data">
+				<form class="submit-form" id="task-form-absence" style="display:none; flex-basis: 100%;" method="POST" enctype="multipart/form-data">
 					<div class="form-row">
 						<div class="form-group col-sm-12 col-md-9">
 							<input value="<?=$description?>" name="description" class="form-control" id="description" placeholder="Reason"></input>
@@ -198,7 +199,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group" id="error-message">
+					<div class="form-group" id="error-message-absence">
 						<?php
 							if(!empty($error)){
 								echo "<div class='alert alert-danger text-center'>$error</div>";
@@ -207,8 +208,8 @@
 					</div>
 					<div class="form-group">
 						<div class="form-group">
-							<button type="submit" id="upload-btn" class="btn btn-primary mb-3 col-sm-12 col-md-4">Submit</button>
-							<button type="submit" id="back-btn" class="btn btn-secondary mb-3 col-sm-12 col-md-4">Back</button>
+							<button type="submit" id="upload-btn-absence" class="btn btn-primary mb-3 col-sm-12 col-md-4">Submit</button>
+							<button type="submit" id="back-btn-absence" class="btn btn-secondary mb-3 col-sm-12 col-md-4">Back</button>
 						</div>
 					</div>
 				</form>
@@ -217,13 +218,14 @@
 	</div>
 
 	<!-- <script src="/main.js"></script> Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
-	<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
 	
 	
 	<?php
 		if(!$status||!$is_lock || !$dayoff_left){
 			?>
-				<script>
+			<script src="main.js"></script> <!-- Sử dụng link tuyệt đối tính từ root, vì vậy có dấu / đầu tiên -->
+
+				<!-- <script>
 					$(".custom-file-input").on("change", function () {
 						var fileName = $(this).val().split("\\").pop();
 						$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -231,8 +233,8 @@
 				</script>
 				<script>
 				const absenceHistory = document.querySelector('#absence-history')
-				const taskForm = document.querySelector('#task-form')
-				const submitBtn = document.querySelector('.submit-btn')
+				const taskForm = document.querySelector('#task-form-absence')
+				const submitBtn = document.querySelector('.submit-btn-absence')
 				const userAbsenceInfo = document.querySelector('#user-absence-info')
 				submitBtn.addEventListener('click',(e)=>{
 					submitBtn.style.display = 'none';
@@ -312,7 +314,7 @@
 					messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger text-center">${message}</div>`)
 					uploadBtn.disabled = true
 				}
-				</script>	
+				</script>	 -->
 			
 			<?php
 		}
