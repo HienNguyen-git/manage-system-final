@@ -154,7 +154,7 @@
                                                 <p>Bạn có chắc rằng muốn reset password <strong class="name-resetpass"></strong> ?</p>
                                             </div>
                                             <div class="form-group">
-                                                <div id="success-message" style="display: none;" class="alert alert-success"></div>
+                                                <div id="succmessage" style="display: none;" class="alert alert-success"></div>
                                                 <a id="reset-btn" href="reset_password.php?username=<?=$username?>&id=<?=$id?>" class="btn btn-primary px-5 mr-2" >Reset</a>
                                             </div>
                                         </div>
@@ -256,13 +256,15 @@
             })
 
             const res = await sendRequest.json();
-            // $('.alert-suc').fadeIn(1000);
-            // $('.alert-suc').addClass("d-block");
+            
+            
+            $('#success-message').addClass("d-block");
 			setTimeout(function() {
                 if(res.code===0){
                     location.reload();
                 }
 			}, 500);
+
             // if(res['code']){ //code khác 0 là lỗi
             //     // errorMessage.style.display = "block";
             //     // errorMessage.innerHTML = res['message'];
@@ -272,7 +274,7 @@
 
         //reset pass
         document.getElementById('reset-btn').addEventListener('click', () => {
-            const successMessage = document.getElementById('success-message');
+            const successMessage = document.getElementById('succmessage');
             successMessage.style.display = "block";
                 successMessage.innerHTML = 'Reset password success';
         })
