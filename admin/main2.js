@@ -1,8 +1,5 @@
 const inputpage = document.querySelector('#page').value;
 if(inputpage === 'accountphp'){
-
-    //account.php
-    
     //custom file name
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();

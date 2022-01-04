@@ -127,7 +127,7 @@
         </div>
     </div>
    
-	<script src="main2.js"></script> 
+	<script src="../main.js"></script> 
 
 <!-- <script>
     $(".custom-file-input").on("change", function () {

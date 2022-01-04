@@ -127,7 +127,7 @@
             </div>  
         </div>
     </div>
-    <script src="main4.js"></script>
+    <script src="../main.js"></script>
 <!-- <script>
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
