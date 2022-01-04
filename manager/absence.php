@@ -230,7 +230,9 @@
 	<?php
 		if(!$status||!$is_lock || !$dayoff_left){
 			?>
-				<script>
+				<script src="main4.js"></script>
+
+				<!-- <script>
 					$(".custom-file-input").on("change", function () {
 						var fileName = $(this).val().split("\\").pop();
 						$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -319,7 +321,7 @@
 					messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger text-center">${message}</div>`)
 					uploadBtn.disabled = true
 				}
-				</script>	
+				</script>	 -->
 			
 			<?php
 		}

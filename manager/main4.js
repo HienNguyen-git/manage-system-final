@@ -49,7 +49,11 @@ if(pageValue==='manager-index'){
 }else if(pageValue==="manager-absence"){
     
     // Absence page
-    
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
     const absenceHistory = document.querySelector('#absence-history')
     const taskFormAbsence = document.querySelector('#task-form')
     const submitBtnAbsence = document.querySelector('.submit-btn')?document.querySelector('.submit-btn'):''
@@ -130,5 +134,61 @@ if(pageValue==='manager-index'){
             messageBoxAbsence.insertAdjacentHTML('afterbegin',`<div class="alert alert-danger text-center">${message}</div>`)
             uploadBtnAbsence.disabled = true
         }
+    }
+}
+else if(pageValue === "manager-addtask"){
+    $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+    dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+    mm = '0' + mm;
+    } 
+        
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("deadlineAdd").setAttribute("min", today);
+}
+else if(pageValue === "manager-account"){
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    const messageBox = document.querySelector('#error-message')
+    const uploadBtn = document.querySelector('#upload-btn')
+    uploadBtn.disabled = true
+
+    document.querySelector('#file').addEventListener('change', e=>{
+        const file = e.target.files[0]
+        console.log(file)
+        const type = file['name'].split('.')[1].toLowerCase();
+        const size = file['size']
+        const type_list = ["jpg","png","jpeg","gif"]
+        console.log(type, size, type_list)
+
+        if(size===0){
+            handleMessage('Please upload your submit image')
+        }else if(!type_list.includes(type)){
+            handleMessage('Please upload image file type (ex: jpg,png,....)')
+        }else if(size>Math.pow(1024,2)){
+            handleMessage('This image is larger than 1M')
+        }else{
+            handleMessage('Your image is ready! Upload now', "success")
+            uploadBtn.disabled = false;
+        }
+    })
+
+    function handleMessage(message, type='danger'){
+        messageBox.innerHTML = ''
+        messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-${type}">${message}</div>`)
+        uploadBtn.disabled = true
     }
 }

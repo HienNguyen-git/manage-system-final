@@ -51,7 +51,7 @@
 </head>
 
 <body style="background-color: lightblue;">
-    
+<input type="hidden" name="page" id="page" value="manager-account">
     <section class="container" style="height: 70vh;">
 		<h1 class="mt-3 text-secondary">ACCOUNT INFORMATION</h1>
         
@@ -127,8 +127,8 @@
             </div>  
         </div>
     </div>
-
-<script>
+    <script src="main4.js"></script>
+<!-- <script>
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -165,6 +165,6 @@
         messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-${type}">${message}</div>`)
         uploadBtn.disabled = true
     }
-</script>
+</script> -->
 </body>
 </html>
