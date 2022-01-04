@@ -135,7 +135,10 @@
                 </tr>
                 <tr>
                     <th>File</th>
-                    <td><a href="<?=$data['file']?>"><?=$data['file']?></a></td>
+                    <?php 
+                        $filename = explode('/',$data['file'])[1];
+                    ?>
+                    <td><a href="<?=$data['file']?>"><?=$filename?></a></td>
                 </tr>
         	</table>
 
@@ -203,7 +206,7 @@
                         <form class="submit-form" id="task-form" style="display: none;" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea name="description" class="form-control" id="description" rows="3"><?=$description?></textarea>
+                                <textarea name="description" class="form-control" id="description" style="min-width:300px; max-width:500px" rows="3"><?=$description?></textarea>
                             </div>
                             <div class="form-group">
                                 <div class="custom-file">
