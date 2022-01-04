@@ -50,6 +50,8 @@
 </head>
 
     <body>
+	<input type="hidden" name="page" id="page" value="account">
+
     <?php
         include_once('layout/header.php');
     ?>
@@ -125,8 +127,8 @@
             </div>  
         </div>
     </div>
-
-<script>
+<script src="main.js"></script> 
+<!-- <script>
     $(".custom-file-input").on("change", function () {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -163,6 +165,6 @@
         messageBox.insertAdjacentHTML('afterbegin',`<div class="alert alert-${type}">${message}</div>`)
         uploadBtn.disabled = true
     }
-</script>
+</script> -->
 </body>
 </html>
