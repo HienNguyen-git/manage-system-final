@@ -230,7 +230,7 @@
 	<?php
 		if(!$status||!$is_lock || !$dayoff_left){
 			?>
-				<script src="main4.js"></script>
+				<script src="../main.js"></script>
 
 				<!-- <script>
 					$(".custom-file-input").on("change", function () {
