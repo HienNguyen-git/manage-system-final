@@ -161,7 +161,10 @@
                                     <tr>
                                         <th>File:</th>
                                         <?php 
-                                            $filename = isset($row['file']) ? explode('/',$row['file'])[1] : '-';
+                                            $filename = '-';
+                                            if($row['file']!==''){
+                                                $filename = explode('/',$row['file'])[1];
+                                            }
                                         ?>
                                         <td><a href="<?=$row['file']?>"><?=$filename?></a></td>
                                     </tr>
